@@ -66,7 +66,7 @@ include_once('includes/dbutil.php');
 		$pcount=get_row_count_by_condition("post_add","WHERE post_id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
 		if($pcount == 0){
 		 insertdata($usrData,'post_add');
-		 $_SESSION['last_id'] = mysql_insert_id();
+		 $_SESSION['last_id'] = mysql_insert_id(); 
 		}
 		else{
 			//update($usrData,'post_add',"WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
