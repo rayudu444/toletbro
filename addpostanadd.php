@@ -63,7 +63,7 @@ include_once('includes/dbutil.php');
 		'address_next'=>$address2,
 		'name_project_society'=>$Society
     	);
-		$pcount=get_row_count_by_condition("post_add","WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+		$pcount=get_row_count_by_condition("post_add","WHERE post_id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
 		if($pcount == 0){
 		 insertdata($usrData,'post_add');
 		 $_SESSION['last_id'] = mysql_insert_id();
