@@ -1,13 +1,14 @@
 <?php 
   session_start(); 
-  include_once('includes/dbutil.php');
-  include_once('includes/header_post_add.php');
+  include_once('includes/dbutil.php');  
   if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
 }
-?>    
+include_once('includes/header_post_add.php');  
+?> 
+
  <script>
 			              $(document).ready(function(){
 							 //alert("hiiiiiiiiiii");
