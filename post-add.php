@@ -174,9 +174,12 @@ include_once('includes/header_post_add.php');
                    <div class="container-post">
                         
                             <div class="list-check">
-                                <div class="input-title"><input type="text" id="test1" required placeholder="Full Name" name="name" /></div>
-                               <div class="input-title"><input type="text" id="test1" required placeholder="Mobile" name="mobile" /></div>
-                               <div class="input-title"><input type="text" id="test1" required placeholder="Email" name="email"/></div>
+                            <?php $query1= mysql_query("select * from users where upid='".$_SESSION['upid']."'");
+                                $user_info=mysql_fetch_array($query1);
+                            ?>
+                                <div class="input-title"><input type="text" value="<?=$user_info['user_name']?>" id="test1"  placeholder="Full Name" name="name" /></div>
+                               <div class="input-title"><input type="text" value="<?=$user_info['user_mobile']?>" id="test1"  placeholder="Mobile" name="mobile" /></div>
+                               <div class="input-title"><input type="text" value="<?=$user_info['user_email']?>" id="test1"  placeholder="Email" name="email"/></div>
                             <div class="clearfix"></div>   
                            </div>
                          

@@ -42,8 +42,9 @@
                         	<ul>
                             	<li><a href="#">Download App</a></li>
                                 <li><a href="#">Sell/Rent Property</a></li>
-                            	<li><a href="#">Sign Up</a></li>
-                                <li><a href="#">Log In</a></li>
+                            	<?php if(isset($_SESSION['upid']) && $_SESSION['upid'] != ''){?>
+              <li><a href="#"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>
+                            <li><a href="logout.php">Log out</a></li><?php } ?>
                             </ul>
                         </nav>
                     </div>

@@ -106,9 +106,18 @@ echo "<script>window.location.href='index.php'</script>";
                          <div class="row">
 	                        <div class="results-list1">
                             <div>
+                            <?php $query= mysql_query("select * from post_add where property='Rent' order by post_id desc");
+							$count =mysql_num_rows($query);
+
+							 if($count>0){
+							 	//$result=mysql_fetch_array($query);
+							 	while($result_info=mysql_fetch_array($query)) {
+							 	
+							?>
                             	<div class="results-list-div1">
 	                            	<div class="col-md-4 cont-im">
-	                                    <img src="images/result-img1.png"/>
+	                            	<?php if($result_info['property_image']!=""){$dbimages = explode(",", $result_info['property_image']);}?>
+	                                    <img src="uploads/property_images/<?=$dbimages[0]?>"/>
                                     </div>
                                      <div class="col-md-7" style="margin-left:5%;">
                                        <div class="row">
@@ -121,9 +130,10 @@ echo "<script>window.location.href='index.php'</script>";
                                      </div>
                                       <div class="par-div">
                                         <span>5.2</span>
-                                      <p class="para-1">Lorem Ipsum has been the industry's standard dummy text  ever sindustry's standard dummy text  ever.</p>                                         <div class="clearfix"></div>
+                                      <p class="para-1"><?=$result_info['description']?></p>                                         
+                                      <div class="clearfix"></div>
                                       </div>
-                                      <span class="rs-sp1"><i class="fa fa-inr"></i>20,000</span>
+                                      <span class="rs-sp1"><i class="fa fa-inr"></i> <?=$result_info['price_monthly']?></span>
                                     </div>
                                           <div class="col-md-4">
                                               <div class="cont-but">
@@ -140,7 +150,7 @@ echo "<script>window.location.href='index.php'</script>";
                                            <ul>
                                               <li>
                                                  <span>Security Deposit</span>
-                                                 <p>13,000</p>
+                                                 <p><?=$result_info['price_deposite']?></p>
                                               </li>
                                                <li>
                                                  <span> Availability </span>
@@ -148,11 +158,11 @@ echo "<script>window.location.href='index.php'</script>";
                                               </li>
                                               <li>
                                                  <span>Added</span>
-                                                 <p>1 Month Ago</p>
+                                                 <p><?=$result_info['price_deposite']?></p>
                                               </li>
                                               <li>
                                                  <span>Amenities</span>
-                                                 <p>Bed</p>
+                                                 <p><?php if($result_info['amenities']!=""){ $amen = explode(",",$result_info['amenities']); echo $amen[0]."...etc"; }?></p>
                                               </li>
                                               <div class="clearfix"></div>
                                        
@@ -163,14 +173,14 @@ echo "<script>window.location.href='index.php'</script>";
                                            <ul>
                                               <li>
                                                  <span>Built Up Area</span>
-                                                 <p> 750 sq.ft</p>
+                                                 <p> <?=$result_info['plot_area']?></p>
                                               </li>
                                                <li>
                                                  <span>Lease Type</span>
                                                  <p>Lease Type</p>
                                               </li>
                                               <li class="view-but">
-                                                 <a>View <i class="fa fa-angle-down"></i></a>
+                                                 <a href="list-view-property-info.php?property=<?=$result_info['post_id']?>">View <i class="fa fa-angle-down"></i></a>
                                                  
                                               </li>
                                               <div class="clearfix"></div>
@@ -188,337 +198,12 @@ echo "<script>window.location.href='index.php'</script>";
                                     <div class="clearfix"></div>
                                 </div>
                             	<div class="clearfix"></div>
-                                
-                              
+                            	<?php }
+							 	}else{
+							 		echo "There is no Results";
+							 	}
+                            	?>
                                 <div class="clearfix"></div>
-                                <div class="results-list-div1">
-	                            	<div class="col-md-4 cont-im">
-	                                    <img src="images/result-img2.png"/>
-                                    </div>
-                                     <div class="col-md-7" style="margin-left:5%;">
-                                       <div class="row">
-                                          <div class="col-md-8">
-                                   
-                                    <div class="bhk-un">
-                                        <h1>3 BHK Unfurnished</h1>
-                                        <i class="fa fa-heart-o"></i>
-                                        <div class="clear"></div>
-                                     </div>
-                                      <div class="par-div">
-                                        <span>5.2</span>
-                                      <p class="para-1">Lorem Ipsum has been the industry's standard dummy text  ever sindustry's standard dummy text  ever.</p>                                         <div class="clearfix"></div>
-                                      </div>
-                                      <span class="rs-sp1"><i class="fa fa-inr"></i>20,000</span>
-                                    </div>
-                                          <div class="col-md-4">
-                                              <div class="cont-but">
-                                              
-                                                 <i class="fa fa-phone"></i>
-                                                 <h6>Contact Agent</h6>
-                                                  <div class="clearfix"></div>
-                                             </div> 
-                                         
-                                         </div>
-                                          <div class="clearfix"></div>
-                                          <div class="cal-md-12">
-                                            <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Security Deposit</span>
-                                                 <p>13,000</p>
-                                              </li>
-                                               <li>
-                                                 <span> Availability </span>
-                                                 <p>Ready To Movie</p>
-                                              </li>
-                                              <li>
-                                                 <span>Added</span>
-                                                 <p>1 Month Ago</p>
-                                              </li>
-                                              <li>
-                                                 <span>Amenities</span>
-                                                 <p>Bed</p>
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                             <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Built Up Area</span>
-                                                 <p> 750 sq.ft</p>
-                                              </li>
-                                               <li>
-                                                 <span>Lease Type</span>
-                                                 <p>Lease Type</p>
-                                              </li>
-                                              <li class="view-but">
-                                                 <a>View <i class="fa fa-angle-down"></i></a>
-                                                 
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                          </div>
-                                       </div>  
-                                       <div class="clearfix"></div>
-                                       
-                                    </div>
-                                    
-                                   
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="results-list-div1">
-	                            	<div class="col-md-4 cont-im">
-	                                    <img src="images/result-img1.png"/>
-                                    </div>
-                                     <div class="col-md-7" style="margin-left:5%;">
-                                       <div class="row">
-                                          <div class="col-md-8">
-                                   
-                                    <div class="bhk-un">
-                                        <h1>3 BHK Unfurnished</h1>
-                                        <i class="fa fa-heart-o"></i>
-                                        <div class="clear"></div>
-                                     </div>
-                                      <div class="par-div">
-                                        <span>5.2</span>
-                                      <p class="para-1">Lorem Ipsum has been the industry's standard dummy text  ever sindustry's standard dummy text  ever.</p>                                         <div class="clearfix"></div>
-                                      </div>
-                                      <span class="rs-sp1"><i class="fa fa-inr"></i>20,000</span>
-                                    </div>
-                                          <div class="col-md-4">
-                                              <div class="cont-but">
-                                              
-                                                 <i class="fa fa-phone"></i>
-                                                 <h6>Contact Agent</h6>
-                                                  <div class="clearfix"></div>
-                                             </div> 
-                                         
-                                         </div>
-                                          <div class="clearfix"></div>
-                                          <div class="cal-md-12">
-                                            <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Security Deposit</span>
-                                                 <p>13,000</p>
-                                              </li>
-                                               <li>
-                                                 <span> Availability </span>
-                                                 <p>Ready To Movie</p>
-                                              </li>
-                                              <li>
-                                                 <span>Added</span>
-                                                 <p>1 Month Ago</p>
-                                              </li>
-                                              <li>
-                                                 <span>Amenities</span>
-                                                 <p>Bed</p>
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                             <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Built Up Area</span>
-                                                 <p> 750 sq.ft</p>
-                                              </li>
-                                               <li>
-                                                 <span>Lease Type</span>
-                                                 <p>Lease Type</p>
-                                              </li>
-                                              <li class="view-but">
-                                                 <a>View <i class="fa fa-angle-down"></i></a>
-                                                 
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                          </div>
-                                       </div>  
-                                       <div class="clearfix"></div>
-                                       
-                                    </div>
-                                    
-                                   
-                                    <div class="clearfix"></div>
-                                </div>
-                                 <div class="clearfix"></div>
-                                   <div class="results-list-div1">
-	                            	<div class="col-md-4 cont-im">
-	                                    <img src="images/result-img2.png"/>
-                                    </div>
-                                     <div class="col-md-7" style="margin-left:5%;">
-                                       <div class="row">
-                                          <div class="col-md-8">
-                                   
-                                    <div class="bhk-un">
-                                        <h1>3 BHK Unfurnished</h1>
-                                        <i class="fa fa-heart-o"></i>
-                                        <div class="clear"></div>
-                                     </div>
-                                      <div class="par-div">
-                                        <span>5.2</span>
-                                      <p class="para-1">Lorem Ipsum has been the industry's standard dummy text  ever sindustry's standard dummy text  ever.</p>                                         <div class="clearfix"></div>
-                                      </div>
-                                      <span class="rs-sp1"><i class="fa fa-inr"></i>20,000</span>
-                                    </div>
-                                          <div class="col-md-4">
-                                              <div class="cont-but">
-                                              
-                                                 <i class="fa fa-phone"></i>
-                                                 <h6>Contact Agent</h6>
-                                                  <div class="clearfix"></div>
-                                             </div> 
-                                         
-                                         </div>
-                                          <div class="clearfix"></div>
-                                          <div class="cal-md-12">
-                                            <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Security Deposit</span>
-                                                 <p>13,000</p>
-                                              </li>
-                                               <li>
-                                                 <span> Availability </span>
-                                                 <p>Ready To Movie</p>
-                                              </li>
-                                              <li>
-                                                 <span>Added</span>
-                                                 <p>1 Month Ago</p>
-                                              </li>
-                                              <li>
-                                                 <span>Amenities</span>
-                                                 <p>Bed</p>
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                             <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Built Up Area</span>
-                                                 <p> 750 sq.ft</p>
-                                              </li>
-                                               <li>
-                                                 <span>Lease Type</span>
-                                                 <p>Lease Type</p>
-                                              </li>
-                                              <li class="view-but">
-                                                 <a>View <i class="fa fa-angle-down"></i></a>
-                                                 
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                          </div>
-                                       </div>  
-                                       <div class="clearfix"></div>
-                                       
-                                    </div>
-                                    
-                                   
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="clearfix"></div>
-                                 <div class="results-list-div1">
-	                            	<div class="col-md-4 cont-im">
-	                                    <img src="images/result-img1.png"/>
-                                    </div>
-                                     <div class="col-md-7" style="margin-left:5%;">
-                                       <div class="row">
-                                          <div class="col-md-8">
-                                   
-                                    <div class="bhk-un">
-                                        <h1>3 BHK Unfurnished</h1>
-                                        <i class="fa fa-heart-o"></i>
-                                        <div class="clear"></div>
-                                     </div>
-                                      <div class="par-div">
-                                        <span>5.2</span>
-                                      <p class="para-1">Lorem Ipsum has been the industry's standard dummy text  ever sindustry's standard dummy text  ever.</p>                                         <div class="clearfix"></div>
-                                      </div>
-                                      <span class="rs-sp1"><i class="fa fa-inr"></i>20,000</span>
-                                    </div>
-                                          <div class="col-md-4">
-                                              <div class="cont-but">
-                                              
-                                                 <i class="fa fa-phone"></i>
-                                                 <h6>Contact Agent</h6>
-                                                  <div class="clearfix"></div>
-                                             </div> 
-                                         
-                                         </div>
-                                          <div class="clearfix"></div>
-                                          <div class="cal-md-12">
-                                            <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Security Deposit</span>
-                                                 <p>13,000</p>
-                                              </li>
-                                               <li>
-                                                 <span> Availability </span>
-                                                 <p>Ready To Movie</p>
-                                              </li>
-                                              <li>
-                                                 <span>Added</span>
-                                                 <p>1 Month Ago</p>
-                                              </li>
-                                              <li>
-                                                 <span>Amenities</span>
-                                                 <p>Bed</p>
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                             <div class="specitions">
-                                           <ul>
-                                              <li>
-                                                 <span>Built Up Area</span>
-                                                 <p> 750 sq.ft</p>
-                                              </li>
-                                               <li>
-                                                 <span>Lease Type</span>
-                                                 <p>Lease Type</p>
-                                              </li>
-                                              <li class="view-but">
-                                                 <a>View <i class="fa fa-angle-down"></i></a>
-                                                 
-                                              </li>
-                                              <div class="clearfix"></div>
-                                       
-                                           </ul>
-                                       
-                                       </div>
-                                          </div>
-                                       </div>  
-                                       <div class="clearfix"></div>
-                                       
-                                    </div>
-                                    
-                                   
-                                    <div class="clearfix"></div>
-                                </div>
-                                 <div class="clearfix"></div>
                             </div>
                             
                         	<div class="clearfix"></div>	

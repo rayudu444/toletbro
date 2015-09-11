@@ -1,57 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width intial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
-<title>Tolet Bro</title>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
-<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
-<link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
-<link rel="stylesheet" type="text/css" href="css/style.css"/>
-<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-<link rel="stylesheet" type="text/css" href="css/responsive.css"/>
-<script src="js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
-</head>
-<body>
-	<section>
-		<div class="container-fluid"> 
-        	<div>
-            	<div class="row">
-                	<div class="col-md-5 paddingTop-3">
-                    	<form class="form2">
-                        	<label>
-                            	<select>
-                                	<option>Rent</option>
-                                    <option>Sale</option>
-                                </select>
-                            </label>
-                            <label class="label1">
-                            	<i class="fa fa-map-marker map-icon2"></i>
-                            	<input type="text" placeholder="Search by locality or landmark or building"/>
-                                <button type="submit"><i class="fa fa-search search-icon"></i></button>
-                                <div class="clearfix"></div>
-                            </label>
-                        </form>
-                    </div>
-                    <div class="col-md-7">
-                    	<img src="images/logo-w.png" class="logo-w"/>
-                        <nav class="nav-list1 paddingTop-5">
-                        	<ul>
-                            	<li><a href="#">Download App</a></li>
-                                <li><a href="#">Sell/Rent Property</a></li>
-                            	<li><a href="#">Sign Up</a></li>
-                                <li><a href="#">Log In</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix height10"></div>
+<?php 
+  session_start(); 
+  include_once('includes/dbutil.php');
+  
+  if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
+{
+echo "<script>window.alert('Please LogIn....')</script>";
+echo "<script>window.location.href='index.php'</script>";
+}
+include_once('includes/inner-header.php');
+?>
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -130,6 +87,12 @@
                              <li>Jubilee Hills</li>
                               <div class="clearfix"></div>
                            </ul>
+                           <?php $query= mysql_query("select * from post_add where post_id=".$_REQUEST['property']); 
+                            $count = mysql_num_rows($query);
+                            //if($count>0){
+                              $p_info = mysql_fetch_array($query);
+                            //}
+                           ?>
                           <h2>Flats for Rent in Jubilee Hills </h2>
                         </div>
                         <div class="clearfix"></div>
@@ -153,46 +116,26 @@
                                   <div class="col-sm-4 sider-div">
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="item active">
-                    <img src="images/slide4.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide3.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide2.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide1.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide4.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide3.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide2.png">
-                </div>
-                <div class="item">
-                    <img src="images/slide1.png">
-                </div>
+                <?php $dbimg =explode(",", $p_info['property_image']);
+                      $count_img = count($dbimg);
+                      $x=0;
+                      foreach ($dbimg as $dbimg_info) {
+                        ?>
+                      <div class="item <?php if($x==0){?>active<?php }?>">
+                        <img src="uploads/property_images/<?=$dbimg_info?>">
+                      </div>  
+                      <?php $x++;}
+                 ?>
             </div>
         </div> 
     <div class="clearfix">
         <div id="thumbcarousel" class="carousel slide" data-interval="false">
             <div class="carousel-inner">
                 <div class="item active">
-                    <div data-target="#carousel" data-slide-to="0" class="thumb"><img src="images/slide4.png"></div>
-                    <div data-target="#carousel" data-slide-to="1" class="thumb"><img src="images/slide3.png"></div>
-                    <div data-target="#carousel" data-slide-to="2" class="thumb"><img src="images/slide2.png"></div>
-                    <div data-target="#carousel" data-slide-to="3" class="thumb"><img src="images/slide1.png"></div>
-                </div><!-- /item -->
-                <div class="item">
-                    <div data-target="#carousel" data-slide-to="4" class="thumb"><img src="images/slide4.png"></div>
-                    <div data-target="#carousel" data-slide-to="5" class="thumb"><img src="images/slide3.png"></div>
-                    <div data-target="#carousel" data-slide-to="6" class="thumb"><img src="images/slide2.png"></div>
-                    <div data-target="#carousel" data-slide-to="7" class="thumb"><img src="images/slide1.png"></div>
+                    <?php $y=0;
+                    foreach ($dbimg as $dbimg_info) {?>
+                    <div data-target="#carousel" data-slide-to="<?=$y?>" class="thumb"><img src="uploads/property_images/<?=$dbimg_info?>"></div>
+                    <?php $y++; }?>
                 </div><!-- /item -->
             </div><!-- /carousel-inner -->
             <a class="left carousel-control left-arrow" href="#thumbcarousel" role="button" data-slide="prev">
@@ -215,39 +158,39 @@
                                               <ul>
                                                  <li>
                                                    <span>Price</span>
-                                                   <p>$ 20,000</p>
+                                                   <p><?=$p_info['price_monthly']?></p>
                                                  </li>
                                                  <li>
                                                    <span>Location</span>
-                                                    <p>Hyderabad</p>
+                                                    <p><?=$p_info['addres_city']?></p>
                                                  </li>
                                                  <li>
                                                    <span>Sublocation </span>
-                                                    <p>Jubilhills</p>
+                                                    <p><?=$p_info['addres_city']?></p>
                                                  </li>
                                                  <li>
                                                    <span>Agency</span>
-                                                    <p>Real Estate Express</p>
+                                                    <p></p>
                                                  </li>
                                                  <li>
-                                                   <span>Type </span>
-                                                    <p>Condo</p>
+                                                   <span>Property Type </span>
+                                                    <p><?=$p_info['property_type']?></p>
                                                  </li>
                                                  <li>
                                                    <span>Garages  </span>
-                                                    <p>3</p>
+                                                    <p></p>
                                                  </li>
                                                  <li>
                                                    <span>Beds</span>
-                                                    <p>4</p>
+                                                    <p><?=$p_info['bedrooms']?></p>
                                                  </li>
                                                  <li>
                                                    <span>Baths </span>
-                                                    <p>2</p>
+                                                    <p><?=$p_info['bathrooms']?></p>
                                                  </li>
                                                  <li>
-                                                   <span>Beds</span>
-                                                    <p>2</p>
+                                                   <span>Balconies</span>
+                                                    <p><?=$p_info['balconies']?></p>
                                                  </li>
                                               </ul>
                                           
@@ -257,19 +200,17 @@
                                       <div class="flat-div">
                                         <h5>Flat Amenities</h5>
                                         <ul class="list-flatani">
-                                          <li>No Bed </li>
-                                          <li>No AC  <span style="color:#000; margin-left:10px;">1 Cupboard</span></li>
-                                          <li>No TV </li>
-                                          <li>No Microwave</li>
-                                          <div class="clearfix"></div>
-                                        </ul>
-                                         
-                                        <ul class="list-flatani">
-                                          <li>No Sofa  </li>
-                                          <li>No Washing Machine  </li>
-                                          <li> No Stove </li>
-                                          <li>No Fridge</li>
-                                          <li>No Servants Room</li>
+                                        <?php 
+                                        if($p_info['amenities']!=""){
+                                          $amen =explode(",", $p_info['amenities']);
+                                          foreach ($amen as $amen_info) {
+                                            # code...
+                                          }
+                                          ?>
+                                          <li><?=$amen_info?></li>
+                                        <?php
+                                         }
+                                        ?>
                                           <div class="clearfix"></div>
                                         </ul>
                                       </div>
@@ -278,11 +219,17 @@
                                         <h5>Society Amenities</h5>
                                        
                                         <ul class="list-flatani">
-                                          <li>No Lift   </li>
-                                          <li> No Gas Pipeline </li>
-                                          <li> No Gym   </li>
-                                          <li>No Swimming Pool</li>
-                                          <li>No Parking</li>
+                                          <?php 
+                                        if($p_info['society_amenities']!=""){
+                                          $amen1 =explode(",", $p_info['society_amenities']);
+                                          foreach ($amen1 as $amen_info1) {
+                                            # code...
+                                          }
+                                          ?>
+                                          <li><?=$amen_info1?></li>
+                                        <?php
+                                         }
+                                        ?>
                                           <div class="clearfix"></div>
                                         </ul>
                                          <div class="clearfix"></div>
@@ -335,7 +282,7 @@
                                <div class="col-md-12 div-pad">
                                   <p>Description</p>
                                 <span class="des-spa">
-                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut elementum risus, ut auctor nisl. Donec a euismod mi. Ut accumsan, enim nec luctus ullamcorper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut elementum risus, ut auctor nisl. Donec a euismod mi. Ut accumsan, enim nec luctus ullamcorper.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut elementum risus, ut auctor nisl. Donec a euismod mi.
+                                 <?=$p_info['description']?>
                                </span>
                                </div>  
                             <div class="clearfix"></div>	

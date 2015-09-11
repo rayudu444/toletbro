@@ -5,7 +5,6 @@ include_once('includes/dbutil.php');
 	extract($_POST);
 	
 	
-	
 	$usrData=array(
         'location_lat'=>$latitude,
     	'location_long'=>$longitude,
@@ -19,7 +18,7 @@ include_once('includes/dbutil.php');
     	
     	);
 		//print_r($usrData);exit;
-		 update($usrData,'post_add','where id='.$_SESSION['last_id'].' and upid='.$_SESSION['upid']);
+		 update($usrData,'post_add','where post_id='.$_SESSION['last_id'].' and upid='.$_SESSION['upid']);
 		 
 		 
 		header('location:post-add2.php');

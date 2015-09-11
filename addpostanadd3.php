@@ -22,11 +22,11 @@ include_once('includes/dbutil.php');
     	
     	);
 		//print_r($usrData);exit;
-		 update($usrData,'post_add','where id='.$_SESSION['last_id'].' and upid='.$_SESSION['upid']);
+		 update($usrData,'post_add','where post_id='.$_SESSION['last_id'].' and upid='.$_SESSION['upid']);
 		 unset($_SESSION['last_id']);
 		 echo ("<SCRIPT LANGUAGE='JavaScript'>
 
-    window.alert('You are successfully post an add.. ')
+    window.alert('Thank you for your post')
 
     window.location.href='post-add.php';
 

@@ -110,12 +110,11 @@ echo "<script>window.location.href='index.php'</script>";
                                   <div class="input-title"><input type="text" id="test1" placeholder="Plot Area" name="plot_area" class="cont-inp23"></div>
                                <div class="form-1 form-34">
                              
-                               <select name="state" >
+                               <select name="plot_state" >
                                 <option value="">--select--</option>
-                                <option value="Andhra Pradesh">Andhra Pradesh</option>
-								 <option value="Telangana">Telangana</option>
-                                <option> </option>
-                              </select>
+                                <option value="1">square Feet</option>
+								                <option value="2">Square Yards</option>
+                               </select>
                               
                               </div>
                                  <div class="clearfix"></div>  
@@ -163,17 +162,17 @@ echo "<script>window.location.href='index.php'</script>";
                                 <div class="clearfix"></div>
                    <div class="container-post">
                          
-                            <div class="list-check singlecheck">
+                            <div class="list-check ">
                               <p>
-                                <input type="checkbox" id="test131" name="water" value="Govt">
+                                <input type="checkbox" id="test131" name="water[]" value="Govt">
                                 <label for="test131">Govt</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test132" name="water" value="Bore" >
+                                <input type="checkbox" id="test132" name="water[]" value="Bore" >
                                 <label for="test132">Bore</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test133" name="water" value="Water tanker">
+                                <input type="checkbox" id="test133" name="water[]" value="Water tanker">
                                 <label for="test133">Water tanker</label>
                               </p>
                            
