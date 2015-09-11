@@ -1,7 +1,7 @@
 <?php 
   session_start(); 
   include_once('includes/dbutil.php');
-  include_once('inlcudes/inner-header.php');
+  include_once('includes/inner-header.php');
   if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
