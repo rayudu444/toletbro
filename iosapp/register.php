@@ -28,11 +28,16 @@ $parameters = array("user_name","user_email","password","user_mobile","device_id
 				  'device_id'=>$device_id);
 
 			$isinserted = insertdata($userdata,"users");
+			$result = selected_columns_by_condition("users","upid,user_email","where user_email='".$user_email."'");
+
+			$result['status'] = 'success';
+
+				echo json_encode($result);
 		}
 
 		else{
 
-			$result = selected_columns_by_condition("user_profile","upid,user_email","where user_email='".$user_email."'");
+			$result = selected_columns_by_condition("users","upid,user_email","where user_email='".$user_email."'");
 
 			$result['status'] = 'success';
 
