@@ -1,5 +1,13 @@
 <?php
 //error_reporting(0);
+define ( "DB_HOST", "localhost" );
+define ( "DB_USER", "root" );
+define ( "DB_PASS", "" );
+define ( "DB_NAME", "toletbro" );
+
+include_once 'database.class.php';
+$dbh = new Database_class();
+
 mysql_connect("localhost","root","");
 //mysql_connect("localhost","docniin_timesnap","timesnappy");
 mysql_select_db("toletbro");
