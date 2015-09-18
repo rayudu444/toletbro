@@ -163,7 +163,19 @@ echo "<script>window.location.href='index.php'</script>";
                                               </li>
                                               <li>
                                                  <span>Amenities</span>
-                                                 <p><?php if($result_info['amenities']!=""){ $amen = explode(",",$result_info['amenities']); echo $amen[0]."...etc"; }?></p>
+                                                 <p><?php if($result_info['amenities']!=""){ 
+                                                  $amen = explode(",",$result_info['amenities']); 
+                                                  $count_amen =count($amen);
+                                                  $count_amen1=$count_amen-2;
+                                                  if($count_amen==2){
+                                                    echo $amen[0].",".$amen[1];
+                                                  }else if($count_amen>=2){
+                                                    echo $amen[0].",".$amen[1]."+".$count_amen1;
+                                                  }
+                                                  else{
+                                                  echo $amen[0]; 
+                                                  }
+                                                  }?></p>
                                               </li>
                                               <div class="clearfix"></div>
                                        
