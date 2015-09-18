@@ -320,7 +320,7 @@ else // user logged in
 	        <div class="container-fluid">
         	<div class="row">
             	<div class="col-md-8 col-sm-6">
-                	<a href="#"><img src="images/logo.png" class="logo"/></a>
+                	<a href="index.php"><img src="images/logo.png" class="logo"/></a>
                 </div>
                 <div class="col-md-4 col-sm-10 links">
                 	

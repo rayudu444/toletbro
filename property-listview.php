@@ -74,8 +74,8 @@ echo "<script>window.location.href='index.php'</script>";
                             </form>
                         </div>
                             <ul class="filter-ul">
-                            	<li><a href="filter-conventions-sub.php">Map</a></li>
-                            	<li><a href="property-listview.php">List</a></li>
+                            	<li><a href = "filter-conventions-sub.php">Map</a></li>
+                            	<li><a href = "property-listview.php">List</a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>

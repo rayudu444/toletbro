@@ -65,7 +65,7 @@ $(document).ready(function(){
             </ul>
           </nav>
         </div>
-        <div class="col-md-2"><img src="images/logo-w.png" class="logo-w logo-width"/></div>
+        <div class="col-md-2"><a href="index.php"><img src="images/logo-w.png" class="logo-w logo-width"/></a></div>
         <div class="col-md-5">
           <nav class="nav-list3 paddingTop-6 con-row">
                         	<ul class="singul">

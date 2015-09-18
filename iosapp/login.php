@@ -17,7 +17,7 @@ $parameters = array("user_email","password","device_id");
 			$password1 = md5($password);
 			$userprofile_count = get_row_count_by_condition("users","where user_email='".$user_email."' and password='".$password1."'");
 
-			if($userprofile_count >0)
+			if($userprofile_count > 0)
 			{
 				$result = selected_columns_by_condition("users","upid,user_email","where user_email='".$user_email."'");
 				$result['status'] = 'success';
@@ -26,9 +26,8 @@ $parameters = array("user_email","password","device_id");
 
 		else{
 
-			$result = selected_columns_by_condition("users","upid,user_email","where user_email='".$user_email."'");
 
-			$result['status'] = 'success';
+			$result['status'] = 'failed';
 
 				echo json_encode($result);
 
