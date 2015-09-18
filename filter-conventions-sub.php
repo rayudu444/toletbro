@@ -14,13 +14,13 @@ echo "<script>window.location.href='index.php'</script>";
  $statement = $dbh->prepare($sql);
  $statement->execute();
  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-
+ 
 ?>
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
 
 	function initialize() {
+	 
 	 
 	  var mapProp = {
 	    center:new google.maps.LatLng(17.410097,78.4607968),
@@ -42,15 +42,33 @@ echo "<script>window.location.href='index.php'</script>";
                 }
 	    	?>
 	      var latlnt<?= $count;?> = new google.maps.LatLng(<?= $post['location_lat']?>,<?= $post['location_long']?>);
-	      var marker<?= $count;?> = new google.maps.Marker({
+
+	      var icon<?= $count;?> = {
+	    		    url: '<?= "uploads/property_images/".$image; ?>', // url
+	    		  
+	    		    scaledSize: new google.maps.Size(50, 50), // scaled size
+	    		    origin: new google.maps.Point(0,0), // origin
+	    		    anchor: new google.maps.Point(0, 0), // anchor
+	    		    borderRadius: '50px'
+	    		};
+	      
+//	      var icon<?= $count;?> = new google.maps.MarkerImage(
+//	    		  '<?= "uploads/property_images/".$image; ?>', //url
+//	              new google.maps.Size(50, 50), //size
+//	              new google.maps.Point(0,0), //origin
+//	              new google.maps.Point(0,0) //anchor 
+//	      );
+	     var marker<?= $count;?> = new google.maps.Marker({
 	        position: latlnt<?= $count;?>,
-	        map: map
+	        map: map,
+	        icon: icon<?= $count;?>
 	      });
 	      
 	      marker<?= $count;?>.image = '<?= $image;?>';
 	      marker<?= $count;?>.address = "<?= $post["description"];?>";
 	      marker<?= $count;?>.price = '<?= $post["price_monthly"];?>';
-	      google.maps.event.addListener(marker<?= $count;?>, 'click', markerClicked<?= $count;?>);
+	      
+	     google.maps.event.addListener(marker<?= $count;?>, 'click', markerClicked<?= $count;?>);
 	
 	       function markerClicked<?= $count;?>(e) {
 	          $("#place-location").text(marker<?= $count;?>.place);
@@ -61,8 +79,8 @@ echo "<script>window.location.href='index.php'</script>";
 	          overlay.show();
 	          overlay.appendTo(document.body);
 	          return false;
-	          
-	        }
+	       }
+	       
 	  <?php ++$count; } ?>
 	  map.setZoom(12)
 	}
