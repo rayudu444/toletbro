@@ -1,3 +1,8 @@
+<?php
+session_start();
+ob_start();
+include("includes/dbutil.php");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,13 +20,225 @@
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+
+<script>
+         //Load the Facebook JS SDK
+        (function(d){
+           var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement('script'); js.id = id; js.async = true;
+           js.src = "//connect.facebook.net/en_US/all.js";
+           ref.parentNode.insertBefore(js, ref);
+         }(document));
+
+        // Init the SDK upon load
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '505593126281403', // App ID
+            status     : true, // check login status
+            cookie     : true, // enable cookies to allow the server to access the session
+            xfbml      : true  // parse XFBML
+          });
+
+         // Specify the extended permissions needed to view user data
+// The user will be asked to grant these permissions to the app (so only pick those that are needed)
+        var permissions = [
+          'email',
+          ].join(',');
+
+// Specify the user fields to query the OpenGraph for.
+// Some values are dependent on the user granting certain permissions
+        var fields = [
+          'id',
+          'first_name',
+          'middle_name',
+          'last_name',
+          'gender',
+          'email',
+          'picture'
+          ].join(',');
+
+  function showDetails() {
+    FB.api('/me', {fields: fields}, function(details) {
+        var user_details = JSON.stringify(details, null, '\t');
+        //alert(user_details);
+        user_details = JSON.parse(user_details);
+
+		$.ajax({
+            url: 'fb-authentication.php',
+            type: 'POST',
+            data: { 
+                    id: user_details.id, 
+                    first_name : user_details.first_name,
+                    last_name : user_details.last_name,
+                    email : user_details.email,
+                    gender : user_details.gender,
+                    mobile:user_details.mobile,
+                    picture :  user_details.picture.data.url
+
+                } ,
+            
+            success: function (response) {
+                //your success code
+				//alert(response);
+                var data = JSON.parse(response);
+                if(data.status == "true" )
+                {
+				
+    				window.location = 'convention-centre.php';
+					
+                }else{
+					
+                    alert("Failed to login");
+                }
+            },
+            error: function () {
+                //your error code
+            }
+        }); 
+    
+    
+    });
+  }
+
+
+  $('#fb-login').click(function(){
+    //initiate OAuth Login
+    FB.login(function(response) { 
+      // if login was successful, execute the following code
+      if(response.authResponse) {
+          showDetails();
+      }
+    }, {scope: permissions});
+  });
+
+  };
+</script>
+
+<?php 
+   $is_user_login = 0;
+########## Google Settings.. Client ID, Client Secret from https://cloud.google.com/console #############
+$google_client_id       = '394341835770-td97u9sunc8rgijgll23pa4brhhs9mk1.apps.googleusercontent.com';
+$google_client_secret   = 'ROGTcqICqifViYLujjZJFGi_';
+$google_redirect_url    =   URI."/convention-centre.php"; //path to your script
+$google_developer_key   = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+//include google api files
+include_once 'src/Google_Client.php';
+include_once 'src/contrib/Google_Oauth2Service.php';
+
+
+$gClient = new Google_Client();
+$gClient->setApplicationName('Login to toletbro.com');
+$gClient->setClientId($google_client_id);
+$gClient->setClientSecret($google_client_secret);
+$gClient->setRedirectUri($google_redirect_url);
+$gClient->setDeveloperKey($google_developer_key);
+
+$google_oauthV2 = new Google_Oauth2Service($gClient);
+
+//If user wish to log out, we just unset Session variable
+if (isset($_REQUEST['reset'])) 
+{
+  
+  unset($_SESSION['token']);
+  $gClient->revokeToken();
+  header('Location: ' . filter_var($google_redirect_url, FILTER_SANITIZE_URL)); //redirect user back to page
+}
+
+//If code is empty, redirect user to google authentication page for code.
+//Code is required to aquire Access Token from google
+//Once we have access token, assign token to session variable
+//and we can redirect user back to page and login.
+if (isset($_GET['code'])) 
+{ 
+    
+  $gClient->authenticate($_GET['code']);
+  $_SESSION['token'] = $gClient->getAccessToken();
+  header('Location: ' . filter_var($google_redirect_url, FILTER_SANITIZE_URL));
+  return;
+}
+
+
+if (isset($_SESSION['token'])) 
+{ 
+  $gClient->setAccessToken($_SESSION['token']);
+}
+
+
+if ($gClient->getAccessToken()) 
+{
+    //For logged in user, get details from google using access token
+    $user         = $google_oauthV2->userinfo->get();
+    
+    $user_id        = $user['id'];
+    $user_name      = filter_var($user['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $email        = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
+    $profile_url      = filter_var($user['link'], FILTER_VALIDATE_URL);
+    $profile_image_url  = filter_var($user['picture'], FILTER_VALIDATE_URL);
+    $personMarkup     = "$email<div><img src='$profile_image_url?sz=50'></div>";
+    $_SESSION['token']  = $gClient->getAccessToken();
+}
+else 
+{
+  //For Guest user, get google login url
+  $authUrl = $gClient->createAuthUrl();
+}
+if(isset($authUrl)) //user is not logged in, show login button
+{
+  ++$is_user_login;
+ 
+} 
+else // user logged in 
+{
+   /* connect to database using mysqli */
+  //unset($_SESSION['token']);
+  //$user_exist = $mysqli->query("SELECT COUNT(google_id) as usercount FROM user_profile WHERE google_id=$user_id ")->fetch_object()->usercount; 
+  $user_count=get_row_count_by_condition("convention_users","where user_email='".$email."'");
+ 
+  if($user_count>0)
+  {
+    $user_info=get_row_by_condition("convention_users","where user_email='".$email."'");
+    $_SESSION['user_mobile'] = $user_info['user_mobile'];
+    $_SESSION['cnv_upid'] = $user_info['cnv_upid'];
+    $_SESSION['user_name'] = $user_info['user_name'];
+    $_SESSION['user_email']  = $user_info['user_email'];
+    
+    //header("location:http://localhost/safe-wash/index.php");
+  }else{ 
+    //user is new
+    //echo 'Hi '.$user_name.', Thanks for Registering!';
+    $user_info1=array('google_id'=>$user_id,'user_name'=>$user_name,'user_email'=>$email);
+    $inserted=insertdata($user_info1,"convention_users");
+    /*$mysqli->query("INSERT INTO user_profile (google_id, name, email) 
+    VALUES ($user_id, '$user_name','$email')");*/
+    if($inserted>0){
+      if(!isset($_SESSION['user_email']))
+      {
+        $user_info=get_row_by_condition("convention_users","where user_email='".$email."'");
+        $_SESSION['user_mobile'] = $user_info['user_mobile'];
+        $_SESSION['cnv_upid'] = $user_info['cnv_upid'];
+        $_SESSION['user_name'] = $user_info['user_name'];
+        $_SESSION['user_email']  = $user_info['user_email'];
+      }
+        
+    }
+
+    
+    
+  }
+ 
+} 
+  ?>
+
 </head>
 <body>
 	<section class="white-div-wrapper">
 	    <div class="container">
         	<div class="row">
             	<div class="col-md-12">
-			        <div id="test-popup" class="white-popup mfp-with-anim mfp-hide">
+			      <div id="test-popup" class="white-popup mfp-with-anim mfp-hide">
+			      	
 						<div class="col-md-5 left-part">
                         	<a href="#">
                             	<img src="images/logo-w.png"/>
@@ -37,21 +254,65 @@
                         </div>
 						<div class="col-md-7">
                         	<div class="login-div">
-                            	<a href="#"><img src="images/fb-login.png"/></a>
                                 <div class="clearfix"></div>
-                                <a href="#"><img src="images/gplus-login.png"/></a>
-                                <div class="clearfix"></div>
-                                <span>You can also use your email to </span>
-                                <div class="clearfix"></div>
-                                <div class="a-div">
-                                    <a href="#">Log In</a>
-                                    <a href="#">Sign Up</a>
-                                    <div class="clearfix"></div>
+                                <div class="login-form">
+	                                <form method="post" action="checkuser.php">
+                                	<input type="email" placeholder="Email Id" name="user_email"/>
+                                    <input type="password" placeholder="Password" name="password"/>
+                                    <button type="submit">Login</button>
+                                </form>
                                 </div>
+                                <span><img src="images/or.png" class="or-img"/></span>
+                                <div class="clearfix"></div>
+                            	<a href="#"><img id="fb-login" src="images/fb-login.png"/></a>
+                                <div class="clearfix"></div>
+                              <!--  <a href="#"><img src="images/gplus-login.png"/></a> -->
+                               <?php 
+            if($is_user_login){ ?>
+              <a class="login" href="<?= $authUrl; ?>"><img src="images/gplus-login.png"/></a>
+          <?php } ?>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
-			        </div>
+			        
+			      </div>
+
+			      <div id="test-popup2" class="white-popup mfp-with-anim mfp-hide">
+			      	
+						<div class="col-md-5 left-part">
+                        	<a href="#">
+                            	<img src="images/logo-w.png"/>
+                            </a>
+                            <div class="signup-div">
+                            	<h1>Why sign up?</h1>
+                                <ul>
+                                	<li>Save time filling forms</li>
+                                    <li>Access your recent searches</li>
+                                    <li>Track shortlisted, messaged properties</li>
+                                </ul>
+                            </div>
+                        </div>
+						<div class="col-md-7">
+                        	<div class="login-div">
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+	                                <form method="post" action="userregister-convention.php">
+                                        <input type="text" placeholder="Name" name="username" id="username"/>
+                                        <input type="email" placeholder="Email Id" name="emailid" id="emailid"/>
+                                        <input type="text" placeholder="Mobile Number" name="mobileno" id="mobileno"/>
+                                        <input type="password" placeholder="Password" name="password" id="password"/>
+                                        <input type="password" placeholder="Confirm Password" name="conformpassword" id="conformpassword"/>
+                                        <button type="submit">Sign Up</button>
+	                                </form>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+			        
+			      </div>
+
 		        </div>
 	        </div>
         </div>
@@ -60,7 +321,11 @@
                 <div class="row">
 	                <div class="links">
                     	<ul id="inline-popups">
-	                   		<li><a href="#test-popup" data-effect="mfp-zoom-in">Convention Center Login</a></li>
+                    		<!-- <li><a href="#test-popup2" class="sing-buts click">Sign Up</a></li>
+                        	<li><a href="#test-popup" class="click2">Login</a></li> -->
+	                   		<li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
+                     		<li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
+
                               <div class="clearfix"></div>
                         </ul>
                     </div>

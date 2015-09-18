@@ -33,7 +33,11 @@ include_once('includes/header_post_add.php');
 							
 
 						 }); 
-			                    </script>          
+			                    </script> 
+      <?php $query = mysql_query("select * from post_add where upid='".$_SESSION['upid']."' and post_id='".$_SESSION['last_id']."'"); 
+        //$count = mysql_num_rows($query);
+        $add_info = mysql_fetch_array($query);
+      ?>                             
         	<div class="container">
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
@@ -48,11 +52,11 @@ include_once('includes/header_post_add.php');
                            
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test81"  name="Property_for" value="Rent"/>
+                                <input type="checkbox" id="test81"  name="Property_for" <?php echo ($add_info['property']=="Rent")? "checked" :""?>  value="Rent"/>
                                 <label for="test81">Rent</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test82"  name="Property_for" value="Sale"/>
+                                <input type="checkbox" id="test82" <?php echo ($add_info['property']=="Sale")? "checked" :""?> name="Property_for" value="Sale"/>
                                 <label style="float:right;" for="test82">Sale</label>
                                   <div class="clearfix"></div> 
                               </p>
@@ -151,11 +155,10 @@ include_once('includes/header_post_add.php');
                             <div class="form-1">
                              
                                <select name="property_type">
-							   <option value="">Property type</option>
-
-                                <option value="Residential Properties">Residential Properties</option>
-                                <option value="Commercial Properties">Commercial Properties</option>
-                                <option> </option>
+							                 <option value="">Property type</option>
+                                <option value="Residential Properties" <?php echo ($add_info['property_type']=="Residential Properties")? "selected" :""?>>Residential Properties</option>
+                                <option value="Commercial Properties" <?php echo ($add_info['property_type']=="Commercial Properties")? "selected" :""?>>Commercial Properties</option>
+                                
                               </select>
                               
                               </div>
@@ -198,11 +201,11 @@ include_once('includes/header_post_add.php');
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
                                 <input type="checkbox" id="test83" value="Landlord" name="listed"/>
-                                <label for="test83">Landlord</label>
+                                <label for="test83"<?php echo ($add_info['listed_by']=="Landlord")? "checked" :""?> >Landlord</label>
                               </p>
                               <p style="width:50%; float:right;">
                                 <input type="checkbox" id="test84" value="Agent" name="listed" />
-                                <label style="float:right;" for="test84">Agent</label>
+                                <label style="float:right;" for="test84" <?php echo ($add_info['listed_by']=="Agent")? "checked" :""?>>Agent</label>
                                   <div class="clearfix"></div> 
                               </p>
                             <div class="clearfix"></div>   
@@ -227,7 +230,7 @@ include_once('includes/header_post_add.php');
                                 <option value="">Select State</option>
 								<?php $result = get_all_data('tbl_state');
 								foreach($result as $resu){?>
-                                <option value="<?= $resu['state_name']?>"><?= $resu['state_name'] ?></option>
+                                <option value="<?= $resu['state_name']?>" <?php echo ($add_info['addres_state']==$resu['state_name'])? "selected" :""?> ><?= $resu['state_name'] ?></option>
 								<?php } ?>
                                 
                               </select>
@@ -247,7 +250,7 @@ include_once('includes/header_post_add.php');
                               
                               <div class="form-1">
                              
-                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality"  /></div>
+                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo $add_info['addres_locality']?>" /></div>
                                
                                 
                              
@@ -255,14 +258,14 @@ include_once('includes/header_post_add.php');
                               </div>
                              <div class="list-check">
                               
-                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1" /></div>
-                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" /></div>
+                               <div class="input-title"><input type="text" value="<?php echo $add_info['address']?>"  id="test2" placeholder="Adress" name="address1" /></div>
+                               <div class="input-title"><input type="text" value="<?php echo $add_info['address_next']?>" id="test3" placeholder="" name="address2" /></div>
                             
                             <div class="clearfix"></div>   
                            </div>
                                
                               <div class="form-1">
-							  <div class="input-title"><input type="text" id="Society" name="Society" placeholder="Name of Project/Society" /></div>
+							  <div class="input-title"><input type="text" value="<?php echo $add_info['name_project_society']?>" id="Society" name="Society" placeholder="Name of Project/Society" /></div>
                              
                               <!-- <select>
                                 <option>Name of Project/Society</option>

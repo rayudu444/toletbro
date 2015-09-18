@@ -1,7 +1,9 @@
 <?php 
-session_start();
-include_once('includes/dbutil.php');
-
+include ('../includes/dbutil.php');
+include ('includes/validation.php');
+$parameters = array('upid','property_for','property_image','img_desc','property_type','contact_name','contact_mobile','contact_email',
+        'listed_by','addres_state','addres_city','addres_locality','address','address_next','name_project_society'
+    	);	
 	extract($_POST);
 	$imagescount = count($_FILES);
 	
@@ -52,24 +54,27 @@ include_once('includes/dbutil.php');
     	'property_image'=>$images,
 		'img_desc'=>$img_des,
 		'property_type'=>$property_type,
-    	'contact_name'=>$name,
-    	'contact_mobile'=>$mobile,
-    	'contact_email'=>$email,
-        'listed_by'=>$listed,
-		'addres_state'=>$state,
-    	'addres_city'=>$city,
-        'addres_locality'=>$locality,
-		'address'=>$address1,
-		'address_next'=>$address2,
-		'name_project_society'=>$Society
+    	'contact_name'=>$contact_name,
+    	'contact_mobile'=>$contact_mobile,
+    	'contact_email'=>$contact_email,
+        'listed_by'=>$listed_by,
+		'addres_state'=>$addres_state,
+    	'addres_city'=>$addres_city,
+        'addres_locality'=>$addres_locality,
+		'address'=>$address,
+		'address_next'=>$address_next,
+		'name_project_society'=>$name_project_society
     	);
 		$pcount=get_row_count_by_condition("post_add","WHERE post_id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
 		if($pcount == 0){
 		 insertdata($usrData,'post_add');
-		 $last_id = mysql_insert_id(); 
+		 $result['post_id'] = mysql_insert_id(); 
+		 $result['status'] = 'success';
+		 echo json_encode($result);
 		}
-		else{
-			//update($usrData,'post_add',"WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+		else
+		{
+			echo json_encode(array("status" => "failed"));
 		}
-		header('location:post-add1.php?last_id=$last_id');
+		
 ?>
