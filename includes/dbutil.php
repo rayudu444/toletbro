@@ -7,6 +7,9 @@ define ( "DB_NAME", "toletbro" );
 
 include_once 'database.class.php';
 $dbh = new Database_class();
+ 
+ $uri = "http://localhost/toletbro";
+ define('URI', $uri);
 
 mysql_connect("localhost","root","");
 //mysql_connect("localhost","docniin_timesnap","timesnappy");
