@@ -54,7 +54,8 @@ echo "<script>window.location.href='index.php'</script>";
 	    mapTypeId:google.maps.MapTypeId.ROADMAP
 	  };
 	  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-	
+
+		
 	  <?php 
 	  	$count = 1;
 	  	//print_r($posts);exit;
