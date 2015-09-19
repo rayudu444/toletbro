@@ -372,7 +372,7 @@ else // user logged in
                     <div class="col-md-6 col-sm-12 margin-0">
                         <ul class="list2">
                             <li><a href="#">Sale</a></li>
-                            <li><a href="convention-centre.html">Convention Centers</a></li>
+                            <li><a href="convention-centre.php">Convention Centers</a></li>
                             <div class="clear"></div>
                         </ul>
                     </div>

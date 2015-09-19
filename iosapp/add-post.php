@@ -2,13 +2,17 @@
 include ('../includes/dbutil.php');
 include ('includes/validation.php');
 $parameters = array('upid','property_for','property_image','img_desc','property_type','contact_name','contact_mobile','contact_email',
-        'listed_by','addres_state','addres_city','addres_locality','address','address_next','name_project_society'
+        'listed_by','addres_state','addres_city','addres_locality','address','name_project_society'
     	);	
+$is_parameter_available = is_post_parameters_exists($parameters);
+
+if($is_parameter_available == 0)
+{
 	extract($_POST);
 	$imagescount = count($_FILES);
 	
 		
-    $date=strtotime(date('d-m-Y h:i:s'));
+/*    $date=strtotime(date('d-m-Y h:i:s'));
     $errors= array();
 	$val=array();
 	foreach($_FILES['property_img']['tmp_name'] as $key => $tmp_name ){
@@ -29,12 +33,7 @@ $parameters = array('upid','property_for','property_image','img_desc','property_
 
                      mkdir("$desired_dir", 0700);    
                   }
-				  /*if(is_dir("$desired_dir/".$file_name)==false){
-                  move_uploaded_file($file_tmp,"$desired_dir/".$file_name);
-                 }else{         // rename the file if another one exist
-                 $new_dir="$desired_dir/".$file_name.time();
-                 rename($file_tmp,$new_dir) ;    
-                }*/
+				 
 				  move_uploaded_file($file_tmp,"$desired_dir".$file_name);
 				  $val[]=$file_name;
 				
@@ -46,13 +45,12 @@ $parameters = array('upid','property_for','property_image','img_desc','property_
 		   
 	}
 	}
-	$images=implode(",",$val);
+	$images=implode(",",$val);*/
 	
 	
-	$usrData=array('upid'=>$_SESSION['upid'],
+	$usrData=array('upid'=>$upid,
         'property'=>$Property_for,
     	'property_image'=>$images,
-		'img_desc'=>$img_des,
 		'property_type'=>$property_type,
     	'contact_name'=>$contact_name,
     	'contact_mobile'=>$contact_mobile,
@@ -62,11 +60,11 @@ $parameters = array('upid','property_for','property_image','img_desc','property_
     	'addres_city'=>$addres_city,
         'addres_locality'=>$addres_locality,
 		'address'=>$address,
-		'address_next'=>$address_next,
+		
 		'name_project_society'=>$name_project_society
     	);
-		$pcount=get_row_count_by_condition("post_add","WHERE post_id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
-		if($pcount == 0){
+		//$pcount=get_row_count_by_condition("post_add","WHERE post_id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+		
 		 insertdata($usrData,'post_add');
 		 $result['post_id'] = mysql_insert_id(); 
 		 $result['status'] = 'success';

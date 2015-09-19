@@ -256,7 +256,7 @@ else // user logged in
                         	<div class="login-div">
                                 <div class="clearfix"></div>
                                 <div class="login-form">
-	                                <form method="post" action="checkuser.php">
+	                                <form method="post" action="convention-checkuser.php">
                                 	<input type="email" placeholder="Email Id" name="user_email"/>
                                     <input type="password" placeholder="Password" name="password"/>
                                     <button type="submit">Login</button>
@@ -297,7 +297,7 @@ else // user logged in
                         	<div class="login-div">
                                 <div class="clearfix"></div>
                                 <div class="login-form">
-	                                <form method="post" action="userregister-convention.php">
+	                                <form method="post" action="convention-userregister.php">
                                         <input type="text" placeholder="Name" name="username" id="username"/>
                                         <input type="email" placeholder="Email Id" name="emailid" id="emailid"/>
                                         <input type="text" placeholder="Mobile Number" name="mobileno" id="mobileno"/>
