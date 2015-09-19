@@ -9,15 +9,42 @@ echo "<script>window.location.href='index.php'</script>";
 }
  include_once('includes/inner-header.php');
  
- $sql = "select post_id,description,contact_name,contact_mobile,location_lat,location_long,price_monthly,property_image from post_add where property='Rent' order by post_id desc";
+ $sql = "select post_id,description,contact_name,bedrooms,property_furnished_status,contact_mobile,plot_area,plot_state,location_lat,location_long,price_monthly,property_image from post_add where property='Rent' order by post_id desc";
  $statement = $dbh->prepare($sql);
  $statement->execute();
  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
  
 ?>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-<script>
 
+<style type="text/css">
+   html, body, #googleMap {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+   .labels {
+     color: white;
+     background-color: red;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     text-align: center;
+     white-space: nowrap;
+     width:50px;
+     height:50px;
+     border-radius: 50%;
+    behavior: url(PIE.htc);
+   }
+
+ </style>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="js/markerwithlabel.js"></script>
+ <script>
+	$(function(){
+		$(document).on("click","#popup-close",function(){
+				$(".dialog").empty();
+				$(".dialog").hide();
+		});		
+	});
 	function initialize() {
 	 
 	 
@@ -41,42 +68,42 @@ echo "<script>window.location.href='index.php'</script>";
                 }
 	    	?>
 	      var latlnt<?= $count;?> = new google.maps.LatLng(<?= $post['location_lat']?>,<?= $post['location_long']?>);
-
-	      var icon<?= $count;?> = {
-	    		    url: '<?= "uploads/property_images/".$image; ?>', // url
-	    		  
-	    		    scaledSize: new google.maps.Size(50, 50), // scaled size
-	    		    origin: new google.maps.Point(0,0), // origin
-	    		    anchor: new google.maps.Point(0, 0), // anchor
-	    		    borderRadius: '50px'
-	    		};
 	      
-//	      var icon<?= $count;?> = new google.maps.MarkerImage(
-//	    		  '<?= "uploads/property_images/".$image; ?>', //url
-//	              new google.maps.Size(50, 50), //size
-//	              new google.maps.Point(0,0), //origin
-//	              new google.maps.Point(0,0) //anchor 
-//	      );
-	     var marker<?= $count;?> = new google.maps.Marker({
-	        position: latlnt<?= $count;?>,
-	        map: map,
-	        icon: icon<?= $count;?>
+		 var pictureLabel<?= $count;?> = document.createElement("img");
+    	 pictureLabel<?= $count;?>.src = '<?php echo  "uploads/property_images/".$image; ?>';
+    	 pictureLabel<?= $count;?>.style.height = '50px';
+    	 pictureLabel<?= $count;?>.style.width = '50px';
+    	 
+	     var marker<?= $count;?> =  new MarkerWithLabel({
+	    	 position: latlnt<?= $count;?>,
+	    	   
+	    	   map: map,
+	    	   labelContent: pictureLabel<?= $count;?>,
+	           labelAnchor: new google.maps.Point( -5, 80),
+	           labelClass: "labels", // the CSS class for the label
+	           labelInBackground: false,
+	          
 	      });
-	      
+	     
 	      marker<?= $count;?>.image = '<?= $image;?>';
 	      marker<?= $count;?>.address = "<?= $post["description"];?>";
 	      marker<?= $count;?>.price = '<?= $post["price_monthly"];?>';
-	      
-	     google.maps.event.addListener(marker<?= $count;?>, 'click', markerClicked<?= $count;?>);
+	      marker<?= $count;?>.bedrooms = '<?= $post["bedrooms"];?>';
+	      marker<?= $count;?>.furnished = '<?= $post["property_furnished_status"];?>';
+	      marker<?= $count;?>.description = '<?= substr($post["description"],0,100);?>';
+	      marker<?= $count;?>.area = '<?=  ($post['plot_state']== 1)? "$post[plot_area] Square feets" : "$post[plot_area] Square yards"; ?>';
+	     
+	      google.maps.event.addListener(marker<?= $count;?>, 'click', markerClicked<?= $count;?>);
 	
 	       function markerClicked<?= $count;?>(e) {
-	          $("#place-location").text(marker<?= $count;?>.place);
-	          $("#place-img").attr("src","images/"+marker<?= $count;?>.image);
-	          $("#place-address").text(marker<?= $count;?>.address);
-	
-	          $('.address-icon1-popup1').addClass("address-popup-anim1");
-	          overlay.show();
-	          overlay.appendTo(document.body);
+		       
+	    	   var popup_content = '<div class="pop-ums"><a href="javascript:void(0);" id="popup-close" style="float:right;">X</a><div class="col-im-87"><img src="uploads/property_images/'+ marker<?= $count;?>.image+'"/></div><div class="col-im-88">';
+	    	   popup_content += "<h3>"+marker<?= $count;?>.bedrooms+"BHK FLAT "+marker<?= $count;?>.furnished+"</h3><h6>Price:"+marker<?= $count;?>.price+"</h6>"; 
+	    	   popup_content += '<ul style="list-style-type: none;"><li>Area : '+marker<?= $count;?>.area+'</li><li>Description :'+ marker<?= $count;?>.description+' </li></ul></div> <div class="clearfix"></div></div>';
+               
+               $(".dialog").empty();
+               $(".dialog").append(popup_content);
+               $(".dialog").show();
 	          return false;
 	       }
 	       
@@ -85,6 +112,10 @@ echo "<script>window.location.href='index.php'</script>";
 	}
 	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+
+			<div class="dialog" style="display:none;" >
+				
+              </div>
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-6 results-left-div">
@@ -190,7 +221,7 @@ echo "<script>window.location.href='index.php'</script>";
                                     <div class="col-md-8">
                                    
                                     <div class="bhk-un">
-                                        <h1>3 BHK Unfurnished</h1>
+                                        <h1><?= $post['bedrooms']; ?> BHK <?= $post['property_furnished_status'] ?></h1>
                                         <i class="fa fa-heart-o"></i>
                                         <div class="clear"></div>
                                      </div>
@@ -230,6 +261,7 @@ echo "<script>window.location.href='index.php'</script>";
                 <div class="col-md-6 map-right-div" id="googleMap" style="height:700px;">
                 	
                 </div>
+                
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
