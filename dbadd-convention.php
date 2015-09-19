@@ -6,8 +6,7 @@ include_once('includes/dbutil.php');
 	$imagescount = count($_FILES);
 	
 		
-    $date=strtotime(date('d-m-Y h:i:s'));
-    $errors= array();
+   $errors= array();
 	$val=array();
 	foreach($_FILES['images']['tmp_name'] as $key => $tmp_name ){
     	if(!empty($_FILES['images']['name'][$key])){
@@ -45,7 +44,7 @@ include_once('includes/dbutil.php');
 	}
 	}
 	$images=implode(",",$val);
-	
+
 	
 	$usrData=array('cnv_upid'=>$_SESSION['cnv_upid'],
         'title'=>$title,

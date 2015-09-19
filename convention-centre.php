@@ -262,14 +262,14 @@ else // user logged in
                                     <button type="submit">Login</button>
                                 </form>
                                 </div>
-                                <span><img src="images/or.png" class="or-img"/></span>
+                                <!-- <span><img src="images/or.png" class="or-img"/></span>
                                 <div class="clearfix"></div>
                             	<a href="#"><img id="fb-login" src="images/fb-login.png"/></a>
-                                <div class="clearfix"></div>
-                              <!--  <a href="#"><img src="images/gplus-login.png"/></a> -->
+                                <div class="clearfix"></div> -->
+                              
                                <?php 
             if($is_user_login){ ?>
-              <a class="login" href="<?= $authUrl; ?>"><img src="images/gplus-login.png"/></a>
+              <!-- <a class="login" href="<?= $authUrl; ?>"><img src="images/gplus-login.png"/></a> -->
           <?php } ?>
                                 <div class="clearfix"></div>
                             </div>

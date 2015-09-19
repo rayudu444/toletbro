@@ -227,7 +227,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </head>
 <body>
 
-        <form method="post" action="dbadd-convention.php" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" action="dbadd-convention.php" >
         <div class="container-fluid white-bg1" style="padding:0px"> 
               
                              <div class="col-md-12 div-pad1">
@@ -263,7 +263,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
                             <div class="list-check">
                                 <div class="list-box">
                                     
-                                    <input type="file" name="image" name="images[]" multiple="" value="image"/>
+                                    <input type="file"  name="images[]" multiple=""/>
                                 
                                 </div>
                               

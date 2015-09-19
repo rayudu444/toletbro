@@ -27,7 +27,7 @@ $_SESSION['cnv_upid']=$row1['cnv_upid'];
 $_SESSION['user_name']=$row1['user_name'];
 
 echo ("<SCRIPT LANGUAGE='JavaScript'>
-		  window.location.href='convention-centre.php';</SCRIPT>");
+		  window.location.href='convention-post.php';</SCRIPT>");
 	
 
 }
