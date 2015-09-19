@@ -8,7 +8,7 @@ echo "<script>window.location.href='index.php'</script>";
 }
 include_once('includes/header_post_add.php');  
 ?> 
-
+<script type="text/javascript" src="js/fileupload.js"></script>
  <script>
 			              $(document).ready(function(){
 							 //alert("hiiiiiiiiiii");
@@ -33,11 +33,7 @@ include_once('includes/header_post_add.php');
 							
 
 						 }); 
-			                    </script> 
-      <?php $query = mysql_query("select * from post_add where upid='".$_SESSION['upid']."' and post_id='".$_SESSION['last_id']."'"); 
-        //$count = mysql_num_rows($query);
-        $add_info = mysql_fetch_array($query);
-      ?>                             
+			                    </script>          
         	<div class="container">
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
@@ -48,15 +44,15 @@ include_once('includes/header_post_add.php');
 								
                       <div class="container-post " >
                              <p class="price-p">Property for</p>   
-                         <form action="addpostanadd.php" method="post" class="cont2-form" enctype="multipart/form-data">
+                         <form name="myForm2" method="post"  id="image-upload" class="cont2-form" enctype="multipart/form-data">
                            
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test81"  name="Property_for" <?php echo ($add_info['property']=="Rent")? "checked" :""?>  value="Rent"/>
+                                <input type="checkbox" id="test81"  name="Property_for" value="Rent"/>
                                 <label for="test81">Rent</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test82" <?php echo ($add_info['property']=="Sale")? "checked" :""?> name="Property_for" value="Sale"/>
+                                <input type="checkbox" id="test82"  name="Property_for" value="Sale"/>
                                 <label style="float:right;" for="test82">Sale</label>
                                   <div class="clearfix"></div> 
                               </p>
@@ -77,69 +73,32 @@ include_once('includes/header_post_add.php');
                    <div class="container-post">
                          
                             <div class="list-check">
-                                <div class="list-box">
-                                    
-                                    <!--<input type="file"  value="image"/>-->
-                                
+                                <div class="list-box filediv1" >
+                                    <input name="file[]" type="file"  id="file" class="input-add" multiple/>
                                 </div>
                               
-                               <!-- <div class="list-box1">
-                                    
-                                    <input type="file"  value="image"/>
-                                
-                                </div>
-                                
-                                <div class="list-box1">
-                                    
-                                    <input type="file"  value="image"/>
-                                
-                                </div>
-                                
-                                <div class="list-box1">
-                                    
-                                    <input type="file"  value="image"/>
-                                
-                                </div>
-                                
-                                <div class="list-box1">
-                                    
-                                    <input type="file"  value="image"/>
-                                
-                                </div>
-                                <div class="list-box1">
-                                    
-                                    <input type="file"  value="image"/>
-                                
-                                </div>
-                                
-                                <div class="list-box1">
-                                    
-                                    <input type="file"  value="image"/>
-                                
-                                </div>-->
+                              
                             <div class="clearfix"></div>   
                            </div>
                            
                             <div class="upload-btns">
-                                <div class="upload-inpt">
-                                   <input type="text" placeholder="Your Uploaded Properties" name="img_des" />
-                                </div>
-                             <div class="browse-buts">
-                                <!-- <div class="delete-but">
+                                
+                             <!--<div class="browse-buts">
+                                <div class="delete-but">
                                     <img src="images/up-but.jpg"/>
-                                 </div>-->
+                                 </div>
                                  
                                  <div class="delete-but1">
                                     <input type="file" required name="property_img[]" multiple  />
                                  </div>
                                  
-                                 <!--<div class="delete-but2">
+                                 <div class="delete-but2">
                                     <input type="file" />
-                                 </div>-->
+                                 </div>
                               <div class="clearfix"></div> 
                             </div>
                              <div class="clearfix"></div>
-                            </div>
+                            </div>-->
                         
                    </div>
                     <div class="clearfix"></div>
@@ -155,10 +114,11 @@ include_once('includes/header_post_add.php');
                             <div class="form-1">
                              
                                <select name="property_type">
-							                 <option value="">Property type</option>
-                                <option value="Residential Properties" <?php echo ($add_info['property_type']=="Residential Properties")? "selected" :""?>>Residential Properties</option>
-                                <option value="Commercial Properties" <?php echo ($add_info['property_type']=="Commercial Properties")? "selected" :""?>>Commercial Properties</option>
-                                
+							   <option value="">Property type</option>
+
+                                <option value="Residential Properties">Residential Properties</option>
+                                <option value="Commercial Properties">Commercial Properties</option>
+                                <option> </option>
                               </select>
                               
                               </div>
@@ -201,11 +161,11 @@ include_once('includes/header_post_add.php');
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
                                 <input type="checkbox" id="test83" value="Landlord" name="listed"/>
-                                <label for="test83"<?php echo ($add_info['listed_by']=="Landlord")? "checked" :""?> >Landlord</label>
+                                <label for="test83">Landlord</label>
                               </p>
                               <p style="width:50%; float:right;">
                                 <input type="checkbox" id="test84" value="Agent" name="listed" />
-                                <label style="float:right;" for="test84" <?php echo ($add_info['listed_by']=="Agent")? "checked" :""?>>Agent</label>
+                                <label style="float:right;" for="test84">Agent</label>
                                   <div class="clearfix"></div> 
                               </p>
                             <div class="clearfix"></div>   
@@ -230,7 +190,7 @@ include_once('includes/header_post_add.php');
                                 <option value="">Select State</option>
 								<?php $result = get_all_data('tbl_state');
 								foreach($result as $resu){?>
-                                <option value="<?= $resu['state_name']?>" <?php echo ($add_info['addres_state']==$resu['state_name'])? "selected" :""?> ><?= $resu['state_name'] ?></option>
+                                <option value="<?= $resu['state_name']?>"><?= $resu['state_name'] ?></option>
 								<?php } ?>
                                 
                               </select>
@@ -250,7 +210,7 @@ include_once('includes/header_post_add.php');
                               
                               <div class="form-1">
                              
-                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo $add_info['addres_locality']?>" /></div>
+                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality"  /></div>
                                
                                 
                              
@@ -258,14 +218,14 @@ include_once('includes/header_post_add.php');
                               </div>
                              <div class="list-check">
                               
-                               <div class="input-title"><input type="text" value="<?php echo $add_info['address']?>"  id="test2" placeholder="Adress" name="address1" /></div>
-                               <div class="input-title"><input type="text" value="<?php echo $add_info['address_next']?>" id="test3" placeholder="" name="address2" /></div>
+                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1" /></div>
+                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" /></div>
                             
                             <div class="clearfix"></div>   
                            </div>
                                
                               <div class="form-1">
-							  <div class="input-title"><input type="text" value="<?php echo $add_info['name_project_society']?>" id="Society" name="Society" placeholder="Name of Project/Society" /></div>
+							  <div class="input-title"><input type="text" id="Society" name="Society" placeholder="Name of Project/Society" /></div>
                              
                               <!-- <select>
                                 <option>Name of Project/Society</option>
@@ -285,7 +245,7 @@ include_once('includes/header_post_add.php');
                 
                 
                  <div class="nex-but">
-                     <input type="submit" name="Next" value="Next" class="ne-but" />
+                     <input type="button" name="Next" value="Next" id="upload" class="ne-but" />
                     <div class="clear"></div>
                  </div>
 				  </form>
@@ -317,7 +277,7 @@ include_once('includes/header_post_add.php');
                     </ul>
                  </div>
                  <div class="adress-maill">
-                     <form class="address-mails" method="post" action="#">
+                     <form class="address-mails"  method="post" action="#">
                         <label>
                           <input type="text" name="name" placeholder="User Name">
                         </label>

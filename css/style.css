@@ -1932,6 +1932,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6c6b6b', end
    margin-right:10px;
    font-family:Lato;
    text-align:center;
+   margin-top:4px;
 }
 .list-box1{
    width:80px;
@@ -3363,4 +3364,23 @@ border-bottom:1px solid #999898;
   text-align: left;
   z-index:777;
   height:auto;
+}
+
+/* image upload css */
+.abcd{
+	position: relative;
+    float: left;
+    margin: 10px 5px 5px 12px;
+}
+.abcd img {
+    width: 120px;
+    height: 90px;
+}
+#img {
+    width: 25px;
+    height: 24px;
+    position: absolute;
+    top: -9px;
+    left: -11px;
+    cursor: pointer;
 }

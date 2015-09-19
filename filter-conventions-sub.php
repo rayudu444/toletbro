@@ -80,9 +80,10 @@ echo "<script>window.location.href='index.php'</script>";
 	    	   
 	    	   map: map,
 	    	   labelContent: pictureLabel<?= $count;?>,
-	           labelAnchor: new google.maps.Point( -5, 80),
+	           labelAnchor: new google.maps.Point( 6, 10),
 	           labelClass: "labels", // the CSS class for the label
 	           labelInBackground: false,
+	           icon : ' '
 	          
 	      });
 	     

@@ -3,6 +3,7 @@ session_start();
 include_once('includes/dbutil.php');
 
 	extract($_POST);
+	
 	$imagescount = count($_FILES);
 	
 		
@@ -50,7 +51,6 @@ include_once('includes/dbutil.php');
 	$usrData=array('upid'=>$_SESSION['upid'],
         'property'=>$Property_for,
     	'property_image'=>$images,
-		'img_desc'=>$img_des,
 		'property_type'=>$property_type,
     	'contact_name'=>$name,
     	'contact_mobile'=>$mobile,
@@ -63,13 +63,19 @@ include_once('includes/dbutil.php');
 		'address_next'=>$address2,
 		'name_project_society'=>$Society
     	);
+    	
 		$pcount=get_row_count_by_condition("post_add","WHERE post_id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+		$issuccess = 0;
 		if($pcount == 0){
 		 insertdata($usrData,'post_add');
-		 $last_id = mysql_insert_id(); 
+		 $_SESSION['last_id'] = mysql_insert_id(); 
+		 ++$issuccess;
 		}
 		else{
-			//update($usrData,'post_add',"WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+			update($usrData,'post_add',"WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+			 ++$issuccess;
 		}
-		header('location:post-add1.php?last_id=$last_id');
+		$result['status'] = $issuccess;
+		$result['post_id'] = $_SESSION['last_id'];
+		echo json_encode($result);
 ?>

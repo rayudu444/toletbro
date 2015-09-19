@@ -37,7 +37,7 @@
                         </form>
                     </div>
                     <div class="col-md-7">
-                    	<img src="images/logo-w.png" class="logo-w"/>
+                    	<a href="index.php"><img src="images/logo-w.png" class="logo-w"/></a>
                         <nav class="nav-list1 paddingTop-5">
                         	<ul>
                             	<li><a href="#">Download App</a></li>
