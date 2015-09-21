@@ -103,7 +103,8 @@ include_once('includes/header_post_add.php');
                    </div>
                     <div class="clearfix"></div>
                 </div>
-                
+                   <div class="clearfix"></div>
+                </div>
                 <div class="row">
                               <div class="col-md-12 div-pad2">
                                   <p>Property Type</p>
@@ -342,6 +343,116 @@ include_once('includes/header_post_add.php');
 				});
 				
 			});
+
+			//images uploading functionailty
+
+		    $('#upload').click(function(e) {
+		    	
+		    	var other_data = $('form#image-upload').serializeArray();
+		    	
+		        if (document.myForm2.name.value != "")
+
+		        {
+
+		          if (posting_images.length == 0)
+
+		          {
+
+		              alert("Please upload property image.");
+
+		              e.preventDefault();
+
+		          }else{
+
+		             var data = new FormData();
+
+
+
+		             for(var j=0, len=posting_images.length; j<len; j++) {
+
+		                  
+
+		                 data.append("property_img["+j+"]", posting_images[j]); 
+
+		             }
+
+		             data.append('city',$("#city").val());
+
+		            
+
+
+
+		                  $.each(other_data,function(key,input){
+
+		                      data.append(input.name,input.value);
+
+		                  });
+
+		                $("#dialog-background").show();
+
+		                $(".dialog").show();
+
+		               $.ajax({
+
+		                   type: 'POST',
+
+		                   url : 'addpostanadd.php',
+
+		                   data : data,
+
+		                   processData: false,
+
+		                   contentType: false,
+
+		                   statusCode: {
+
+		                      200: function(data) {
+		            	   		var response = JSON.parse(data);
+		                        if(response.status == 1)
+
+		                        {
+		                        	
+		                         window.location = "post-add1.php?post="+response.post_id;
+		                         
+
+		                        }else{
+
+		                          alert("Error while posting images");
+
+		                        }
+
+		                      },
+
+		                      500: function(){
+
+		                        alert("Error while posting please try again");
+
+		                      }
+
+		                    }
+
+
+
+		                 });
+
+
+
+		          }   
+		        }else{
+
+		          alert("Please enter title");
+
+		          return false;
+
+		        }
+
+
+
+		        
+
+		    });
+
+		    
 		})(jQuery);
 	</script>
 </body>

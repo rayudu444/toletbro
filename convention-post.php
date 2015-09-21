@@ -3,7 +3,7 @@
   include_once('includes/dbutil.php');
   include_once('includes/convention_header.php');
   ?>
-
+<script type="text/javascript" src="js/fileupload.js"></script>
  <script>
 $(document).ready(function(){
    
@@ -227,7 +227,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </head>
 <body>
 
-        <form method="post" enctype="multipart/form-data" action="dbadd-convention.php" >
+        <form method="post" name="myForm2" id="image-upload" enctype="multipart/form-data" action="dbadd-convention.php" >
         <div class="container-fluid white-bg1" style="padding:0px"> 
               
                              <div class="col-md-12 div-pad1">
@@ -258,41 +258,39 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                   <p>Add Image</p>
                                </div>
                                 <div class="clearfix"></div>
-                   <div class="container-post">
-                        
+                    <div class="container-post">
+                         
                             <div class="list-check">
-                                <div class="list-box">
-                                    
-                                    <input type="file"  name="images[]" multiple=""/>
-                                
+                                <div class="list-box filediv1" >
+                                    <input name="file[]" type="file"  id="file" class="input-add" multiple/>
                                 </div>
                               
-                                
+                              
                             <div class="clearfix"></div>   
                            </div>
                            
-                           <div class="upload-btns">
-                                <div class="upload-inpt">
-                                   <input type="text" placeholder="Your Uploaded Properties"  />
-                                </div>
-                              <!-- <div class="browse-buts">
-                                 <div class="delete-but">
+                            <div class="upload-btns">
+                                
+                             <!--<div class="browse-buts">
+                                <div class="delete-but">
                                     <img src="images/up-but.jpg"/>
                                  </div>
                                  
                                  <div class="delete-but1">
-                                    <input type="file" />
+                                    <input type="file" required name="property_img[]" multiple  />
                                  </div>
                                  
                                  <div class="delete-but2">
                                     <input type="file" />
                                  </div>
                               <div class="clearfix"></div> 
-                            </div> -->
-                             <div class="clearfix"></div>
                             </div>
-                         
+                             <div class="clearfix"></div>
+                            </div>-->
+                        
                    </div>
+                    <div class="clearfix"></div>
+                </div>
                     <div class="clearfix"></div>
                 </div>
                 
@@ -402,8 +400,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                  <!--lat:<span id="lat"></span> lon:<span id="lon"></span><br/>
                                     zoom level: <span id="zoom_level"></span>-->
                                   </div>
-                  <input type="hidden" name="latitude" id='lat1' value="<?php echo $lat; ?>" />   
-                               <input type="hidden" name="longitude" id="lon1" value="<?php echo $lon; ?>" />
+	                  <input type="hidden" name="latitude" id='lat1' value="<?php echo $lat; ?>" />   
+	                  <input type="hidden" name="longitude" id="lon1" value="<?php echo $lon; ?>" />
       
                    </div>
                     <div class="clearfix"></div>
@@ -411,12 +409,123 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 
                  <div class="class="nex-but"">
                      <!-- <a href="postad2.html" >Next</a> -->
-                     <input type="submit" name="submit" class="ne-but" value="Next">
+                     <input type="button" name="submit" class="ne-but" id="upload" value="Next">
                     <div class="clear"></div>
                  </div>
                 </div>
             </div>
         </div>
         </form>
+        <script type="text/javascript">
+    	//images uploading functionailty
+
+	    $('#upload').click(function(e) {
+	    	
+	    	var other_data = $('form#image-upload').serializeArray();
+	    	console.log(other_data);
+	        if (document.myForm2.title.value != "")
+
+	        {
+
+	          if (posting_images.length == 0)
+
+	          {
+
+	              alert("Please upload property image.");
+
+	              e.preventDefault();
+
+	          }else{
+
+	             var data = new FormData();
+
+
+
+	             for(var j=0, len=posting_images.length; j<len; j++) {
+
+	                  
+
+	                 data.append("images["+j+"]", posting_images[j]); 
+
+	             }
+
+	           
+
+	            
+
+
+
+	                  $.each(other_data,function(key,input){
+
+	                      data.append(input.name,input.value);
+
+	                  });
+
+	                $("#dialog-background").show();
+
+	                $(".dialog").show();
+
+	               $.ajax({
+
+	                   type: 'POST',
+
+	                   url : 'dbadd-convention.php',
+
+	                   data : data,
+
+	                   processData: false,
+
+	                   contentType: false,
+
+	                   statusCode: {
+
+	                      200: function(data) {
+	            	   		var response = JSON.parse(data);
+	                        if(response.status == 1)
+
+	                        {
+	                        	
+	                         window.location = "convention-post1.php?post="+response.post_id;
+	                         
+
+	                        }else{
+
+	                          alert("Error while posting images");
+
+	                        }
+
+	                      },
+
+	                      500: function(){
+
+	                        alert("Error while posting please try again");
+
+	                      }
+
+	                    }
+
+
+
+	                 });
+
+
+
+	          }   
+
+	        }else{
+
+	          alert("Please enter title");
+
+	          return false;
+
+	        }
+
+
+
+	        
+
+	    });
+    
+        </script>
         
         <?php  include_once('includes/footer.php');?>

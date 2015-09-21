@@ -247,7 +247,7 @@ include_once('includes/convention_header.php');
                  <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['last_id']?>">
                     <!--  <a href="post-ad3.html" class="ne-but">Next</a> -->
                      <input type="submit" name="submit" class="ne-but" value="NEXT">
-                     <a href="postad1.html" class="bc-but">Back</a>
+                     <a href="convention-post.php?post=<?= @$_GET['post']; ?>" class="bc-but">Back</a>
                   <div class="clear"></div>
                  </div>
                 </div>
