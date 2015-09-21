@@ -170,7 +170,7 @@ echo "<script>window.location.href='index.php'</script>";
                                                   if($count_amen==2){
                                                     echo $amen[0].",".$amen[1];
                                                   }else if($count_amen>=2){
-                                                    echo $amen[0].",".$amen[1]."+".$count_amen1;
+                                                    echo $amen[0].",".$amen[1]." +".$count_amen1;
                                                   }
                                                   else{
                                                   echo $amen[0]; 

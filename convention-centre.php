@@ -320,14 +320,30 @@ else // user logged in
         	<div class="container">
                 <div class="row">
 	                <div class="links">
-                    	<ul id="inline-popups">
-                    		<!-- <li><a href="#test-popup2" class="sing-buts click">Sign Up</a></li>
-                        	<li><a href="#test-popup" class="click2">Login</a></li> -->
+                    	<!--ul id="inline-popups">
+              
 	                   		<li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
                      		<li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
 
                               <div class="clearfix"></div>
-                        </ul>
+                        </ul-->
+
+                         <?php if(isset($_SESSION['cnv_upid'])){?>
+                     <ul class="list-log-di">
+                      <li><a href="my-account.php"><?php echo $_SESSION['user_name']; ?></a></li>
+                       <li> <a href="logout.php" >Log out</a></li>
+                     <div class="clear"></div>
+                    </ul>
+                    <?php } else {?>
+                    <ul  id="inline-popups">
+                      <li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
+                        <li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
+                    <div class="clear"></div>
+                    </ul>
+                    <?php }?>
+
+
+
                     </div>
                     <div class="clearfix"></div>
                 </div>

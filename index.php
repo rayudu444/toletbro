@@ -115,6 +115,7 @@ include("includes/dbutil.php");
   };
 </script>
 
+
 <?php 
    $is_user_login = 0;
 ########## Google Settings.. Client ID, Client Secret from https://cloud.google.com/console #############
@@ -301,7 +302,7 @@ else // user logged in
                                 <div class="login-form">
 	                                <form method="post" action="userregister.php">
                                         <input type="text" placeholder="Name" name="username" id="username"/>
-                                        <input type="email" placeholder="Email Id" name="emailid" id="emailid"/>
+                                        <input type="email" class="email" placeholder="Email Id" name="emailid" id="emailid"/>
                                         <input type="text" placeholder="Mobile Number" name="mobileno" id="mobileno"/>
                                         <input type="password" placeholder="Password" name="password" id="password"/>
                                         <input type="password" placeholder="Confirm Password" name="conformpassword" id="conformpassword"/>
@@ -749,3 +750,20 @@ $(function(){
    
 </body>
 </html>
+<script>
+  $(document).ready(function(){
+      $("#emailid").blur(function(){
+        var val=$( this ).val();
+       $.ajax({
+          type: "POST",
+          url :"check-email.php",
+          data:{ email:val},
+          success : function(data){
+            var info = JSON.parse(data);
+
+          }
+       });
+            
+      });
+  });
+</script>

@@ -125,9 +125,8 @@ $(document).ready(function(){
                     <div class="clearfix"></div>
                      <div class="but-submits">
                      <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['last_id']?>">
-                    <!--  <a href="post-ad3.html" class="ne-but">Next</a> -->
                      <input type="submit" name="submit" style="float:right;" value="Save">
-                       <!-- <input type="button" value="save" style="float:right;">  -->
+                       
                        <div class="clearfix"></div>                   
                      </div>
                    

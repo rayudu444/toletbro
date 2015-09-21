@@ -191,8 +191,8 @@ include_once('includes/convention_header.php');
                                 <label for="test111">Naming ceremonies</label>
                               </p>
                                <p>
-                                <input type="checkbox" name="hall_suitable_for[]" id="test111" />
-                                <label for="test111">others</label>
+                                <input type="checkbox" name="hall_suitable_for[]" id="test404" />
+                                <label for="test404">others</label>
                               </p>
                             <div class="clearfix"></div>   
                            </div>

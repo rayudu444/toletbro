@@ -2,7 +2,7 @@
   session_start(); 
   include_once('includes/dbutil.php');
   
-  if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
+  if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
@@ -179,62 +179,96 @@ include_once('includes/inner-header.php');
                                                  </li>
                                                  <li>
                                                    <span>Floating Capacity  </span>
-                                                    <p><?=$p_info['seating_cap_flaoating']?></p>
+                                                    <p><?=$p_info['seating_cap_floating']?></p>
                                                  </li>
                                                  
                                                  <li>
-                                                   <span>Baths </span>
-                                                    <p><?=$p_info['bathrooms']?></p>
+                                                   <span>Food And Drink </span>
+                                                    <p><?=$p_info['food']?></p>
+                                                 </li>
+                                                 
+                                                 <li>
+                                                   <span>Hall Ideally suited For  </span>
+                                                    <p><?=$p_info['hall_suitable_for']?></p>
                                                  </li>
                                                  <li>
-                                                   <span>Balconies</span>
-                                                    <p><?=$p_info['balconies']?></p>
+                                                   <span>Technology & Equipment  </span>
+                                                    <p><?=$p_info['technical_equipment']?></p>
                                                  </li>
+
+                                                  <li>
+                                                   <span>Spaces Available  </span>
+                                                    <p><?=$p_info['space_available_for']?></p>
+                                                 </li>
+
+                                                  <li>
+                                                   <span>other Services  </span>
+                                                    <p><?=$p_info['other_services']?></p>
+                                                 </li>
+
+                                                  <li>
+                                                   <span>Additional Services  </span>
+                                                    <p><?=$p_info['additional_services']?></p>
+                                                 </li>
+
+                                                  <!-- <li>
+                                                   <span>Price per plate</span>
+                                                    <p><?=$p_info['price_per_plate']?></p>
+                                                 </li> -->
+
+                                                  <li>
+                                                   <span>Technology & Equipment  </span>
+                                                    <p><?=$p_info['seating_cap_floating']?></p>
+                                                 </li>
+
+                                                  <li>
+                                                   <span>Deposite Amount  </span>
+                                                    <p><?=$p_info['deposite']?></p>
+                                                 </li>
+
+                                                 <li>
+                                                   <span>Negotiable</span>
+                                                    <p><?=$p_info['negotiable']?></p>
+                                                 </li>
+                                                  <li>
+                                                   <span>Price & Other Charges</span>
+                                                    <p><?=$p_info['other_charges']?></p>
+                                                 </li>
+
+
                                               </ul>
                                           
                                           </div>
                                       </div>
                                      <div class="clearfix"></div>
+                                     
+
+                                                 <div class="flat-div">
+                                        <h5>Parking Capacity</h5>
+                                        
+                                        
+                                          <P>Two wheeler  <?=$p_info['2wheeler_parking_cap']?></p><br>
+                                           <p>Four wheeler  <?=$p_info['4wheeler_parking_cap']?></p>
+                                        
+                                          <div class="clearfix"></div>
+                                        
+                                      </div>
                                       <div class="flat-div">
-                                        <h5>Flat Amenities</h5>
+                                        <h5>Description</h5>
                                         <ul class="list-flatani">
-                                        <?php 
-                                        if($p_info['amenities']!=""){
-                                          $amen =explode(",", $p_info['amenities']);
-                                          foreach ($amen as $amen_info) {
-                                            # code...
-                                          }
-                                          ?>
-                                          <li><?=$amen_info?></li>
-                                        <?php
-                                         }
-                                        ?>
+                                        
+                                          <li><?=$p_info['description']?></li>
+                                        
                                           <div class="clearfix"></div>
                                         </ul>
                                       </div>
                                       <div class="clearfix"></div>
                                       <div class="flat-div">
-                                        <h5>Society Amenities</h5>
-                                       
-                                        <ul class="list-flatani">
-                                          <?php 
-                                        if($p_info['society_amenities']!=""){
-                                          $amen1 =explode(",", $p_info['society_amenities']);
-                                          foreach ($amen1 as $amen_info1) {
-                                            # code...
-                                          }
-                                          ?>
-                                          <li><?=$amen_info1?></li>
-                                        <?php
-                                         }
-                                        ?>
-                                          <div class="clearfix"></div>
-                                        </ul>
                                          <div class="clearfix"></div>
                                         <div class="cont-but cont-but12">
                                               
                                                  <i class="fa fa-phone"></i>
-                                                 <h6>Contact Agent</h6>
+                                                 <h6>Contact Person</h6>
                                                   <div class="clearfix"></div>
                                              </div>
                                       </div>
