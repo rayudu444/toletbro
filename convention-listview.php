@@ -5,7 +5,7 @@
   if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
-echo "<script>window.location.href='index.php'</script>";
+echo "<script>window.location.href='index.php'</script>";exit;
 }
  include_once('includes/inner-header.php');
 ?>
@@ -74,8 +74,8 @@ echo "<script>window.location.href='index.php'</script>";
                             </form>
                         </div>
                             <ul class="filter-ul">
-                            	<li><a href = "filter-conventions-sub.php">Map</a></li>
-                            	<li><a href = "property-listview.php">List</a></li>
+                            	<li><a href = "conventions-map-view.php">Map</a></li>
+                            	<li><a href = "convention-listview.php">List</a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
