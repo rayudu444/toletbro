@@ -8,8 +8,7 @@ include_once('includes/dbutil.php');
 		$space_available_for1 =implode(",", $space_available_for);
 		$other_services1 =implode(",", $other_services);
 		$additional_services1 = implode(",", $additional_services);
-
-		$usrData=array('price_per_slot'=>$price_per_slot,
+		$usrData=array('price_per_plate'=>$price_per_plate,
         'deposite'=>$deposite,
     	'negotiable'=>$negotiable,
     	'other_charges'=>$other_charges,

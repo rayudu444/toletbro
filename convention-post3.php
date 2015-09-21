@@ -47,7 +47,7 @@ $(document).ready(function(){
                         
                             <div class="list-input">
                                  <p class="price-p">Price</p>
-                              <div class="input-title" style="margin-top:10px;"><input type="text" id="test1" name="price_per_slot" placeholder="Per Slot"></div>
+                              <div class="input-title" style="margin-top:10px;"><input type="text" id="test1" name="price_per_plate" placeholder="Per plate"></div>
                                <div class="input-seats" style="margin-top:10px;">
                               
                                 <input type="input" name="deposite"   placeholder="Deposite"/>

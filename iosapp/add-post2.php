@@ -12,9 +12,7 @@ if($is_parameter_available == 0)
 
 	extract($_POST);
 	
-	if(isset($water_supply)){
-	$water1 = implode(',',$water_supply);
-	}else{$water=null;}
+	
 	
 	$usrData=array(
         'price_monthly'=>$price_monthly,
@@ -26,7 +24,7 @@ if($is_parameter_available == 0)
     	'plot_area'=>$plot_area,
     	'plot_state'=>$plot_state,
         'door_facing'=>$facing,
-		'water_supply'=>$water1
+		'water_supply'=>$water_supply
     	
     	);
 		//print_r($usrData);exit;

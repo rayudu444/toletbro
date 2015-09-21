@@ -18,7 +18,7 @@ $usrData = array('user_name'=>$username,
 $user = insertdata($usrData,'convention_users');
 if($user){
 $_SESSION['msg']='<div style="color:green">User successfully registered....</div>';
-	header('location:index.php');
+	header('location:convention-centre.php');
 	
 	/*echo ("<SCRIPT LANGUAGE='JavaScript'> 
 	window.alert('vendor created  successfully...');
