@@ -33,7 +33,13 @@ include_once('includes/header_post_add.php');
 							
 
 						 }); 
-			                    </script>          
+			                    </script>    
+			                    <?php
+	if(isset($_REQUEST['last_id'])){ 
+	$query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>      
         	<div class="container">
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
@@ -42,18 +48,18 @@ include_once('includes/header_post_add.php');
                                </div>
                                 <div class="clearfix"></div>
 								
-                      <div class="container-post " >
+                      <div class="container-post">
                              <p class="price-p">Property for</p>   
-                         <form name="myForm2" method="post"  id="image-upload" class="cont2-form" enctype="multipart/form-data">
+                         <form name="myForm2" method="post"   id="image-upload" class="cont2-form" enctype="multipart/form-data">
                            
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test81"  name="Property_for" value="Rent"/>
-                                <label for="test81">Rent</label>
+                                <input type="checkbox" <?php echo @($get_info['property']=="Rent")?"checked":"";?> id="test81"  name="Property_for" value="Rent"/>
+                                <label for="test81" >Rent</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test82"  name="Property_for" value="Sale"/>
-                                <label style="float:right;" for="test82">Sale</label>
+                                <input type="checkbox" id="test82" <?php echo @($get_info['property']=="Sale")?"checked":""?>  name="Property_for" value="Sale"/>
+                                <label style="float:right;" for="test82" >Sale</label>
                                   <div class="clearfix"></div> 
                               </p>
                             <div class="clearfix"></div>   
@@ -117,9 +123,9 @@ include_once('includes/header_post_add.php');
                                <select name="property_type">
 							   <option value="">Property type</option>
 
-                                <option value="Residential Properties">Residential Properties</option>
-                                <option value="Commercial Properties">Commercial Properties</option>
-                                <option> </option>
+                                <option value="Residential Properties" <?php echo @($get_info['property_type']=="Residential Properties")?"selected":""?>>Residential Properties</option>
+                                <option value="Commercial Properties" <?php echo @($get_info['property_type']=="Commercial Properties")?"selected":""?>>Commercial Properties</option>
+                                
                               </select>
                               
                               </div>
@@ -142,7 +148,14 @@ include_once('includes/header_post_add.php');
                                 $user_info=mysql_fetch_array($query1);
                             ?>
                                 <div class="input-title"><input type="text" value="<?=$user_info['user_name']?>" id="test1"  placeholder="Full Name" name="name" /></div>
-                               <div class="input-title"><input type="text" value="<?=$user_info['user_mobile']?>" id="test1"  placeholder="Mobile" name="mobile" /></div>
+                               <?php $mobile=null;
+                               if($user_info['user_mobile']==0){
+                               	$mobile= "";
+                               	}else{
+                               		$mobile= $user_info['user_mobile'];
+                               	}
+                               	?>
+                               <div class="input-title"><input type="text" value="<?=$mobile?>" id="test1"  placeholder="Mobile" name="mobile" /></div>
                                <div class="input-title"><input type="text" value="<?=$user_info['user_email']?>" id="test1"  placeholder="Email" name="email"/></div>
                             <div class="clearfix"></div>   
                            </div>
@@ -161,11 +174,11 @@ include_once('includes/header_post_add.php');
                            
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test83" value="Landlord" name="listed"/>
+                                <input type="checkbox" <?php echo @($get_info['listed_by']=="Landlord")?"selected":""?> id="test83" value="Landlord" name="listed"/>
                                 <label for="test83">Landlord</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test84" value="Agent" name="listed" />
+                                <input type="checkbox" <?php echo @($get_info['listed_by']=="Agent")?"selected":""?> id="test84" value="Agent" name="listed" />
                                 <label style="float:right;" for="test84">Agent</label>
                                   <div class="clearfix"></div> 
                               </p>
@@ -211,7 +224,7 @@ include_once('includes/header_post_add.php');
                               
                               <div class="form-1">
                              
-                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality"  /></div>
+                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo @$get_info['locality']?>"  /></div>
                                
                                 
                              
@@ -219,14 +232,14 @@ include_once('includes/header_post_add.php');
                               </div>
                              <div class="list-check">
                               
-                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1" /></div>
-                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" /></div>
+                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1" value="<?php echo @$get_info['address']?>" /></div>
+                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" value="<?php echo @$get_info['address_next']?>" /></div>
                             
                             <div class="clearfix"></div>   
                            </div>
                                
                               <div class="form-1">
-							  <div class="input-title"><input type="text" id="Society" name="Society" placeholder="Name of Project/Society" /></div>
+							  <div class="input-title"><input type="text" id="Society" name="Society" placeholder="Name of Project/Society" value="<?php echo @$get_info['name_project_society']?>" /></div>
                              
                               <!-- <select>
                                 <option>Name of Project/Society</option>
@@ -457,3 +470,37 @@ include_once('includes/header_post_add.php');
 	</script>
 </body>
 </html>
+
+<div class="container">
+        	<div class="row">
+            	<div class="col-md-12">
+			        <div id="test-popup3" class="white-popup mfp-with-anim mfp-hide">
+						<h1 class="user-registered">User Already Registered...</h1>
+                        <a href="#" class="login-a">Login</a>
+                        <div class="clearfix"></div>
+			        </div>
+		        </div>
+	        </div>
+        </div>
+<script type="text/javascript">
+
+     function validateForm()
+
+{ 
+
+ if( document.myForm2.Property_for.value == "")
+
+   {
+
+     alert( "Please provide Property for!" );
+
+     //document.myForm.class_name.focus() ;
+
+     return false;
+
+   }
+
+
+}
+
+</script>

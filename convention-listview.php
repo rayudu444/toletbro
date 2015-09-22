@@ -2,11 +2,11 @@
   session_start(); 
   include_once('includes/dbutil.php');
  
-  if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
+  /*if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";exit;
-}
+}*/
  include_once('includes/inner-header.php');
 ?>
         <div class="container-fluid white-div-wrapper"> 

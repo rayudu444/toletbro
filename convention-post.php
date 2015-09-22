@@ -226,7 +226,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </head>
 <body>
-
+ <?php
+	if(isset($_REQUEST['post'])){ 
+	$query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>
+<?php $query1= mysql_query("select * from convention_users where cnv_upid='".$_SESSION['cnv_upid']."'");
+                                $user_info=mysql_fetch_array($query1);
+                            ?>
         <form method="post" name="myForm2" id="image-upload" enctype="multipart/form-data" action="dbadd-convention.php" >
         <div class="container-fluid white-bg1" style="padding:0px"> 
               
@@ -244,7 +252,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
                          
                             <div class="list-check">
                               
-                                <div class="input-title"><input type="text" name="title" id="test1" placeholder="Title" /></div>
+                                <div class="input-title"><input type="text" name="title" id="test1" placeholder="Title" value="<?php echo @$get_info['title']?>" /></div>
                             
                             <div class="clearfix"></div>   
                            </div>
@@ -301,11 +309,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
                          
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test81"  name="convention_type" <?php echo @($add_info['property']=="Rent")? "checked" :""?>  value="AC"/>
+                                <input type="checkbox" id="test81"  name="convention_type" <?php echo @($get_info['convention_type']=="AC")? "checked" :""?>  value="AC"/>
                                 <label for="test81">AC</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test82" <?php echo @($add_info['property']=="Sale")? "checked" :""?> name="convention_type" value="NON AC"/>
+                                <input type="checkbox" id="test82" <?php echo @($get_info['convention_type']=="NON AC")? "checked" :""?> name="convention_type" value="NON AC"/>
                                 <label style="float:right;" for="test82">NON AC</label>
                                   <div class="clearfix"></div> 
                               </p>
@@ -326,9 +334,16 @@ google.maps.event.addDomListener(window, 'load', initialize);
                    <div class="container-post">
                          
                             <div class="list-check">
-                                <div class="input-title"><input type="text" name="contact_person_name" id="test1" placeholder="Full Name" /></div>
-                               <div class="input-title"><input type="text" name="contact_person_mobile" id="test1" placeholder="Mobile" /></div>
-                               <div class="input-title"><input type="text" name="contact_person_email" id="test1" placeholder="Email" /></div>
+                                <div class="input-title"><input value="<?=$user_info['user_name']?>" type="text" name="contact_person_name" id="test1" placeholder="Full Name" /></div>
+                               <?php $mobile=null;
+                               if($user_info['user_mobile']==0){
+                               	$mobile= "";
+                               	}else{
+                               		$mobile= $user_info['user_mobile'];
+                               	}
+                               	?>
+                               <div class="input-title"><input value="<?=$mobile?>" type="text" name="contact_person_mobile" id="test1" placeholder="Mobile" /></div>
+                               <div class="input-title"><input value="<?=$user_info['user_email']?>" type="text" name="contact_person_email" id="test1" placeholder="Email" /></div>
                             <div class="clearfix"></div>   
                            </div>
                          
@@ -370,11 +385,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
                               
                               <div class="form-1">
                              
-                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo @$add_info['addres_locality']?>" /></div>
+                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo @$get_info['locality']?>" /></div>
                               </div>
                              <div class="list-check">
                               
-                                <div class="input-title"><input type="textarea" name="address" row="5" col="5" placeholder="Addres" /></div>
+                                <div class="input-title"><input type="textarea" name="address" row="5" col="5" placeholder="Addres" /><?php echo @$get_info['address']?></div>
                             
                             <div class="clearfix"></div>   
                            </div>

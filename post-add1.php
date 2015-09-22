@@ -234,7 +234,12 @@ $( ".parking_4" ).click(function() {
 
 });
 </script>
-
+	<?php
+	if(isset($_REQUEST['last_id'])){ 
+	$query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>
     
      <div class="container">
     <div class="container-sub3">
@@ -273,12 +278,12 @@ $( ".parking_4" ).click(function() {
                                   <p>Bedrooms</p>
                                </div>
                                <div class="box-filters">
-                                  <input class="Bedrooms" type="button" value="0"/>
-                                    <input class="Bedrooms" type="button" value="1"/>
-                                     <input class="Bedrooms" type="button" value="2"/>
-                                     <input class="Bedrooms" type="button" value="3"/>
-                                       <input class="Bedrooms" type="button" value="4"/>
-                                        <input class="Bedrooms" type="button" value="5+"/>
+                                  <input class="Bedrooms " type="button" value="0"/>
+                                    <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==1)?"active1":""?>" type="button" value="1"/>
+                                     <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==2)?"active1":""?>" type="button" value="2"/>
+                                     <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==3)?"active1":""?>" type="button" value="3"/>
+                                       <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==4)?"active1":""?>" type="button" value="4"/>
+                                        <input class="Bedrooms <?php echo @ ($get_info['bedrooms']=="5+")?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
 								  <input type="hidden" name="no_bedroos" id="no_bedroos" value="" />
                                </div>
@@ -296,12 +301,12 @@ $( ".parking_4" ).click(function() {
                                   <p>Bathrooms</p>
                                </div>
                                <div class="box-filters ">
-                                   <input class="Bathrooms" type="button" value="0"/>
-                                    <input class="Bathrooms" type="button" value="1"/>
-                                     <input class="Bathrooms" type="button" value="2"/>
-                                     <input class="Bathrooms" type="button" value="3"/>
-                                       <input class="Bathrooms" type="button" value="4"/>
-                                        <input class="Bathrooms" type="button" value="5+"/>
+                                   <input class="Bathrooms " type="button" value="0"/>
+                                    <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==1)?"active1":""?>" type="button" value="1"/>
+                                     <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==2)?"active1":""?>" type="button" value="2"/>
+                                     <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==3)?"active1":""?>" type="button" value="3"/>
+                                       <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==4)?"active1":""?>" type="button" value="4"/>
+                                        <input class="Bathrooms <?php echo @ ($get_info['bathrooms']=="5+")?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
 								  <input type="hidden" name="no_bathrooms" id="no_bathrooms" value="" />
                                </div>
@@ -318,12 +323,12 @@ $( ".parking_4" ).click(function() {
                                   <p>Balconies</p>
                                </div>
                                <div class="box-filters ">
-                                   <input class="balconies" type="button" value="0"/>
-                                    <input class="balconies" type="button" value="1"/>
-                                     <input class="balconies" type="button" value="2"/>
-                                     <input class="balconies" type="button" value="3"/>
-                                       <input class="balconies" type="button" value="4"/>
-                                        <input class="balconies" type="button" value="5+"/>
+                                   <input class="balconies " type="button" value="0"/>
+                                    <input class="balconies" <?php echo @ ($get_info['balconies']==1)?"active1":""?> type="button" value="1"/>
+                                     <input class="balconies <?php echo @ ($get_info['balconies']==2)?"active1":""?>" type="button" value="2"/>
+                                     <input class="balconies <?php echo @ ($get_info['balconies']==3)?"active1":""?>" type="button" value="3"/>
+                                       <input class="balconies <?php echo @ ($get_info['balconies']==4)?"active1":""?>" type="button" value="4"/>
+                                        <input class="balconies <?php echo @ ($get_info['balconies']=="5+")?"active1":""?>"  type="button" value="5+"/>
                                   <div class="clearfix"></div>
 								  <input type="hidden" name="no_balconies"  id="no_balconies" value="" />
                                </div>
@@ -342,12 +347,12 @@ $( ".parking_4" ).click(function() {
                                   <p>2 Wheeler</p>
                                </div>
                                <div class="box-filters ">
-                                   <input class="parking_2" type="button" value="0"/>
-                                    <input class="parking_2" type="button" value="1"/>
-                                     <input class="parking_2" type="button" value="2"/>
-                                     <input class="parking_2" type="button" value="3"/>
-                                       <input class="parking_2" type="button" value="4"/>
-                                        <input class="parking_2" type="button" value="5+"/>
+                                   <input class="parking_2 " type="button" value="0"/>
+                                    <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==1)?"active1":""?>" type="button" value="1"/>
+                                     <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==2)?"active1":""?>" type="button" value="2"/>
+                                     <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==3)?"active1":""?>" type="button" value="3"/>
+                                       <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==4)?"active1":""?>" type="button" value="4"/>
+                                        <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']=="5+")?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
 								  <input type="hidden" name="no_parking2" id="no_parking2" value="" />
                                </div>
@@ -358,12 +363,12 @@ $( ".parking_4" ).click(function() {
                                   <p>4 Wheeler</p>
                                </div>
                                <div class="box-filters ">
-                                   <input class="parking_4" type="button" value="0"/>
-                                    <input class="parking_4" type="button" value="1"/>
-                                     <input class="parking_4" type="button" value="2"/>
-                                     <input class="parking_4" type="button" value="3"/>
-                                       <input class="parking_4" type="button" value="4"/>
-                                        <input class="parking_4" type="button" value="5+"/>
+                                   <input class="parking_4 " type="button" value="0"/>
+                                    <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==1)?"active1":""?>" type="button" value="1"/>
+                                     <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==2)?"active1":""?>" type="button" value="2"/>
+                                     <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==3)?"active1":""?>" type="button" value="3"/>
+                                       <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==4)?"active1":""?>" type="button" value="4"/>
+                                        <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']=="5+")?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
 								  <input type="hidden" name="no_parking4" id="no_parking4" value="" />
                                </div>
@@ -380,8 +385,8 @@ $( ".parking_4" ).click(function() {
                              
                                <select name="funished_status">
                                 <option value="">Furnished Status</option>
-                                <option value="semifunished">semifunished</option>
-                                <option value="fullyfunished">fullyfunished </option>
+                                <option value="semifunished" <?php echo @ ($get_info['property_furnished_status']=="semifunished")?"selected":""?>>semifunished</option>
+                                <option value="fullyfunished" <?php echo @ ($get_info['property_furnished_status']=="fullyfunished")?"selected":""?>>fullyfunished </option>
                               </select>
                               
                               </div>
@@ -391,7 +396,7 @@ $( ".parking_4" ).click(function() {
                                 <option value="">Floor No</option>
 								<?php for($i=1;$i<=10;$i++){
 									?>
-									<option value="<?= $i ?>"><?= $i ?></option>
+									<option value="<?= $i ?>" <?php echo @ ($get_info['floore_no']==$i)?"selected":""?>><?= $i ?></option>
 									<?php
 								} ?>
                                 
