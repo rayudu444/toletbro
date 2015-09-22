@@ -1,20 +1,61 @@
-<?php 
-  session_start(); 
-  include_once('includes/dbutil.php');
-  
-  if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
-{
-echo "<script>window.alert('Please LogIn....')</script>";
-echo "<script>window.location.href='index.php'</script>";
-}
-include_once('includes/inner-header.php');
-?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Tolet Bro</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+<link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+<script src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+
 <!--thumbnile-slider-->
 <link href="css1/demo.css" rel="stylesheet" type="text/css" />
  <link href="css1/flexslider.css" rel="stylesheet" type="text/css" />
 <script src="js1/modernizr.js" type="text/javascript"></script>
 <!--thumbnile-slider-->
-
+</head>
+<body>
+	<section>
+		<div class="container-fluid"> 
+        	<div>
+            	<div class="row">
+                	<div class="col-md-5 paddingTop-3">
+                    	<form class="form2">
+                        	<label>
+                            	<select>
+                                	<option>Rent</option>
+                                    <option>Sale</option>
+                                </select>
+                            </label>
+                            <label class="label1">
+                            	<i class="fa fa-map-marker map-icon2"></i>
+                            	<input type="text" placeholder="Search by locality or landmark or building"/>
+                                <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                                <div class="clearfix"></div>
+                            </label>
+                        </form>
+                    </div>
+                    <div class="col-md-7">
+                    	<img src="images/logo-w.png" class="logo-w"/>
+                        <nav class="nav-list1 paddingTop-5">
+                        	<ul>
+                            	<li><a href="#">Download App</a></li>
+                                <li><a href="#">Sell/Rent Property</a></li>
+                            	<li><a href="#">Sign Up</a></li>
+                                <li><a href="#">Log In</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix height10"></div>
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -93,19 +134,13 @@ include_once('includes/inner-header.php');
                              <li>Jubilee Hills</li>
                               <div class="clearfix"></div>
                            </ul>
-                           <?php $query= mysql_query("select * from convention_post_add where convention_post_id=".$_REQUEST['convention']); 
-                            $count = mysql_num_rows($query);
-                            //if($count>0){
-                              $p_info = mysql_fetch_array($query);
-                            //}
-                           ?>
                           <h2>Flats for Rent in Jubilee Hills </h2>
                         </div>
                         <div class="clearfix"></div>
                         <div class="row flats-found">
                         
                           <h6>6 flats found. <span style="color:#f2635d;">Include nearby flats</span></h6>
-                          <ul class="date-add">
+                          <ul class="">
                             <li>Sort by: <span style="color:#f2635d;">Relevance</span> </li>    
                             <li>Date Added (Recent First)</li>  
                             <li>Price: Low High</li>
@@ -119,204 +154,170 @@ include_once('includes/inner-header.php');
                          <div class="row">
 	                        <div class="results-list1">
                                <div class="col-md-12" style="padding:0px;">
+                                     
                                   <div class="col-sm-5 sider-div">
-
                                        <div id="main" role="main">
       <section class="slider">
         <div id="slider" class="flexslider">
           <ul class="slides">
-               
-             <?php $dbimg =explode(",", $p_info['images']);
-                      //$count_img = count($dbimg);
-                      //$x=0;
-                      foreach ($dbimg as $dbimg_info) {
-                        ?>
-                      <li>
-                        <img src="uploads/convention_images/<?=$dbimg_info?>">
-                      </li>  
-                      <?php //$x++;
-                    }
-                 ?>
-            
+               <li>
+  	    	    <img src="img/thumbnail-slider-2.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-3.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-4.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-5.jpg" />
+  	    		</li>
+                <li>
+  	    	   <img src="img/thumbnail-slider-6.jpg" />
+  	    		</li>
+  	    		 <li>
+  	    	    <img src="img/thumbnail-slider-2.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-3.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-4.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-5.jpg" />
+  	    		</li>
+                <li>
+  	    	   <img src="img/thumbnail-slider-6.jpg" />
+  	    		</li>
           </ul>
         </div>
         <div id="carousel" class="flexslider">
           <ul class="slides">
-             <?php $dbimg =explode(",", $p_info['images']);
-                      //$count_img = count($dbimg);
-                      //$x=0;
-                      foreach ($dbimg as $dbimg_info) {
-                        ?>
-                      <li>
-                        <img src="uploads/convention_images/<?=$dbimg_info?>">
-                      </li>  
-                      <?php //$x++;
-                    }
-                 ?>
-            
+             <li>
+  	    	    <img src="img/thumbnail-slider-2.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-3.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-4.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-5.jpg" />
+  	    		</li>
+                <li>
+  	    	   <img src="img/thumbnail-slider-6.jpg" />
+  	    		</li>
+  	    		 <li>
+  	    	    <img src="img/thumbnail-slider-2.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-3.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-4.jpg" />
+  	    		</li>
+  	    		<li>
+  	    	    <img src="img/thumbnail-slider-5.jpg" />
+  	    		</li>
+                <li>
+  	    	   <img src="img/thumbnail-slider-6.jpg" />
+  	    		</li>
           </ul>
         </div>
       </section>
     </div>
  
                                             <!-- /thumbcarousel -->
-                                                
-        <!-- <div id="carousel" class="carousel slide" data-ride="carousel">
-
-            <div class="carousel-inner">
-                <?php $dbimg =explode(",", $p_info['images']);
-                      $count_img = count($dbimg);
-                      $x=0;
-                      foreach ($dbimg as $dbimg_info) {
-                        ?>
-                      <div class="item <?php if($x==0){?>active<?php }?>">
-                        <img src="uploads/convention_images/<?=$dbimg_info?>">
-                      </div>  
-                      <?php $x++;}
-                 ?>
-            </div>
-        </div>  -->
-    <!-- <div class="clearfix">
-        <div id="thumbcarousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <?php $y=0;
-                    foreach ($dbimg as $dbimg_info) {?>
-                    <div data-target="#carousel" data-slide-to="<?=$y?>" class="thumb"><img src="uploads/convention_images/<?=$dbimg_info?>"></div>
-                    <?php $y++; }?>
-                </div>/item
-            </div>
-            <a class="left carousel-control left-arrow" href="#thumbcarousel" role="button" data-slide="prev">
-                <span class="fa fa-chevron-left"></span>
-            </a>
-            <a class="right carousel-control right-arrow" href="#thumbcarousel" role="button" data-slide="next">
-                <span class="fa fa-chevron-right"></span>
-            </a>
-        </div> 
-    </div> --><!-- /clearfix -->
-    </div>
+                                                </div><!-- /clearfix -->
+                                               
                                    <div class="col-md-6" style="margin-left:5%;">
                                       <div class="room-price">
                                           <div class="unfurnish">
-                                              <p><?=$p_info['title']?></p>
+                                              <p>3 BHK, Unfurnished</p>
                                               <img src="images/a1.png"/>
                                               <div class="clear"></div>
                                           </div>
                                           <div class="unfurnish-list">
                                               <ul>
                                                  <li>
-                                                   <span>Price per plate</span>
-                                                   <p><?=$p_info['price_per_plate']?></p>
+                                                   <span>Price</span>
+                                                   <p>$ 20,000</p>
                                                  </li>
                                                  <li>
                                                    <span>Location</span>
-                                                    <p><?=$p_info['locality']?></p>
+                                                    <p>Hyderabad</p>
                                                  </li>
                                                  <li>
                                                    <span>Sublocation </span>
-                                                    <p><?=$p_info['city']?></p>
-                                                 </li>
-                                                 
-                                                 <li>
-                                                   <span>Convention Type </span>
-                                                    <p><?=$p_info['convention_type']?></p>
+                                                    <p>Jubilhills</p>
                                                  </li>
                                                  <li>
-                                                   <span>Seating Capacity</span>
-                                                    <p><?=$p_info['seating_cap_min']." - ".$p_info['seating_cap_max']?></p>
+                                                   <span>Agency</span>
+                                                    <p>Real Estate Express</p>
                                                  </li>
                                                  <li>
-                                                   <span>Floating Capacity  </span>
-                                                    <p><?=$p_info['seating_cap_floating']?></p>
-                                                 </li>
-                                                 
-                                                 <li>
-                                                   <span>Food And Drink </span>
-                                                    <p><?=$p_info['food']?></p>
-                                                 </li>
-                                                 
-                                                 <li>
-                                                   <span>Hall Ideally suited For  </span>
-                                                    <p><?=$p_info['hall_suitable_for']?></p>
+                                                   <span>Type </span>
+                                                    <p>Condo</p>
                                                  </li>
                                                  <li>
-                                                   <span>Technology & Equipment  </span>
-                                                    <p><?=$p_info['technical_equipment']?></p>
+                                                   <span>Garages  </span>
+                                                    <p>3</p>
                                                  </li>
-
-                                                  <li>
-                                                   <span>Spaces Available  </span>
-                                                    <p><?=$p_info['space_available_for']?></p>
-                                                 </li>
-
-                                                  <li>
-                                                   <span>other Services  </span>
-                                                    <p><?=$p_info['other_services']?></p>
-                                                 </li>
-
-                                                  <li>
-                                                   <span>Additional Services  </span>
-                                                    <p><?=$p_info['additional_services']?></p>
-                                                 </li>
-
-                                                  <!-- <li>
-                                                   <span>Price per plate</span>
-                                                    <p><?=$p_info['price_per_plate']?></p>
-                                                 </li> -->
-
-                                                  <li>
-                                                   <span>Technology & Equipment  </span>
-                                                    <p><?=$p_info['seating_cap_floating']?></p>
-                                                 </li>
-
-                                                  <li>
-                                                   <span>Deposite Amount  </span>
-                                                    <p><?=$p_info['deposite']?></p>
-                                                 </li>
-
                                                  <li>
-                                                   <span>Negotiable</span>
-                                                    <p><?=$p_info['negotiable']?></p>
+                                                   <span>Beds</span>
+                                                    <p>4</p>
                                                  </li>
-                                                  <li>
-                                                   <span>Price & Other Charges</span>
-                                                    <p><?=$p_info['other_charges']?></p>
+                                                 <li>
+                                                   <span>Baths </span>
+                                                    <p>2</p>
                                                  </li>
-
-
+                                                 <li>
+                                                   <span>Beds</span>
+                                                    <p>2</p>
+                                                 </li>
                                               </ul>
                                           
                                           </div>
                                       </div>
                                      <div class="clearfix"></div>
-                                     
-
-                                                 <div class="flat-div">
-                                        <h5>Parking Capacity</h5>
-                                        
-                                        
-                                          <P>Two wheeler  <?=$p_info['2wheeler_parking_cap']?></p><br>
-                                           <p>Four wheeler  <?=$p_info['4wheeler_parking_cap']?></p>
-                                        
-                                          <div class="clearfix"></div>
-                                        
-                                      </div>
                                       <div class="flat-div">
-                                        <h5>Description</h5>
+                                        <h5>Flat Amenities</h5>
                                         <ul class="list-flatani">
-                                        
-                                          <li><?=$p_info['description']?></li>
-                                        
+                                          <li>No Bed </li>
+                                          <li>No AC  <span style="color:#000; margin-left:10px;">1 Cupboard</span></li>
+                                          <li>No TV </li>
+                                          <li>No Microwave</li>
+                                          <div class="clearfix"></div>
+                                        </ul>
+                                         
+                                        <ul class="list-flatani">
+                                          <li>No Sofa  </li>
+                                          <li>No Washing Machine  </li>
+                                          <li> No Stove </li>
+                                          <li>No Fridge</li>
+                                          <li>No Servants Room</li>
                                           <div class="clearfix"></div>
                                         </ul>
                                       </div>
                                       <div class="clearfix"></div>
                                       <div class="flat-div">
+                                        <h5>Society Amenities</h5>
+                                       
+                                        <ul class="list-flatani">
+                                          <li>No Lift   </li>
+                                          <li> No Gas Pipeline </li>
+                                          <li> No Gym   </li>
+                                          <li>No Swimming Pool</li>
+                                          <li>No Parking</li>
+                                          <div class="clearfix"></div>
+                                        </ul>
                                          <div class="clearfix"></div>
                                         <div class="cont-but cont-but12">
                                               
                                                  <i class="fa fa-phone"></i>
-                                                 <h6>Contact Person</h6>
+                                                 <h6>Contact Agent</h6>
                                                   <div class="clearfix"></div>
                                              </div>
                                       </div>
@@ -362,14 +363,16 @@ include_once('includes/inner-header.php');
                                <div class="col-md-12 div-pad">
                                   <p>Description</p>
                                 <span class="des-spa">
-                                 <?=$p_info['description']?>
+                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut elementum risus, ut auctor nisl. Donec a euismod mi. Ut accumsan, enim nec luctus ullamcorper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut elementum risus, ut auctor nisl. Donec a euismod mi. Ut accumsan, enim nec luctus ullamcorper.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut elementum risus, ut auctor nisl. Donec a euismod mi.
                                </span>
                                </div>  
-                            <div class="clearfix"></div>	
+                               
+                        	<div class="clearfix"></div>	
                         </div>
                         </div>
                         <div class="clearfix"></div>
-                             <div class="row">
+                        
+                        <div class="row">
 	                        <div class="results-list1">
                                <div class="col-md-12 div-pad" style="border-bottom:1px solid #919090;">
                                   <p>Download our app</p>
@@ -383,7 +386,7 @@ include_once('includes/inner-header.php');
                         	<div class="clearfix"></div>	
                         </div>
                         </div>
-                             <div class="clear-60"></div>
+                        <div class="clear-60"></div>
                         </div>
                     </div>
                     
@@ -481,8 +484,9 @@ include_once('includes/inner-header.php');
 			});
 		})(jQuery);
 	</script>
-
-  <!--thumbnile-slider-->
+    
+    
+ <!----------------thumbnile-slider----------------->
    <script src="js1/jquery-1.7.1.js" type="text/javascript"></script>
     <script src="js1/jquery.flexslider.js" type="text/javascript"></script>
   
@@ -498,7 +502,7 @@ include_once('includes/inner-header.php');
         slideshow: true,
         itemWidth:150,
         itemMargin: 5,
-    auto:true,
+		auto:true,
         asNavFor: '#slider'
       });
 
@@ -514,8 +518,6 @@ include_once('includes/inner-header.php');
       });
     });
   </script>
-<!--thumbnile-slider-->
+<!----------------thumbnile-slider----------------->
 </body>
 </html>
-
-

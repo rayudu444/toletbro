@@ -1943,12 +1943,12 @@ list-style:none;
    margin:0px;	
 }
 .list-box{
-   width:80px;
-   height:80px;
+   width:120px;
+   height:90px;
    float:left;
    background-image:url(../images/box1.jpg);
    font-size:16px;
-   margin-right:10px;
+   margin: 10px 5px 5px 12px !important;
    font-family:Lato;
    text-align:center;
    margin-top:4px;
@@ -1976,8 +1976,8 @@ list-style:none;
 }
 .list-box input[type="file"]{
      opacity:0;
-	 width:80px;
-	 height:80px;
+	 width:120px;
+	 height:90px;
 }
 .list-box1 input[type="file"]{
      opacity:0;
@@ -3494,6 +3494,7 @@ border:none;
    width:100%;
    height:400px;
   background:url(../images/bg-img1.png) center center no-repeat; 
+  background-size:cover;
 }
 .sell-banner{
     width: 100%;
@@ -3546,3 +3547,89 @@ float:left;
   width:900px;
   display:block; 
 }
+
+/*popup css agent start */
+
+.flat-603 {
+    padding: 10px;
+}
+
+.flat-603 h6 {
+    font-size: 18px;
+    color: #fff;
+    font-family: Lato;
+    border-bottom: 1px solid #fcfcfc;
+    line-height: 40px;
+}
+
+.address-flat {
+    padding: 10px 20px;
+    margin: 0px !important;
+    border-bottom: 1px solid #fcfcfc;
+}
+
+.address-flat h4 {
+    font-size: 18px;
+    color: #fff;
+    margin: 0px;
+    padding: 0px;
+}
+
+.address-flat p {
+    font-size: 16px;
+    color: #fff;
+    line-height: 30px;
+    margin: 0px;
+    padding: 0px;
+}
+.address-flat span {
+    font-size: 16px;
+    color: #fff;
+    line-height: 30px;
+    margin: 0px;
+    padding: 0px;
+}
+.agent-form {
+    margin: 0px;
+    padding: 20px;
+}
+.agent-fr {
+    width: 100% !important;
+}
+
+.agent-fr label {
+    padding: 0px;
+    margin: 5px auto;
+    width: 100% !important;
+    display: block;
+}
+
+.agent-fr label input {
+    font-size: 16px;
+    padding: 2%;
+    width: 98% !important;
+    height: 36px;
+    border: 1px solid #444;
+    outline: none;
+    font-weight: normal;
+    margin: 10px auto;
+}
+.agent-fr label input[type="submit"] {
+    background-color: #f2635d;
+    border: 1px solid #f2635d;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    display: block;
+}
+.popup-ban {
+    padding: 30px 20px;
+    margin: 0px;
+}
+.popup-ban img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0px 0px 5px 2px #ccc;
+}
+
+/*popup css agent end */

@@ -15,9 +15,10 @@ include_once('includes/dbutil.php');
     	);
 		
 		update($usrData,'convention_post_add',"WHERE convention_post_id=".$convention_post_id." and cnv_upid=".$_SESSION['cnv_upid']);
+		header("location:convention-post3.php?post=$convention_post_id");
 	}
 		else{
-			//update($usrData,'post_add',"WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
+			header("location:convention-post.php");
 		}
-		header("location:convention-post3.php?last_id=$convention_post_id");
+		
 ?>

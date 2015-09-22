@@ -361,7 +361,7 @@ else // user logged in
 	            <div class="row">
                 	<div>
                     	<h1 class="head6">LOREM LPSUM DUMMY TEXT</h1>
-                        <form class="form1">
+                        <form class="form1" method="get" action="convention-listview.php">
                         	<label>
                             	<img src="images/map-icon.png" class="map-icon"/>
                             	<input type="text" placeholder="Search by locality or landmark or building"/>

@@ -9,16 +9,13 @@ echo "<script>window.location.href='index.php'</script>";
 }include_once('includes/header_post_add.php');
 ?>
     <?php
-  if(isset($_REQUEST['last_id'])){ 
-  $query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
-  $get_info =mysql_fetch_array($query);
-  }
-  ?>    
+	if(isset($_REQUEST['last_id'])){ 
+	$query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>    
      <?php if(isset($get_info['amenities'])){$amen = explode(",",$get_info['amenities']);}?>
      <?php if(isset($get_info['society_amenities'])){$amenty = explode(",",$get_info['society_amenities']);}?>                 
-
-        
-                      
         	<div class="container">
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
@@ -57,12 +54,12 @@ echo "<script>window.location.href='index.php'</script>";
                          
                             <div class="list-check singlecheck" >
                               <p>
-                                <input type="checkbox" id="test47" name="rent_for" value="Family Only" <?php echo @($get_info['property_for']=="Family")?"checked":"";?>/>
-                                <label for="test47" >Family Only</label>
+                                <input type="checkbox" id="test47" name="rent_for" value="Family" <?php echo @($get_info['property_for']=="Family")?"checked":"";?>/>
+                                <label for="test47" >Family</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test48" name="rent_for" value="Bachelors"<?php echo @($get_info['property_for']=="Bachelor")?"checked":"";?> />
-                                <label for="test48" >Bachelors</label>
+                                <input type="checkbox" id="test48" name="rent_for" value="Bachelor"<?php echo @($get_info['property_for']=="Bachelor")?"checked":"";?> />
+                                <label for="test48" >Bachelor</label>
                               </p>
                               <p>
                                 <input type="checkbox" id="test49" name="rent_for" value="Any"<?php echo @($get_info['property_for']=="Any")?"checked":"";?> />
@@ -196,12 +193,11 @@ echo "<script>window.location.href='index.php'</script>";
                 </div>
                 
                   <div class="nex-but">
-                  <input type="hidden" name="post_id"  value="<?=$_REQUEST['post']?>" />
                     <input type="submit" name="Next" value="Submit" class="ne-but" />
                     
                  
 				  </form>
-                     <a  href="post-add2.php?post=<?=$_REQUEST['post']?>" class="bc-but">Back</a>
+                     <a  href="post-add2.php?last_id=<?=$_SESSION['last_id']?>" class="bc-but">Back</a>
                   <div class="clear"></div>
                  </div>
                 </div>

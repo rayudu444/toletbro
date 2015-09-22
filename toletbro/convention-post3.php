@@ -19,12 +19,7 @@ $(document).ready(function(){
    
 });
 </script>
- <?php
-  if(isset($_REQUEST['post'])){ 
-  $query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
-  $get_info =mysql_fetch_array($query);
-  }
-  ?>       
+        
         <div class="container-fluid white-bg1" style="padding:0px"> 
               
                              <div class="col-md-12 div-pad1">
@@ -52,10 +47,10 @@ $(document).ready(function(){
                         
                             <div class="list-input">
                                  <p class="price-p">Price</p>
-                              <div class="input-title"  style="margin-top:10px;"><input type="text" id="test1" value="<?php echo @$get_info['price_per_plate']?>" name="price_per_plate" placeholder="Per plate"></div>
+                              <div class="input-title" style="margin-top:10px;"><input type="text" id="test1" name="price_per_plate" placeholder="Per plate"></div>
                                <div class="input-seats" style="margin-top:10px;">
                               
-                                <input type="input" value="<?php echo @$get_info['deposite']?>" name="deposite"   placeholder="Deposite"/>
+                                <input type="input" name="deposite"   placeholder="Deposite"/>
                              </div>
 
                             <div class="clearfix"></div>   
@@ -70,7 +65,7 @@ $(document).ready(function(){
                      <div class="div-subject">
                          <div class="list-check">
                               <div class="sub-change">
-                                <input type="checkbox" name="contact_manager" value="Yes" id="test120" />
+                                <input type="checkbox" id="test120" />
                                 <label style="" for="test120">Subject to change, contact managerdding</label>
                              </div>
                          </div>
@@ -84,11 +79,11 @@ $(document).ready(function(){
                          
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" <?php echo @($get_info['negotiable']=="Yes")?"checked":"";?> name="negotiable" value="Yes" id="test116">
+                                <input type="checkbox" name="negotiable" value="Yes" id="test116">
                                 <label for="test116">Yes</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" <?php echo @($get_info['negotiable']=="No")?"checked":"";?> name="negotiable" value="No" id="test117">
+                                <input type="checkbox" name="negotiable" value="No" id="test117">
                                 <label style="float:right;" for="test117">No</label>
                                   </p><div class="clearfix"></div> 
                               <p></p>
@@ -107,7 +102,7 @@ $(document).ready(function(){
                         
                             <div class="list-check">
                                   
-                                  <div class="input-title"><input type="text" name="other_charges" value="<?php echo @$get_info['other_charges']?>" id="test1" placeholder="Other Charges"></div>
+                                  <div class="input-title"><input type="text" name="other_charges" id="test1" placeholder="Other Charges"></div>
                                  <div class="clearfix"></div>  
                                  
                             <div class="clearfix"></div>   
@@ -124,12 +119,12 @@ $(document).ready(function(){
                                 <div class="clearfix"></div>
                    <div class="container-post1">
                          
-                           <textarea rows="10" name="description" cols="10" class="post-textearea"><?php echo @$get_info['description']?></textarea>
+                           <textarea rows="10" name="description" cols="10" class="post-textearea"></textarea>
                          
                    </div>
                     <div class="clearfix"></div>
                      <div class="but-submits">
-                     <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['post']?>">
+                     <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['last_id']?>">
                      <input type="submit" name="submit" style="float:right;" value="Save">
                        
                        <div class="clearfix"></div>                   

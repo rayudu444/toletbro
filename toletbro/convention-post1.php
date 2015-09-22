@@ -9,16 +9,15 @@ echo "<script>window.location.href='index.php'</script>";
 }
 include_once('includes/convention_header.php');
 ?>
-<?php
-  if(isset($_REQUEST['post'])){ 
-  $query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
-  $get_info =mysql_fetch_array($query);
-  }
-  ?>
-  <?php if(isset($get_info['food'])){$food = explode(",",$get_info['food']);}?>
+  <?php
+	if(isset($_REQUEST['post'])){ 
+	$query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>
+	<?php if(isset($get_info['food'])){$food = explode(",",$get_info['food']);}?>
      <?php if(isset($get_info['hall_suitable_for'])){$hall = explode(",",$get_info['hall_suitable_for']);}?>
      <?php if(isset($get_info['technical_equipment'])){$tech = explode(",",$get_info['technical_equipment']);}?>          
-
                 <div class="container-fluid white-bg1" style="padding:0px"> 
               
                              <div class="col-md-12 div-pad1">
@@ -254,8 +253,8 @@ include_once('includes/convention_header.php');
                 
                 
                  <div class="class="nex-but"">
-                 <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['post']?>">
-                    
+                 <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['last_id']?>">
+                    <!--  <a href="post-ad3.html" class="ne-but">Next</a> -->
                      <input type="submit" name="submit" class="ne-but" value="NEXT">
                      <a href="convention-post.php?post=<?= @$_GET['post']; ?>" class="bc-but">Back</a>
                   <div class="clear"></div>

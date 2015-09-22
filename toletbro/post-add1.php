@@ -11,7 +11,7 @@ include_once('includes/header_post_add.php');
 ?>
 <style type="text/css">
 #gmap {
-    height:400px;
+    height: 250px;
 	width:100%;
 }.controls {
         margin-top: 16px;
@@ -234,13 +234,13 @@ $( ".parking_4" ).click(function() {
 
 });
 </script>
-
-  <?php
-  if(isset($_REQUEST['post'])){ 
-  $query= mysql_query("select * from post_add where post_id='".$_REQUEST['post']."'");
-  $get_info =mysql_fetch_array($query);
-  }
-  ?>  
+	<?php
+	if(isset($_REQUEST['last_id'])){ 
+	$query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>
+    
      <div class="container">
     <div class="container-sub3">
     <form method="post" action="addpostanadd1.php">
@@ -329,6 +329,7 @@ $( ".parking_4" ).click(function() {
                                      <input class="balconies <?php echo @ ($get_info['balconies']==3)?"active1":""?>" type="button" value="3"/>
                                        <input class="balconies <?php echo @ ($get_info['balconies']==4)?"active1":""?>" type="button" value="4"/>
                                         <input class="balconies <?php echo @ ($get_info['balconies']=="5+")?"active1":""?>"  type="button" value="5+"/>
+                                  <div class="clearfix"></div>
 								  <input type="hidden" name="no_balconies"  id="no_balconies" value="" />
                                </div>
                    </div>
@@ -378,25 +379,31 @@ $( ".parking_4" ).click(function() {
                 <div class="row">
 
                    <div class="container-post">
-                        
+                         <form action="#">
                          
                             <div class="form-1">
                              
                                <select name="funished_status">
                                 <option value="">Furnished Status</option>
-                                <option value="Semi Furnished" <?php echo @ ($get_info['property_furnished_status']=="Semi Furnished")?"selected":""?>>semifunished</option>
-                                <option value="Fully Funished" <?php echo @ ($get_info['property_furnished_status']=="Fully Furnished")?"selected":""?>>fullyfunished </option>
-                                <option value="Not Furnished" <?php echo @ ($get_info['property_furnished_status']=="Not Furnished")?"selected":""?>>Not Furnished </option>
+                                <option value="semifunished" <?php echo @ ($get_info['property_furnished_status']=="semifunished")?"selected":""?>>semifunished</option>
+                                <option value="fullyfunished" <?php echo @ ($get_info['property_furnished_status']=="fullyfunished")?"selected":""?>>fullyfunished </option>
                               </select>
                               
                               </div>
-                           
-                               
-                              <div class="input-seats" style="margin-top:10px;">
+                            <div class="form-1">
+                             
+                               <select name="floore">
+                                <option value="">Floor No</option>
+								<?php for($i=1;$i<=10;$i++){
+									?>
+									<option value="<?= $i ?>" <?php echo @ ($get_info['floore_no']==$i)?"selected":""?>><?= $i ?></option>
+									<?php
+								} ?>
+                                
+                                
+                              </select>
                               
-                             <input type="text" name="floore" placeholder="Floor No" value="<?php echo @$get_info['floore_no']?>">
-                             </div>
-                              
+                              </div>
 
                                
                             
@@ -407,13 +414,13 @@ $( ".parking_4" ).click(function() {
                 </div>
                 
                 <div class="nex-but">
-				              <input type="hidden" name="post_id"  value="<?=$_REQUEST['post']?>" />
+				 
                      <input type="submit" name="Next" value="Next" class="ne-but" />
                     
                  
 				  </form>
                      
-                     <a href="post-add.php?post=<?=$_REQUEST['post']?>" class="bc-but">Back</a>
+                     <a href="post-add.php?last_id=<?=$_REQUEST['post']?>" class="bc-but">Back</a>
                   <div class="clear"></div>
                  </div>
                 </div>

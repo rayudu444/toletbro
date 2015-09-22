@@ -10,14 +10,12 @@ echo "<script>window.location.href='index.php'</script>";
 ?>
         
       
-   <?php
-  if(isset($_REQUEST['post'])){ 
-  $query= mysql_query("select * from post_add where post_id='".$_REQUEST['post']."'");
-  $get_info =mysql_fetch_array($query);
-  }
-  ?> 
-<?php if(isset($get_info['water_supply'])){$water = explode(",",$get_info['water_supply']);}?>
-            
+ <?php
+	if(isset($_REQUEST['last_id'])){ 
+	$query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
+	$get_info =mysql_fetch_array($query);
+	}
+	?>                 
                                           
         	<div class="container">
               <div class="container-sub3">
@@ -60,11 +58,11 @@ echo "<script>window.location.href='index.php'</script>";
                          <div class="cont2-form">
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" <?php echo @($get_info['negotiable']=="Yes")?"checked":"";?> id="test116"  name="Negotiable" value="Yes">
+                                <input type="checkbox" <?php echo @($get_info['negotiable']=="Rent")?"checked":"";?> id="test116"  name="Negotiable" value="Yes">
                                 <label for="test116">Yes</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" <?php echo @($get_info['negotiable']=="No")?"checked":"";?> id="test117" name="Negotiable" value="No">
+                                <input type="checkbox" <?php echo @($get_info['negotiable']=="Rent")?"checked":"";?> id="test117" name="Negotiable" value="No">
                                 <label style="float:right;" for="test117">No</label>
                                   </p><div class="clearfix"></div> 
                               <p></p>
@@ -114,13 +112,13 @@ echo "<script>window.location.href='index.php'</script>";
                          
                             <div class="list-check">
                                   
-                                  <div class="input-title"><input type="text" id="test1"value="<?php echo @$get_info['plot_area']?>"  placeholder="Plot Area" name="plot_area" class="cont-inp23"></div>
+                                  <div class="input-title"><input type="text" id="test1" placeholder="Plot Area" value="<?php echo @$get_info['plot_area']?>" name="plot_area" class="cont-inp23"></div>
                                <div class="form-1 form-34">
                              
                                <select name="plot_state" >
                                 <option value="">--select--</option>
                                 <option value="1"<?php echo @($get_info['plot_state']=="1")?"selected":""?>>square Feet</option>
-                                <option value="2" <?php echo @($get_info['plot_state']=="2")?"selected":""?>>Square Yards</option>
+								                <option value="2" <?php echo @($get_info['plot_state']=="2")?"selected":""?>>Square Yards</option>
                                </select>
                               
                               </div>
@@ -145,17 +143,11 @@ echo "<script>window.location.href='index.php'</script>";
                                <div class="form-1 form-34">
                              
                                <select name="facing">
-							             <option value="">--select--</option>
-                                
+							   <option value="">--select--</option>
                                 <option value="North" <?php echo @($get_info['door_facing']=="North")?"selected":""?>>North</option>
                                 <option value="East"<?php echo @($get_info['door_facing']=="East")?"selected":""?>>East</option>
-                                <option value="West" <?php echo @($get_info['door_facing']=="West")?"selected":""?>>West</option>
+								<option value="West" <?php echo @($get_info['door_facing']=="West")?"selected":""?>>West</option>
                                 <option value="South"<?php echo @($get_info['door_facing']=="South")?"selected":""?>>South</option>
-
-                                <option value="North East"<?php echo @($get_info['door_facing']=="North East")?"selected":""?>>North East</option>
-                                <option value="North West"<?php echo @($get_info['door_facing']=="North West")?"selected":""?>>North West</option>
-                                <option value="South East"<?php echo @($get_info['door_facing']=="South East")?"selected":""?>>South East</option>
-                                <option value="South West"<?php echo @($get_info['door_facing']=="South West")?"selected":""?>>South West</option>
                               </select>
                               
                               </div>
@@ -167,7 +159,7 @@ echo "<script>window.location.href='index.php'</script>";
                    </div>
                     <div class="clearfix"></div>
                 </div>
-                
+                <?php if(isset($get_info['water_supply'])){$water = explode(",",$get_info['water_supply']);}?>
                     <div class="row">
                               <div class="col-md-12 div-pad2">
                                   <p>Water Supply</p>
@@ -197,13 +189,11 @@ echo "<script>window.location.href='index.php'</script>";
                     <div class="clearfix"></div>
                 </div>
                  <div class="nex-but">
-                    <input type="hidden" name="post_id"  value="<?=$_REQUEST['post']?>" />
-
                       <input type="submit" name="Next" value="Next" class="ne-but" />
                     
                  
 				  </form>
-                     <a href="post-add1.php?post=<?=$_REQUEST['post']?>" class="bc-but">Back</a>
+                     <a href="post-add1.php?last_id=<?=$_SESSION['last_id']?>" class="bc-but">Back</a>
                   <div class="clear"></div>
                  </div>
                 </div>

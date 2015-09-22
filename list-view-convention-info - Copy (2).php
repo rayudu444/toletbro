@@ -125,35 +125,59 @@ include_once('includes/inner-header.php');
       <section class="slider">
         <div id="slider" class="flexslider">
           <ul class="slides">
-               
-             <?php $dbimg =explode(",", $p_info['images']);
-                      //$count_img = count($dbimg);
-                      //$x=0;
-                      foreach ($dbimg as $dbimg_info) {
-                        ?>
-                      <li>
-                        <img src="uploads/convention_images/<?=$dbimg_info?>">
-                      </li>  
-                      <?php //$x++;
-                    }
-                 ?>
+               <li>
+              <img src="img/thumbnail-slider-2.jpg" />
+            </li>
             
+             <li>
+              <img src="img/thumbnail-slider-2.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-3.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-4.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-5.jpg" />
+            </li>
+                <li>
+             <img src="img/thumbnail-slider-6.jpg" />
+            </li>
           </ul>
         </div>
         <div id="carousel" class="flexslider">
           <ul class="slides">
-             <?php $dbimg =explode(",", $p_info['images']);
-                      //$count_img = count($dbimg);
-                      //$x=0;
-                      foreach ($dbimg as $dbimg_info) {
-                        ?>
-                      <li>
-                        <img src="uploads/convention_images/<?=$dbimg_info?>">
-                      </li>  
-                      <?php //$x++;
-                    }
-                 ?>
-            
+             <li>
+              <img src="img/thumbnail-slider-2.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-3.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-4.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-5.jpg" />
+            </li>
+                <li>
+             <img src="img/thumbnail-slider-6.jpg" />
+            </li>
+             <li>
+              <img src="img/thumbnail-slider-2.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-3.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-4.jpg" />
+            </li>
+            <li>
+              <img src="img/thumbnail-slider-5.jpg" />
+            </li>
+                <li>
+             <img src="img/thumbnail-slider-6.jpg" />
+            </li>
           </ul>
         </div>
       </section>
