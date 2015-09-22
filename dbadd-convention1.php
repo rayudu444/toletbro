@@ -29,10 +29,5 @@ include_once('includes/dbutil.php');
 		else{
 			//update($usrData,'post_add',"WHERE id=".$_SESSION['last_id']." and upid=".$_SESSION['upid']);
 		}
-		//header("location:convention-post2.php?post=$convention_post_id");
-		echo ("<SCRIPT>
-
-    window.location.href='convention-post2.php?post=$convention_post_id';
-
-    </SCRIPT>");
+		header("location:convention-post2.php?last_id=$convention_post_id");
 ?>

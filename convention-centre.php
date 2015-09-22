@@ -353,7 +353,7 @@ else // user logged in
         </div>
         <div class="container-fluid banner1">        
         	<div>
-            	<a href="convention-centre.php">
+            	<a href="#">
                 	<img src="images/logo.png" class="logo1"/>
                 </a>
             </div>
@@ -361,7 +361,7 @@ else // user logged in
 	            <div class="row">
                 	<div>
                     	<h1 class="head6">LOREM LPSUM DUMMY TEXT</h1>
-                        <form class="form1" method="get" action="convention-listview.php">
+                        <form class="form1">
                         	<label>
                             	<img src="images/map-icon.png" class="map-icon"/>
                             	<input type="text" placeholder="Search by locality or landmark or building"/>

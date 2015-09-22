@@ -9,15 +9,6 @@ echo "<script>window.location.href='index.php'</script>";
 }
 include_once('includes/convention_header.php');
 ?>
-  <?php
-	if(isset($_REQUEST['post'])){ 
-	$query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
-	$get_info =mysql_fetch_array($query);
-	}
-	?>
-	<?php if(isset($get_info['food'])){$food = explode(",",$get_info['food']);}?>
-     <?php if(isset($get_info['hall_suitable_for'])){$hall = explode(",",$get_info['hall_suitable_for']);}?>
-     <?php if(isset($get_info['technical_equipment'])){$tech = explode(",",$get_info['technical_equipment']);}?>          
                 <div class="container-fluid white-bg1" style="padding:0px"> 
               
                              <div class="col-md-12 div-pad1">
@@ -46,19 +37,19 @@ include_once('includes/convention_header.php');
                             <div class="list-input">
                               <div class="input-seats">
                                  <label>Minimum</label>
-                                <input type="input" value="<?php echo @$get_info['seating_cap_min']?>" name="seating_cap_min" placeholder="100"/>
+                                <input type="input" name="seating_cap_min" placeholder="100"/>
                              </div>
                                <div class="input-seats">
                                  <label>Maximum</label>
-                                <input type="input" value="<?php echo @$get_info['seating_cap_max']?>"  name="seating_cap_max"  placeholder="500"/>
+                                <input type="input"  name="seating_cap_max"  placeholder="500"/>
                              </div>
                              <div class="input-seats">
                                  <label>Floating</label>
-                                <input type="input" value="<?php echo @$get_info['seating_cap_floating']?>"  name="seating_cap_floating" placeholder="800"/>
+                                <input type="input"  name="seating_cap_floating" placeholder="800"/>
                              </div>
                              <div class="input-seats">
                                  <label>Dining Capacity</label>
-                                <input type="input"  value="<?php echo @$get_info['dining_seating_cap']?>" name="dining_seating_cap"  placeholder="1000"/>
+                                <input type="input" name="dining_seating_cap"  placeholder="1000"/>
                              </div>
                             <div class="clearfix"></div>   
                            </div>
@@ -78,23 +69,23 @@ include_once('includes/convention_header.php');
                          
                             <div class="list-check">
                               <p>
-                                <input type="checkbox" <?php echo @in_array("Veg", $food)?"checked":""?> name="food[]" value="Veg" id="test84" />
+                                <input type="checkbox" name="food[]" value="Veg" id="test84" />
                                 <label for="test84">Veg</label>
                               </p>
                               <p>
-                                <input type="checkbox" <?php echo @in_array("Non veg", $food)?"checked":""?> name="food[]" value="Non veg" id="test85" />
+                                <input type="checkbox" name="food[]" value="Non veg" id="test85" />
                                 <label for="test85">Non Veg</label>
                               </p>
                               <p>
-                                <input type="checkbox" <?php echo @in_array("Alcohol", $food)?"checked":""?> name="food[]" value="Alcohol" id="test86" />
+                                <input type="checkbox" name="food[]" value="Alcohol" id="test86" />
                                 <label for="test86">Alcohol</label>
                               </p>
                               <p>
-                                <input type="checkbox" <?php echo @in_array("Self Cooking", $food)?"checked":""?> name="food[]" value="Self Cooking" id="test87" />
+                                <input type="checkbox" name="food[]" value="Self Cooking" id="test87" />
                                 <label for="test87">Self Cooking</label>
                               </p>
                               <p>
-                                <input type="checkbox" <?php echo @in_array("Outside Catering", $food)?"checked":""?> name="food[]" value="Outside Catering"  id="test88" />
+                                <input type="checkbox" name="food[]" value="Outside Catering"  id="test88" />
                                 <label for="test88">Outside Catering </label>
                               </p>
 
@@ -114,20 +105,20 @@ include_once('includes/convention_header.php');
                             <div class="list-check">
                                  <div class="parking">
                                      <span>Two wheelers</span>
-                                      <input type="text" value="<?php echo @$get_info['2wheeler_parking_cap']?>" name="twowheeler_parking_cap"  placeholder=""/>
+                                      <input type="text" name="twowheeler_parking_cap"  placeholder=""/>
                                      <span>Approx</span>
                                      <div class="clearfix"></div> 
                                  </div> 
                                   <div class="parking">
                                      <span>four wheelers</span>
-                                      <input type="text" value="<?php echo @$get_info['4wheeler_parking_cap']?>" name="fourwheeler_parking_cap" placeholder=""/>
+                                      <input type="text" name="fourwheeler_parking_cap" placeholder=""/>
                                      <span>Approx</span>
                                      <div class="clearfix"></div> 
                                  </div>
                                  <div class="clearfix"></div>  
                                  <p>
                                 
-                                <input type="checkbox" <?php echo @($get_info['vallet_parking']=="Yes")?"checked":""?> id="test99" name="vallet_parking" value="Yes" />
+                                <input type="checkbox" id="test99" name="vallet_parking" value="Yes" />
                                   <label for="test99">Valet Parking</label>
                               </p>
                             <div class="clearfix"></div>   
@@ -146,61 +137,61 @@ include_once('includes/convention_header.php');
                          
                             <div class="list-check">
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Wedding", $hall)?"checked":""?> value="Wedding"  id="test101" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Wedding"  id="test101" />
                                 <label for="test101">Wedding</label>
                               </p>
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Receptions", $hall)?"checked":""?> value="Receptions" id="test102" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Receptions" id="test102" />
                                 <label for="test102">Receptions</label>
                               </p>
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Engagement", $hall)?"checked":""?> value="Engagement" id="test103" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Engagement" id="test103" />
                                 <label for="test103">Engagement</label>
                               </p>
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Birthday", $hall)?"checked":""?> value="Birthday" id="test104" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Birthday" id="test104" />
                                 <label for="test104">Birthday</label>
                               </p>
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]"  <?php echo @in_array("Anniversary", $hall)?"checked":""?>value="Anniversary" id="test105" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Anniversary" id="test105" />
                                 <label for="test105">Anniversary </label>
                               </p>
                                <p>
-                                <input type="checkbox" name="hall_suitable_for[]"<?php echo @in_array("Baptism", $hall)?"checked":""?> value="Baptism" id="test106" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Baptism" id="test106" />
                                 <label for="test106">Baptism </label>
                               </p>
                               
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Corporate events", $hall)?"checked":""?> value="Corporate events" id="test999" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Corporate events" id="test999" />
                                 <label for="test999">Corporate events </label>
                               </p>
                               
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Get together", $hall)?"checked":""?> value="Get together" id="test107" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Get together" id="test107" />
                                 <label for="test107">Get together </label>
                               </p>
                               
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]"  <?php echo @in_array("Bachelor party", $hall)?"checked":""?>value="Bachelor party" id="test108" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Bachelor party" id="test108" />
                                 <label for="test108">Bachelor party</label>
                               </p>
                               
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Business purpose", $hall)?"checked":""?> value="Business purpose" id="test109" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Business purpose" id="test109" />
                                 <label for="test109">Business purpose</label>
                               </p>
                               
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Conference", $hall)?"checked":""?> value="Conference" id="test110" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Conference" id="test110" />
                                 <label for="test110">Conference </label>
                               </p>
                               
                               <p>
-                                <input type="checkbox" name="hall_suitable_for[]"<?php echo @in_array("Naming ceremonies", $hall)?"checked":""?> value="Naming ceremonies" id="test111" />
+                                <input type="checkbox" name="hall_suitable_for[]" value="Naming ceremonies" id="test111" />
                                 <label for="test111">Naming ceremonies</label>
                               </p>
                                <p>
-                                <input type="checkbox" name="hall_suitable_for[]" <?php echo @in_array("Self Cooking", $hall)?"checked":""?> id="test404" />
+                                <input type="checkbox" name="hall_suitable_for[]" id="test404" />
                                 <label for="test404">others</label>
                               </p>
                             <div class="clearfix"></div>   
@@ -220,23 +211,23 @@ include_once('includes/convention_header.php');
                        
                             <div class="list-check">
                               <p>
-                                <input type="checkbox" id="test91" name="technical_equipment[]" <?php echo @in_array("Power Backup / Generator", $tech)?"checked":""?> value="Power Backup / Generator" />
+                                <input type="checkbox" id="test91" name="technical_equipment[]" value="Power Backup / Generator" />
                                 <label for="test91">Power Backup / Generator</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test92"  name="technical_equipment[]" <?php echo @in_array("Projector", $tech)?"checked":""?> value="Projector"  />
+                                <input type="checkbox" id="test92"  name="technical_equipment[]" value="Projector"  />
                                 <label for="test92">Projector</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test93"  name="technical_equipment[]" <?php echo @in_array("Internet & Wi-Fi", $tech)?"checked":""?> value="Internet & Wi-Fi" />
+                                <input type="checkbox" id="test93"  name="technical_equipment[]" value="Internet & Wi-Fi" />
                                 <label for="test93">Internet & Wi-Fi</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test94"  name="technical_equipment[]" <?php echo @in_array("Sound System", $tech)?"checked":""?> value="Sound System" />
+                                <input type="checkbox" id="test94"  name="technical_equipment[]" value="Sound System" />
                                 <label for="test94">Sound System</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test95"  name="technical_equipment[]" <?php echo @in_array("Mike", $tech)?"checked":""?> value="Mike" />
+                                <input type="checkbox" id="test95"  name="technical_equipment[]" value="Mike" />
                                 <label for="test95">Mike</label>
                               </p>
 

@@ -2,15 +2,13 @@
   session_start(); 
   include_once('includes/dbutil.php');
  
- /* if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
+  if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
-}*/
+}
  include_once('includes/inner-header.php');
 ?>
-<link rel="stylesheet" type="text/css" href="css/popup.css"/>
-<link rel="stylesheet" type="text/css" href="css/magnific-popup.css"/>
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -142,7 +140,7 @@ echo "<script>window.location.href='index.php'</script>";
                                               <div class="cont-but">
                                               
                                                  <i class="fa fa-phone"></i>
-                                                 <h6 id="inline-popups"><a href="#test-popup9"  style="color:#fff;"data-effect="mfp-zoom-in"> Contact Agent</a></h6>
+                                                 <h6>Contact Agent</h6>
                                                   <div class="clearfix"></div>
                                              </div> 
                                          
@@ -213,60 +211,6 @@ echo "<script>window.location.href='index.php'</script>";
                                     <div class="clearfix"></div>
                                 </div>
                             	<div class="clearfix"></div>
-                            	<!--popup code start here-->
-                            	<div id="test-popup9" class="white-popup mfp-with-anim mfp-hide">
-						<div class="col-md-12 left-part-12">
-                            <div class="col-md-6">	
-                                <div class="agent-name">
-                                    <p>Full Name</p>
-                                     <p>Agent</p>
-                                     <h2>040-2349-3333</h2>
-                                </div>
-                             </div>
-                             <div class="col-md-6">	
-                                <div class="flat-603">
-                                    <h6> Flat id: 602404</h6>
-                                    <div class="address-flat">
-                                        <h4> 2 BHK , Unfurnished </h4>
-                                        <p>Banjara Hills</p>
-                                        <span><i class="fa fa-inr"></i>16,000</span>
-                                    </div>
-                                    <!--div class="report-ready">
-                                      <p>Flat already taken</p>
-                                       <span>Report</span>
-                                        <div class="clearfix"></div>
-                                    </div-->
-                                </div>
-                             </div>
-                        </div>
-						<div class="col-md-12">
-                            <div class="col-md-6">	
-                                <div class="agent-form">
-                                   <form class="agent-fr">
-                                       <label>
-                                          <input type="text" placeholder="Name" />
-                                       </label>
-                                       <label>
-                                          <input type="text" placeholder="Mobile" />
-                                       </label>
-                                       <label>
-                                          <input type="text" placeholder="Email" />
-                                       </label>
-                                       <label>
-                                          <input type="submit" placeholder="Email" />
-                                       </label>
-                                   </form>
-                                 </div>
-                             </div>
-                            <div class="col-md-6">
-                               <div class="popup-ban">
-                                 <img src="images/pop-banner.png"/>
-                               
-                               </div>
-                            </div>	
-                        </div>
-                        <div class="clearfix"></div>
-			        </div><!--popup code end here-->
                             	<?php }
 							 	}else{
 							 		echo "There is no Results";
@@ -307,5 +251,3 @@ echo "<script>window.location.href='index.php'</script>";
 	</script>
 </body>
 </html>
-<script src='js/jquery.magnific-popup.min.js'></script>
-<script src="js/index.js"></script>
