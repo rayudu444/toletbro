@@ -17,7 +17,7 @@ if($pcount>0)
 if($pcount>0){
 foreach ($scats as $row) {?>
 
-<option value=<?php echo $row['city_name']?>><?php echo $row['city_name']?></option>
+<option value='<?php echo $row['city_name']?>'><?php echo $row['city_name']?></option>
 
 <?php } 
 }?>

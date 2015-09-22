@@ -6,15 +6,35 @@
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
 }
-include_once('includes/header_post_add.php');  
+include_once('includes/header_post_add.php');
+
+if(isset($_GET['post']))
+{
+	try{
+		$post_id = $_GET['post'];
+		$sql = "SELECT `property`,`property_image`,`property_type`,`contact_name`,`contact_mobile`,`contact_email`,`listed_by`,`addres_state`,`addres_city`,`addres_locality`,`address`,`address_next`,`name_project_society` FROM `post_add` WHERE `post_id` = ? ";
+		$statement = $dbh->prepare($sql);
+		$statement->execute(array($post_id));
+		$post_details = $statement->fetch(PDO::FETCH_ASSOC);
+		
+		$sql  = "SELECT `city_name` FROM `tbl_city` INNER JOIN `tbl_state` ON `tbl_city`.`state_id` = `tbl_state`.`id` WHERE `tbl_state`.`state_name` = ?";
+	 
+		$statement = $dbh->prepare($sql);
+		$statement->execute(array($post_details['addres_state']));
+		$cities = $statement->fetchAll(PDO::FETCH_ASSOC);	
+		
+	}catch(PDOException $e)
+	{
+		echo $e->getmessage();exit;
+	}	
+}
 ?> 
 <script type="text/javascript" src="js/fileupload.js"></script>
  <script>
 			              $(document).ready(function(){
-							 //alert("hiiiiiiiiiii");
+							
 							$("#state").change( function() {
 							   var main_cat = $(this).val();
-							   //alert(main_cat);exit;
 									$.ajax({
 									   type: "POST",
 									   url: "find_city.php",
@@ -23,15 +43,9 @@ include_once('includes/header_post_add.php');
 									   success: function(data) {
 										   
 										   $('#cat_data').html(data);
-
-										 
 									   }
 									});
-								
 							});
-
-							
-
 						 }); 
 			                    </script>          
         	<div class="container">
@@ -48,11 +62,11 @@ include_once('includes/header_post_add.php');
                            
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test81"  name="Property_for" value="Rent"/>
+                                <input type="checkbox" id="test81"  name="Property_for" value="Rent" <?php echo  (isset($post_details['property']) && $post_details['property'] == "Rent" )? "checked" : ''; ?> />
                                 <label for="test81">Rent</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test82"  name="Property_for" value="Sale"/>
+                                <input type="checkbox" id="test82"  name="Property_for" value="Sale" <?php echo  (isset($post_details['property']) && $post_details['property'] == "Sale" )? "checked" : '';?> />
                                 <label style="float:right;" for="test82">Sale</label>
                                   <div class="clearfix"></div> 
                               </p>
@@ -73,6 +87,22 @@ include_once('includes/header_post_add.php');
                    <div class="container-post">
                          
                             <div class="list-check">
+                            <?php if(isset($post_details['property_image']))
+                            	  {
+                            	  	if($post_details['property_image'] != '')
+                            	  	{
+                            	  	$images = explode(',',trim($post_details['property_image'],','));
+                            	  	$inc = 0;
+                            	  	
+                            	  	foreach ($images as $image)
+                            	  	{
+                             ?>
+                             	<div id='abcd<?= $inc; ?>' class='abcd'>
+                            			<img id='previewimg<?= $inc; ?>' src='<?php echo "uploads/property_images/$image"; ?>'/>
+                            			<img id='img' data = '<?= $image; ?>' class='delete-exiting-images' src='images/x.png'/>
+                            	</div>
+                            <?php } } } ?>
+                            	
                                 <div class="list-box filediv1" >
                                     <input name="file[]" type="file"  id="file" class="input-add" multiple/>
                                 </div>
@@ -115,11 +145,11 @@ include_once('includes/header_post_add.php');
                             <div class="form-1">
                              
                                <select name="property_type">
-							   <option value="">Property type</option>
+							   <option value="">Select Property type</option>
 
-                                <option value="Residential Properties">Residential Properties</option>
-                                <option value="Commercial Properties">Commercial Properties</option>
-                                <option> </option>
+                                <option value="Residential Properties" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Residential Properties"))? "selected" : ''; ?>>Residential Properties</option>
+                                <option value="Commercial Properties" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Commercial Properties"))? "selected" : ''; ?>>Commercial Properties</option>
+                                
                               </select>
                               
                               </div>
@@ -161,11 +191,11 @@ include_once('includes/header_post_add.php');
                            
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
-                                <input type="checkbox" id="test83" value="Landlord" name="listed"/>
+                                <input type="checkbox" id="test83" value="Landlord" name="listed" <?php echo  (isset($post_details['listed_by']) && $post_details['listed_by'] == "Landlord" )? "checked" : ''; ?>/>
                                 <label for="test83">Landlord</label>
                               </p>
                               <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test84" value="Agent" name="listed" />
+                                <input type="checkbox" id="test84" value="Agent" name="listed" <?php echo  (isset($post_details['listed_by']) && $post_details['listed_by'] == "Agent" )? "checked" : ''; ?> />
                                 <label style="float:right;" for="test84">Agent</label>
                                   <div class="clearfix"></div> 
                               </p>
@@ -191,7 +221,7 @@ include_once('includes/header_post_add.php');
                                 <option value="">Select State</option>
 								<?php $result = get_all_data('tbl_state');
 								foreach($result as $resu){?>
-                                <option value="<?= $resu['state_name']?>"><?= $resu['state_name'] ?></option>
+                                <option value="<?= $resu['state_name']?>" <?php echo (isset($post_details['addres_state']) && ($resu['state_name'] == $post_details['addres_state']))? "selected" : ''; ?>><?= $resu['state_name'] ?></option>
 								<?php } ?>
                                 
                               </select>
@@ -202,6 +232,13 @@ include_once('includes/header_post_add.php');
                              
                                <select name="city" id="city">
                                 <option value="">select City</option>
+                                <?php if(isset($cities)){
+                                	
+                                		foreach ($cities as $city)
+                                		{ 
+                                ?>
+                                	 <option value="<?= $city['city_name']?>" <?php echo ( $city['city_name'] == $post_details['addres_city'])? "selected" : ''; ?>><?= $city['city_name'] ?></option>
+                                <?php } }?>
                                 
                               </select>
                               
@@ -211,7 +248,7 @@ include_once('includes/header_post_add.php');
                               
                               <div class="form-1">
                              
-                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality"  /></div>
+                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality"  value='<?php echo  @$post_details['addres_locality'];?>' /></div>
                                
                                 
                              
@@ -219,14 +256,14 @@ include_once('includes/header_post_add.php');
                               </div>
                              <div class="list-check">
                               
-                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1" /></div>
-                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" /></div>
+                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1"  value='<?php echo  @$post_details['address'];?>' /></div>
+                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" value='<?php echo  @$post_details['address_next'];?>' /></div>
                             
                             <div class="clearfix"></div>   
                            </div>
                                
                               <div class="form-1">
-							  <div class="input-title"><input type="text" id="Society" name="Society" placeholder="Name of Project/Society" /></div>
+							  <div class="input-title"><input type="text" id="Society" name="Society" placeholder="Name of Project/Society" value='<?php echo  @$post_details['name_project_society'];?>' /></div>
                              
                               <!-- <select>
                                 <option>Name of Project/Society</option>
@@ -335,6 +372,7 @@ include_once('includes/header_post_add.php');
 	
 	<script>
 		(function($){
+			var post_id = '<?php echo (isset($_GET['post']))? $_GET['post'] : ''; ?>';
 			$(window).load(function(){
 				
 				$("#content-1").mCustomScrollbar({
@@ -343,6 +381,39 @@ include_once('includes/header_post_add.php');
 				});
 				
 			});
+
+			//delete existing images
+$(document).on("click",".delete-exiting-images",function(){
+
+            var delete_button = $(this);
+			var image = $(this).attr('data');
+           if(confirm("Do you want delete this image"))
+
+           {
+
+              var file = $(this).attr("data");
+
+              $.ajax({
+
+              url : "delete-existing-images.php",
+
+              type : "POST",
+
+              data : {'post_id' : post_id,"image" : image },
+
+              statusCode : {
+
+                200: function(data){
+
+                  delete_button.parent().remove();
+
+                }
+
+              }
+              });
+
+           }
+		});
 
 			//images uploading functionailty
 
@@ -354,7 +425,7 @@ include_once('includes/header_post_add.php');
 
 		        {
 
-		          if (posting_images.length == 0)
+		          if (posting_images.length == 0 && post_id == '' && post_id != null)
 
 		          {
 
@@ -377,7 +448,10 @@ include_once('includes/header_post_add.php');
 		             }
 
 		             data.append('city',$("#city").val());
-
+					 if((post_id != '') && post_id != null)
+					 {
+						 data.append('post_id',post_id);
+					 }
 		            
 
 

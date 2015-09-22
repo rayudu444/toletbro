@@ -415,7 +415,7 @@ $( ".parking_4" ).click(function() {
                  
 				  </form>
                      
-                     <a href="post-add.php?last_id=<?=$_REQUEST['post']?>" class="bc-but">Back</a>
+                     <a href="post-add.php?post=<?=$_REQUEST['post']?>" class="bc-but">Back</a>
                   <div class="clear"></div>
                  </div>
                 </div>

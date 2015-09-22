@@ -2,6 +2,27 @@
   session_start(); 
   include_once('includes/dbutil.php');
   include_once('includes/convention_header.php');
+  
+  	if(isset($_GET['post']))
+  	{
+  		try{
+		$post_id = $_GET['post'];
+		$sql = "SELECT `title`,`images`,`convention_type`,`contact_person_name`,`contact_person_mobile`,`contact_person_email`,`state`,`city`,`locality`,`address`,`location_lat`,`location_long` FROM `convention_post_add` WHERE `convention_post_id` = ? ";
+		$statement = $dbh->prepare($sql);
+		$statement->execute(array($post_id));
+		$post_details = $statement->fetch(PDO::FETCH_ASSOC);
+		
+		$sql  = "SELECT `city_name` FROM `tbl_city` INNER JOIN `tbl_state` ON `tbl_city`.`state_id` = `tbl_state`.`id` WHERE `tbl_state`.`state_name` = ?";
+	 
+		$statement = $dbh->prepare($sql);
+		$statement->execute(array($post_details['state']));
+		$cities = $statement->fetchAll(PDO::FETCH_ASSOC);	
+		
+		}catch(PDOException $e)
+		{
+			echo $e->getmessage();exit;
+		}	
+  	}
   ?>
 <script type="text/javascript" src="js/fileupload.js"></script>
  <script>
@@ -66,19 +87,264 @@ $(document).ready(function(){
 </style>
 <?php $lat="17.385044"; $lon="78.486671"; ?>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+
+ <script>
+                    $(document).ready(function(){
+               //alert("hiiiiiiiiiii");
+              $("#state").change( function() {
+                 var main_cat = $(this).val();
+                 //alert(main_cat);exit;
+                  $.ajax({
+                     type: "POST",
+                     url: "find_city.php",
+                     dataType: 'html',
+                     data: { main_cat : main_cat },
+                     success: function(data) {
+                       
+                       $('#cat_data').html(data);
+
+                     
+                     }
+                  });
+                
+              });
+
+              
+
+             }); 
+</script>
+</head>
+<body>
+
+        <form method="post" name="myForm2" id="image-upload" enctype="multipart/form-data" action="dbadd-convention.php" >
+        <div class="container-fluid white-bg1" style="padding:0px"> 
+              
+                             <div class="col-md-12 div-pad1">
+                                  <p>POST FOR CONVENTIONS</p>
+                               </div>              
+        	<div class="container">
+              <div class="container-sub3">
+            	<div class="row"  style="padding-top:10px">
+                              <div class="col-md-12 div-pad2">
+                                  <p>Title</p>
+                               </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post">
+                         
+                            <div class="list-check">
+                            
+                            	
+                              
+                                <div class="input-title"><input type="text" name="title" id="test1" placeholder="Title" value='<?= @$post_details['title'];?>' /></div>
+                            
+                            <div class="clearfix"></div>   
+                           </div>
+                         
+                   </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="row">
+                              <div class="col-md-12 div-pad2">
+                                  <p>Add Image</p>
+                               </div>
+                                <div class="clearfix"></div>
+                    <div class="container-post">
+                         
+                            <div class="list-check">
+                            	<?php if(isset($post_details['images']))
+                            	  {
+                            	  	if($post_details['images'] != '')
+                            	  	{
+                            	  	$images = explode(',',trim($post_details['images'],','));
+                            	  	$inc = 0;
+                            	  	
+                            	  	foreach ($images as $image)
+                            	  	{
+                             ?>
+                             	<div id='abcd<?= $inc; ?>' class='abcd'>
+                            			<img id='previewimg<?= $inc; ?>' src='<?php echo "uploads/convention_images/$image"; ?>'/>
+                            			<img id='img' data = '<?= $image; ?>' class='delete-exiting-images' src='images/x.png'/>
+                            	</div>
+                            <?php }} } ?>
+                                <div class="list-box filediv1" >
+                                    <input name="file[]" type="file"  id="file" class="input-add" multiple/>
+                                </div>
+                              
+                              
+                            <div class="clearfix"></div>   
+                           </div>
+                           
+                            <div class="upload-btns">
+                                
+                             <!--<div class="browse-buts">
+                                <div class="delete-but">
+                                    <img src="images/up-but.jpg"/>
+                                 </div>
+                                 
+                                 <div class="delete-but1">
+                                    <input type="file" required name="property_img[]" multiple  />
+                                 </div>
+                                 
+                                 <div class="delete-but2">
+                                    <input type="file" />
+                                 </div>
+                              <div class="clearfix"></div> 
+                            </div>
+                             <div class="clearfix"></div>
+                            </div>-->
+                        
+                   </div>
+                    <div class="clearfix"></div>
+                </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+                <div class="row">
+                             
+                   <div class="container-post">
+                          
+                         
+                            <div class="list-check singlecheck">
+                              <p style="width:50%;">
+                                <input type="checkbox" id="test81"  name="convention_type"  value="AC" <?php echo (isset($post_details['convention_type']) && $post_details['convention_type']=="AC")? "checked" :""?> />
+                                <label for="test81">AC</label>
+                              </p>
+                              <p style="width:50%; float:right;">
+                                <input type="checkbox" id="test82"  name="convention_type" value="NON AC" <?php echo (isset($post_details['convention_type']) && $post_details['convention_type']=="NON AC")? "checked" :""?>/>
+                                <label style="float:right;" for="test82">NON AC</label>
+                                  <div class="clearfix"></div> 
+                              </p>
+                            <div class="clearfix"></div>   
+                           </div>
+                         
+                 
+                               
+                               </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+                <div class="row">
+                              <div class="col-md-12 div-pad2">
+                                  <p>Contact Details</p>
+                               </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post">
+                         
+                            <div class="list-check">
+                                <div class="input-title"><input type="text" name="contact_person_name" id="test1" placeholder="Full Name" value='<?php echo @$post_details["contact_person_name"];?>' /></div>
+                               <div class="input-title"><input type="text" name="contact_person_mobile" id="test1" placeholder="Mobile" value='<?php echo @$post_details["contact_person_mobile"];?>' /></div>
+                               <div class="input-title"><input type="text" name="contact_person_email" id="test1" placeholder="Email" value='<?php echo @$post_details["contact_person_email"];?>' /></div>
+                            <div class="clearfix"></div>   
+                           </div>
+                         
+                   </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+                
+                <div class="row">
+                              <div class="col-md-12 div-pad2">
+                                  <p>Address</p>
+                               </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post">
+                         
+                            <div class="form-1">
+                             
+                               <select name="state" id="state">
+                                <option value="">Select State</option>
+					                <?php $result = get_all_data('tbl_state');
+					                foreach($result as $resu){?>
+					                  <option value="<?= $resu['state_name']?>" <?php echo ( isset($post_details['state']) && $post_details['state']==$resu['state_name'])? "selected" :""?> ><?= $resu['state_name'] ?></option>
+					                <?php } ?>
+                                
+                              </select>
+                              
+                              </div>
+                              
+                              <div class="form-1" id="cat_data" >
+                             
+                               <select name="city" id="city">
+                                <option value="">select City</option>
+                                <?php if(isset($cities)){
+                                	
+                                		foreach ($cities as $city)
+                                		{ 
+                                ?>
+                                	 <option value="<?= $city['city_name']?>" <?php echo ( $city['city_name'] == $post_details['city'])? "selected" : ''; ?>><?= $city['city_name'] ?></option>
+                                <?php } }?>
+                                
+                              </select>
+                              
+                              </div>
+                              
+                              
+                              
+                              <div class="form-1">
+                             
+                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo @$post_details['locality']?>" /></div>
+                              </div>
+                             <div class="list-check">
+                              
+                                <div class="input-title"><input type="textarea" name="address" row="5" col="5" placeholder="Addres" value="<?php echo @$post_details['address']?>" /></div>
+                            
+                            <div class="clearfix"></div>   
+                           </div>
+                              
+                            
+
+                         <!-- </form> -->
+                   </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+                <div class="row">
+                              <div class="col-md-12 div-pad2">
+                                  <p>Tag Location</p>
+                               </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post1">
+            
+                        <div id="bd">
+                               <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                                 <div id="gmap"></div>
+                             <div class="clear" style="margin-bottom:10px;"></div>
+                                 <!--lat:<span id="lat"></span> lon:<span id="lon"></span><br/>
+                                    zoom level: <span id="zoom_level"></span>-->
+                                  </div>
+	                  <input type="hidden" name="latitude" id='lat1' value="<?php echo @$post_details['location_lat']?>" />   
+	                  <input type="hidden" name="longitude" id="lon1" value="<?php echo @$post_details['location_long']?>" />
+      
+                   </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+                 <div class="class="nex-but"">
+                     <!-- <a href="postad2.html" >Next</a> -->
+                     <input type="button" name="submit" class="ne-but" id="upload" value="Next">
+                    <div class="clear"></div>
+                 </div>
+                </div>
+            </div>
+        </div>
+        </form>
 <script type="text/javascript">
 var map;
 var marker=false;
+var lat = <?php echo (isset($post_details['location_lat']) && $post_details['location_lat'] != '' )? $post_details['location_lat'] : 17.385044; ?>;
+var lng = <?php echo (isset($post_details['location_long']) && $post_details['location_long'] != '' )? $post_details['location_long'] : 78.486671; ?>;
+
 function initialize() {
-  var myLatlng = new google.maps.LatLng(17.385044,78.486671);
+  var myLatlng = new google.maps.LatLng(lat,lng);
   var markers = [];
   var map = new google.maps.Map(document.getElementById('gmap'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
   var defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(17.385044, 78.486671),
-      new google.maps.LatLng(17.385044, 78.486671));
+      new google.maps.LatLng(lat, lng),
+      new google.maps.LatLng(lat, lng));
  
   var myOptions = {
     zoom: 14,
@@ -199,226 +465,43 @@ google.maps.event.addDomListener(window, 'load', initialize);
 //window.onload = function(){initialize();};
 
 </script>
- <script>
-                    $(document).ready(function(){
-               //alert("hiiiiiiiiiii");
-              $("#state").change( function() {
-                 var main_cat = $(this).val();
-                 //alert(main_cat);exit;
-                  $.ajax({
-                     type: "POST",
-                     url: "find_city.php",
-                     dataType: 'html',
-                     data: { main_cat : main_cat },
-                     success: function(data) {
-                       
-                       $('#cat_data').html(data);
-
-                     
-                     }
-                  });
-                
-              });
-
-              
-
-             }); 
-</script>
-</head>
-<body>
-
-        <form method="post" name="myForm2" id="image-upload" enctype="multipart/form-data" action="dbadd-convention.php" >
-        <div class="container-fluid white-bg1" style="padding:0px"> 
-              
-                             <div class="col-md-12 div-pad1">
-                                  <p>POST FOR CONVENTIONS</p>
-                               </div>              
-        	<div class="container">
-              <div class="container-sub3">
-            	<div class="row"  style="padding-top:10px">
-                              <div class="col-md-12 div-pad2">
-                                  <p>Title</p>
-                               </div>
-                                <div class="clearfix"></div>
-                   <div class="container-post">
-                         
-                            <div class="list-check">
-                              
-                                <div class="input-title"><input type="text" name="title" id="test1" placeholder="Title" /></div>
-                            
-                            <div class="clearfix"></div>   
-                           </div>
-                         
-                   </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="row">
-                              <div class="col-md-12 div-pad2">
-                                  <p>Add Image</p>
-                               </div>
-                                <div class="clearfix"></div>
-                    <div class="container-post">
-                         
-                            <div class="list-check">
-                                <div class="list-box filediv1" >
-                                    <input name="file[]" type="file"  id="file" class="input-add" multiple/>
-                                </div>
-                              
-                              
-                            <div class="clearfix"></div>   
-                           </div>
-                           
-                            <div class="upload-btns">
-                                
-                             <!--<div class="browse-buts">
-                                <div class="delete-but">
-                                    <img src="images/up-but.jpg"/>
-                                 </div>
-                                 
-                                 <div class="delete-but1">
-                                    <input type="file" required name="property_img[]" multiple  />
-                                 </div>
-                                 
-                                 <div class="delete-but2">
-                                    <input type="file" />
-                                 </div>
-                              <div class="clearfix"></div> 
-                            </div>
-                             <div class="clearfix"></div>
-                            </div>-->
-                        
-                   </div>
-                    <div class="clearfix"></div>
-                </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-                <div class="row">
-                             
-                   <div class="container-post">
-                          
-                         
-                            <div class="list-check singlecheck">
-                              <p style="width:50%;">
-                                <input type="checkbox" id="test81"  name="convention_type" <?php echo @($add_info['property']=="Rent")? "checked" :""?>  value="AC"/>
-                                <label for="test81">AC</label>
-                              </p>
-                              <p style="width:50%; float:right;">
-                                <input type="checkbox" id="test82" <?php echo @($add_info['property']=="Sale")? "checked" :""?> name="convention_type" value="NON AC"/>
-                                <label style="float:right;" for="test82">NON AC</label>
-                                  <div class="clearfix"></div> 
-                              </p>
-                            <div class="clearfix"></div>   
-                           </div>
-                         
-                 
-                               
-                               </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-                <div class="row">
-                              <div class="col-md-12 div-pad2">
-                                  <p>Contact Details</p>
-                               </div>
-                                <div class="clearfix"></div>
-                   <div class="container-post">
-                         
-                            <div class="list-check">
-                                <div class="input-title"><input type="text" name="contact_person_name" id="test1" placeholder="Full Name" /></div>
-                               <div class="input-title"><input type="text" name="contact_person_mobile" id="test1" placeholder="Mobile" /></div>
-                               <div class="input-title"><input type="text" name="contact_person_email" id="test1" placeholder="Email" /></div>
-                            <div class="clearfix"></div>   
-                           </div>
-                         
-                   </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-                
-                <div class="row">
-                              <div class="col-md-12 div-pad2">
-                                  <p>Address</p>
-                               </div>
-                                <div class="clearfix"></div>
-                   <div class="container-post">
-                         
-                            <div class="form-1">
-                             
-                               <select name="state" id="state">
-                                <option value="">Select State</option>
-                <?php $result = get_all_data('tbl_state');
-                foreach($result as $resu){?>
-                                <option value="<?= $resu['state_name']?>" <?php echo @($add_info['addres_state']==$resu['state_name'])? "selected" :""?> ><?= $resu['state_name'] ?></option>
-                <?php } ?>
-                                
-                              </select>
-                              
-                              </div>
-                              
-                              <div class="form-1" id="cat_data" >
-                             
-                               <select name="city" id="city">
-                                <option value="">select City</option>
-                                
-                              </select>
-                              
-                              </div>
-                              
-                              
-                              
-                              <div class="form-1">
-                             
-                               <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality" value="<?php echo @$add_info['addres_locality']?>" /></div>
-                              </div>
-                             <div class="list-check">
-                              
-                                <div class="input-title"><input type="textarea" name="address" row="5" col="5" placeholder="Addres" /></div>
-                            
-                            <div class="clearfix"></div>   
-                           </div>
-                              
-                            
-
-                         <!-- </form> -->
-                   </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-                <div class="row">
-                              <div class="col-md-12 div-pad2">
-                                  <p>Tag Location</p>
-                               </div>
-                                <div class="clearfix"></div>
-                   <div class="container-post1">
-            
-                        <div id="bd">
-                               <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                                 <div id="gmap"></div>
-                             <div class="clear" style="margin-bottom:10px;"></div>
-                                 <!--lat:<span id="lat"></span> lon:<span id="lon"></span><br/>
-                                    zoom level: <span id="zoom_level"></span>-->
-                                  </div>
-	                  <input type="hidden" name="latitude" id='lat1' value="<?php echo $lat; ?>" />   
-	                  <input type="hidden" name="longitude" id="lon1" value="<?php echo $lon; ?>" />
-      
-                   </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-                 <div class="class="nex-but"">
-                     <!-- <a href="postad2.html" >Next</a> -->
-                     <input type="button" name="submit" class="ne-but" id="upload" value="Next">
-                    <div class="clear"></div>
-                 </div>
-                </div>
-            </div>
-        </div>
-        </form>
         <script type="text/javascript">
-    	//images uploading functionailty
+        var post_id = '<?php echo (isset($_GET['post']))? $_GET['post'] : ''; ?>';
+      //delete existing images
+        $(document).on("click",".delete-exiting-images",function(){
 
+                    var delete_button = $(this);
+        			var image = $(this).attr('data');
+                   if(confirm("Do you want delete this image"))
+
+                   {
+
+                      var file = $(this).attr("data");
+
+                      $.ajax({
+
+                      url : "delete-conv-images.php",
+
+                      type : "POST",
+
+                      data : {'post_id' : post_id,"image" : image },
+
+                      statusCode : {
+
+                        200: function(data){
+
+                          delete_button.parent().remove();
+
+                        }
+
+                      }
+                      });
+
+                   }
+        		});
+    	//images uploading functionailty
+		
+		
 	    $('#upload').click(function(e) {
 	    	
 	    	var other_data = $('form#image-upload').serializeArray();
@@ -427,7 +510,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 	        {
 
-	          if (posting_images.length == 0)
+	          if (posting_images.length == 0 && post_id == '' && post_id != null )
 
 	          {
 
@@ -450,7 +533,10 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	             }
 
 	           
-
+	             if((post_id != '') && post_id != null)
+				 {
+					 data.append('post_id',post_id);
+				 }
 	            
 
 
