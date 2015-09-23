@@ -16,8 +16,8 @@ include_once('includes/dbutil.php');
 		
 		update($usrData,'convention_post_add',"WHERE convention_post_id=".$convention_post_id." and cnv_upid=".$_SESSION['cnv_upid']);
 		echo ("<SCRIPT>
-		window.alert('Convention Post added successfully');
-	    window.location.href='convention-post.php';
+		
+	    window.location.href='convention-post.php?message=1';
 
 	    </SCRIPT>");
 	}

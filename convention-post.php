@@ -114,6 +114,20 @@ $(document).ready(function(){
              }); 
 </script>
 </head>
+<style type="text/css">
+.bg-pop{
+   width:360px;
+   background:rgba(0,0,0,0.1);
+   margin:auto;
+}
+.login-pox{
+  font-size:20px;
+  font-family: Lato;
+  padding:40px 20px;
+  display:block;
+  text-align: center;
+}
+</style>
 <body>
 
         <form method="post" name="myForm2" id="image-upload" enctype="multipart/form-data" action="dbadd-convention.php" >
@@ -123,6 +137,21 @@ $(document).ready(function(){
                                   <p>POST FOR CONVENTIONS</p>
                                </div>              
         	<div class="container">
+          <?php if(isset($_GET['message']))
+
+      {      ?>
+            <div class="col-md-12">
+           <div id="test-popup5" class="bg-pop white-popup mfp-with-anim mfp-hide">
+      
+                        <a href="#" class="login-pox" >Convention Post added successfully...</a>
+            <div class="clearfix"></div>
+            <script type="text/javascript">
+                setTimeout(function(){ window.location = 'post-add.php'; }, 3000);
+                </script>
+                </div>
+          </div>
+          </div>
+            <?php } ?>
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
                               <div class="col-md-12 div-pad2">

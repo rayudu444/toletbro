@@ -4,7 +4,7 @@ include_once('includes/dbutil.php');
 
 	extract($_POST);
 		$query =mysql_query("select * from  post_add where upid='".$_SESSION['upid']."' and post_id='".$post_id."'");	
-	echo $count = mysql_num_rows($query);
+	 $count = mysql_num_rows($query);
 	if($count>0){
 	
 	$usrData=array(

@@ -3,7 +3,7 @@ session_start();
 include_once('includes/dbutil.php');
 	extract($_POST);
 	$query =mysql_query("select * from  convention_post_add where cnv_upid='".$_SESSION['cnv_upid']."' and convention_post_id='".$convention_post_id."'");	
-	echo $count = mysql_num_rows($query);
+	 $count = mysql_num_rows($query);
 	if($count>0){
 		$food1 =implode(",", $food);
 		$hall_suitable_for1 =implode(",", $hall_suitable_for);
@@ -24,7 +24,7 @@ include_once('includes/dbutil.php');
 		 insertdata($usrData,'convention_post_add');
 		 $last_id = mysql_insert_id(); 
 		}*/
-		echo $char=update($usrData,'convention_post_add',"WHERE convention_post_id=".$convention_post_id." and cnv_upid=".$_SESSION['cnv_upid']);
+		 $char=update($usrData,'convention_post_add',"WHERE convention_post_id=".$convention_post_id." and cnv_upid=".$_SESSION['cnv_upid']);
 		header("location:convention-post2.php?post=$convention_post_id");
 	}
 	else{

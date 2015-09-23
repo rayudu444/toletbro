@@ -3,6 +3,11 @@ session_start();
 include_once('includes/dbutil.php');
 
 	extract($_POST);
+
+		extract($_POST);
+			$query =mysql_query("select * from  post_add where upid='".$_SESSION['upid']."' and post_id='".$post_id."'");	
+	 $count = mysql_num_rows($query);
+	if($count>0){
 	//print_r($_POST);exit;
 	
 	if(isset($Amenities)){
@@ -22,15 +27,19 @@ include_once('includes/dbutil.php');
     	
     	);
 		//print_r($usrData);exit;
-		 update($usrData,'post_add','where post_id='.$_SESSION['last_id'].' and upid='.$_SESSION['upid']);
-		 unset($_SESSION['last_id']);
+		 //update($usrData,'post_add','where post_id='.$_SESSION['last_id'].' and upid='.$_SESSION['upid']);
+		 update($usrData,'post_add','where post_id='.$post_id.' and upid='.$_SESSION['upid']);
+
 		 echo ("<SCRIPT LANGUAGE='JavaScript'>
 
-    window.alert('Thank you for your post')
+    
 
-    window.location.href='post-add.php';
+    window.location.href='post-add.php?message=1';
 
     </SCRIPT>");
 		 
-		//header('location:postanadd.php');
+	}else{
+			header("location:post-add.php");
+		}
+	//header('location:postanadd.php');
 ?>
