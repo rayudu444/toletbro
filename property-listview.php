@@ -8,9 +8,44 @@ echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
 }*/
  include_once('includes/inner-header.php');
+ 
+ $sql = "select * from post_add ";
+ 
+ if(isset($_POST['address']) && $_POST['address'] != '')
+ {
+ 	 $Address = urlencode($_POST['address']);
+  	 $request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
+  	 // Make the HTTP request
+     $data = @file_get_contents($request_url);
+     // Parse the json response
+     $jsondata = json_decode($data,true);
+     $lat_lng = $jsondata['results'][0]['geometry']['location'];
+     $lat = $lat_lng['lat'];
+     $lng = $lat_lng['lng'];
+     $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
+  }
+  if(isset($_POST['type']) && $_POST['address'] != '')
+  {
+  		$type = $_POST['type'];
+  	
+  		$sql .= " where property='$type'";
+  }
+  
+  if((isset($_POST['address']) && $_POST['address'] != ''))
+  {
+  		$sql .= " HAVING distance <= 5";
+  }
+  
+  $sql .= " order by post_id desc";
+ //echo $sql;exit;
+ 
+  $statement = $dbh->prepare($sql);
+  $statement->execute();
+  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <link rel="stylesheet" type="text/css" href="css/popup.css"/>
 <link rel="stylesheet" type="text/css" href="css/magnific-popup.css"/>
+
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -109,12 +144,11 @@ echo "<script>window.location.href='index.php'</script>";
                          <div class="row">
 	                        <div class="results-list1">
                             <div>
-                            <?php $query= mysql_query("select * from post_add where property='Rent' order by post_id desc");
-							$count =mysql_num_rows($query);
+                            <?php 
 
-							 if($count>0){
+							 if($posts){
 							 	//$result=mysql_fetch_array($query);
-							 	while($result_info=mysql_fetch_array($query)) {
+							 	foreach($posts as $result_info) {
 							 	
 							?>
                             	<div class="results-list-div1">

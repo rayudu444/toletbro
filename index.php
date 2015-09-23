@@ -401,13 +401,13 @@ else // user logged in
                     <div class="col-md-6 col-sm-12 margin-0">
                         <ul class="list2">
                             <li class="current"><a href="post-add.php">Post An Ad</a></li>
-                            <li><a href="property-listview.php">Rent</a></li>
+                            <li><a href="sell-rent.php">Rent</a></li>
                             <div class="clear"></div>
                         </ul>
                     </div>
                     <div class="col-md-6 col-sm-12 margin-0">
                         <ul class="list2">
-                            <li><a href="#">Sale</a></li>
+                            <li><a href="sell-rent.php">Sale</a></li>
                             <li><a href="convention-centre.php">Convention Centers</a></li>
                             <div class="clear"></div>
                         </ul>

@@ -14,23 +14,83 @@
 <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
 <script src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script>
+
+// This example displays an address form, using the autocomplete feature
+
+// of the Google Places API to help users fill in the information.
+
+var placeSearch, autocomplete;
+
+var componentForm = {
+
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+
+};
+
+function initialize() {
+
+  // Create the autocomplete object, restricting the search
+
+  // to geographical location types.
+
+  autocomplete = new google.maps.places.Autocomplete(
+
+      /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+
+      { types: ['geocode'] });
+
+  console.log(autocomplete);
+  // When the user selects an address from the dropdown,
+
+  // populate the address fields in the form.
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+
+    fillInAddress();
+
+  });
+
+  // populate the address fields in the form.
+  
+  auto= document.getElementById('autocomplete');
+
+
+	  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
+		    if (e.keyCode == 13) { 
+		        e.preventDefault(); 
+		       
+		    }
+		   
+		}); 
+
+}
+
+  </script>
 </head>
-<body>
+<body onLoad="initialize()">
 	<section>
 		<div class="container-fluid"> 
         	<div>
             	<div class="row">
                 	<div class="col-md-5 paddingTop-3">
-                    	<form class="form2">
+                    	<form class="form2" action="property-listview.php" method="post">
                         	<label>
                             	<select>
                                 	<option>Rent</option>
                                     <option>Sale</option>
                                 </select>
                             </label>
+                            
                             <label class="label1">
                             	<i class="fa fa-map-marker map-icon2"></i>
-                            	<input type="text" placeholder="Search by locality or landmark or building"/>
+                            	<input type="text" name="address" id="autocomplete" placeholder="Search by locality or landmark or building"/>
                                 <button type="submit"><i class="fa fa-search search-icon"></i></button>
                                 <div class="clearfix"></div>
                             </label>

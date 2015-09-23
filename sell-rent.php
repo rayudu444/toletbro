@@ -20,6 +20,69 @@ include("includes/dbutil.php");
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<<<<<<< 029d793704847fa478e15347b55462431807e98f
+=======
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script>
+
+// This example displays an address form, using the autocomplete feature
+
+// of the Google Places API to help users fill in the information.
+
+var placeSearch, autocomplete;
+
+var componentForm = {
+
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+
+};
+
+function initialize() {
+
+  // Create the autocomplete object, restricting the search
+
+  // to geographical location types.
+
+  autocomplete = new google.maps.places.Autocomplete(
+
+      /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+
+      { types: ['geocode'] });
+
+  console.log(autocomplete);
+  // When the user selects an address from the dropdown,
+
+  // populate the address fields in the form.
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+
+    fillInAddress();
+
+  });
+
+  // populate the address fields in the form.
+  
+  auto= document.getElementById('autocomplete');
+
+
+	  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
+		    if (e.keyCode == 13) { 
+		        e.preventDefault(); 
+		       
+		    }
+		   
+		}); 
+
+}
+
+  </script>
+
+>>>>>>> 454f8935172ab90800a635f0f0a4f4014907c944
 
 <script>
          //Load the Facebook JS SDK
@@ -232,7 +295,11 @@ else // user logged in
   ?>
 
 </head>
+<<<<<<< 029d793704847fa478e15347b55462431807e98f
 <body>
+=======
+<body onLoad="initialize()">
+>>>>>>> 454f8935172ab90800a635f0f0a4f4014907c944
 	<section class="white-div-wrapper">
 	    <div class="container">
         	<div class="row">
@@ -345,11 +412,19 @@ else // user logged in
 	            <div class="row">
                 	<div>
                     	<h1 class="head6" style="color:#f2635d;">LOREM LPSUM DUMMY TEXT</h1>
+<<<<<<< 029d793704847fa478e15347b55462431807e98f
                         <form class="form1">
                         	<label>
                             	<img src="images/map-icon.png" class="map-icon"/>
 		<input type="text" placeholder="Search by locality or landmark or building" style="width:60% !important;"/>
 								<select class="rent-select">
+=======
+                        <form class="form1" action="property-listview.php" method="post">
+                        	<label>
+                            	<img src="images/map-icon.png" class="map-icon"/>
+								<input type="text" id="autocomplete" name="address" placeholder="Search by locality or landmark or building"  style="width:60% !important;"/>
+								<select class="rent-select" name="type">
+>>>>>>> 454f8935172ab90800a635f0f0a4f4014907c944
                                 	<option>Rent</option>
                                     <option>Sale</option>
                                 </select>
