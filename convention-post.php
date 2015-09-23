@@ -146,7 +146,7 @@ $(document).ready(function(){
                         <a href="#" class="login-pox" >Convention Post added successfully...</a>
             <div class="clearfix"></div>
             <script type="text/javascript">
-                setTimeout(function(){ window.location = 'post-add.php'; }, 3000);
+                setTimeout(function(){ window.location = 'convention-centre.php'; }, 3000);
                 </script>
                 </div>
           </div>

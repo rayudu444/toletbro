@@ -127,7 +127,7 @@ echo "<script>window.location.href='index.php'</script>";
                                           <div class="col-md-8">
                                    
                                     <div class="bhk-un">
-                                        <h1>3 BHK Unfurnished</h1>
+                                        <h1><?=$result_info['bedrooms']?>BHK <?=$result_info['property_furnished_status']?></h1>
                                         <i class="fa fa-heart-o"></i>
                                         <div class="clear"></div>
                                      </div>
@@ -157,11 +157,11 @@ echo "<script>window.location.href='index.php'</script>";
                                               </li>
                                                <li>
                                                  <span> Availability </span>
-                                                 <p>Ready To Movie</p>
+                                                 <p></p>
                                               </li>
                                               <li>
                                                  <span>Added</span>
-                                                 <p><?=$result_info['price_deposite']?></p>
+                                                 <p><?=$result_info['additional_charges']?></p>
                                               </li>
                                               <li>
                                                  <span>Amenities</span>
@@ -192,7 +192,7 @@ echo "<script>window.location.href='index.php'</script>";
                                               </li>
                                                <li>
                                                  <span>Lease Type</span>
-                                                 <p>Lease Type</p>
+                                                 <p></p>
                                               </li>
                                               <li class="view-but">
                                                  <a href="list-view-property-info.php?property=<?=$result_info['post_id']?>">View <i class="fa fa-angle-down"></i></a>

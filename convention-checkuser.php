@@ -10,7 +10,7 @@
 
 	
 
-$cond="where user_email='$uname' and password='$pwd'";
+$cond="where (user_email='$uname' or user_mobile='$uname') and password='$pwd'";
 
  $count1=get_row_count_by_condition('convention_users',$cond);
 

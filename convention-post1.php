@@ -43,23 +43,29 @@ include_once('includes/convention_header.php');
                                 <div class="clearfix"></div>
                                <div class="container-post">
                                            
-                         
+                         <?php $seating_cap_min = ($get_info['seating_cap_min']==0)?"":$get_info['seating_cap_min'];
+                         $seating_cap_max = ($get_info['seating_cap_max']==0)?"":$get_info['seating_cap_max'];
+                         $seating_cap_floating = ($get_info['seating_cap_floating']==0)?"":$get_info['seating_cap_floating'];
+                         $dining_seating_cap = ($get_info['dining_seating_cap']==0)?"":$get_info['dining_seating_cap'];
+                         $wheeler_parking_cap2 = ($get_info['2wheeler_parking_cap']==0)?"":$get_info['2wheeler_parking_cap'];
+                         $wheeler_parking_cap4 = ($get_info['4wheeler_parking_cap']==0)?"":$get_info['4wheeler_parking_cap'];
+                         ?>
                             <div class="list-input">
                               <div class="input-seats">
                                  <label>Minimum</label>
-                                <input type="input" value="<?php echo @$get_info['seating_cap_min']?>" name="seating_cap_min" placeholder="100"/>
+                                <input type="input" value="<?php echo @$seating_cap_min?>" name="seating_cap_min" placeholder="100"/>
                              </div>
                                <div class="input-seats">
                                  <label>Maximum</label>
-                                <input type="input" value="<?php echo @$get_info['seating_cap_max']?>"  name="seating_cap_max"  placeholder="500"/>
+                                <input type="input" value="<?php echo @$seating_cap_max?>"  name="seating_cap_max"  placeholder="500"/>
                              </div>
                              <div class="input-seats">
                                  <label>Floating</label>
-                                <input type="input" value="<?php echo @$get_info['seating_cap_floating']?>"  name="seating_cap_floating" placeholder="800"/>
+                                <input type="input" value="<?php echo @$seating_cap_floating?>"  name="seating_cap_floating" placeholder="800"/>
                              </div>
                              <div class="input-seats">
                                  <label>Dining Capacity</label>
-                                <input type="input"  value="<?php echo @$get_info['dining_seating_cap']?>" name="dining_seating_cap"  placeholder="1000"/>
+                                <input type="input"  value="<?php echo @$dining_seating_cap?>" name="dining_seating_cap"  placeholder="1000"/>
                              </div>
                             <div class="clearfix"></div>   
                            </div>
@@ -115,13 +121,13 @@ include_once('includes/convention_header.php');
                             <div class="list-check">
                                  <div class="parking">
                                      <span>Two wheelers</span>
-                                      <input type="text" value="<?php echo @$get_info['2wheeler_parking_cap']?>" name="twowheeler_parking_cap"  placeholder=""/>
+                                      <input type="text" value="<?php echo @$wheeler_parking_cap2?>" name="twowheeler_parking_cap"  placeholder=""/>
                                      <span>Approx</span>
                                      <div class="clearfix"></div> 
                                  </div> 
                                   <div class="parking">
                                      <span>four wheelers</span>
-                                      <input type="text" value="<?php echo @$get_info['4wheeler_parking_cap']?>" name="fourwheeler_parking_cap" placeholder=""/>
+                                      <input type="text" value="<?php echo @$wheeler_parking_cap4?>" name="fourwheeler_parking_cap" placeholder=""/>
                                      <span>Approx</span>
                                      <div class="clearfix"></div> 
                                  </div>

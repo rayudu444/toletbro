@@ -24,7 +24,10 @@ $(document).ready(function(){
   $query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
   $get_info =mysql_fetch_array($query);
   }
-  ?>       
+  ?> <?php $price_per_plate = ($get_info['price_per_plate']==0)?"":$get_info['price_per_plate'];
+           $deposite = ($get_info['deposite']==0)?"":$get_info['deposite'];
+           $other_charges = ($get_info['other_charges']==0)?"":$get_info['other_charges'];
+       ?>      
         <div class="container-fluid white-bg1" style="padding:0px"> 
               
                              <div class="col-md-12 div-pad1">
@@ -52,10 +55,10 @@ $(document).ready(function(){
                         
                             <div class="list-input">
                                  <p class="price-p">Price</p>
-                              <div class="input-title"  style="margin-top:10px;"><input type="text" id="test1" value="<?php echo @$get_info['price_per_plate']?>" name="price_per_plate" placeholder="Per plate"></div>
+                              <div class="input-title"  style="margin-top:10px;"><input type="text" id="test1" value="<?php echo @$price_per_plate?>" name="price_per_plate" placeholder="Per plate"></div>
                                <div class="input-seats" style="margin-top:10px;">
                               
-                                <input type="input" value="<?php echo @$get_info['deposite']?>" name="deposite"   placeholder="Deposite"/>
+                                <input type="input" value="<?php echo @$deposite?>" name="deposite"   placeholder="Deposite"/>
                              </div>
 
                             <div class="clearfix"></div>   
@@ -107,7 +110,7 @@ $(document).ready(function(){
                         
                             <div class="list-check">
                                   
-                                  <div class="input-title"><input type="text" name="other_charges" value="<?php echo @$get_info['other_charges']?>" id="test1" placeholder="Other Charges"></div>
+                                  <div class="input-title"><input type="text" name="other_charges" value="<?php echo @$other_charges?>" id="test1" placeholder="Other Charges"></div>
                                  <div class="clearfix"></div>  
                                  
                             <div class="clearfix"></div>   

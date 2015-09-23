@@ -6,7 +6,7 @@
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
 }
-include_once('includes/header_post_add.php');
+include_once('includes/property_header.php');
 
 if(isset($_GET['post']))
 {
@@ -29,20 +29,7 @@ if(isset($_GET['post']))
 	}	
 }
 ?> 
-<style type="text/css">
-.bg-pop{
-   width:360px;
-   background:rgba(0,0,0,0.1);
-   margin:auto;
-}
-.login-pox{
-  font-size:20px;
-  font-family: Lato;
-  padding:40px 20px;
-  display:block;
-  text-align: center;
-}
-</style>
+
 <script type="text/javascript" src="js/fileupload.js"></script>
  <script>
 			              $(document).ready(function(){
@@ -62,7 +49,10 @@ if(isset($_GET['post']))
 							});
 						 }); 
 			                    </script>  
-
+<div class="container-fluid white-bg1" style="padding:0px">
+    <div class="col-md-12 div-pad1">
+      <p style="color:#f2635d;">POST AN ADD</p>
+    </div>
         	<div class="container">
         	<?php if(isset($_GET['message']))
 
@@ -73,7 +63,7 @@ if(isset($_GET['post']))
                         <a href="#" class="login-pox" >Post added successfully...</a>
             <div class="clearfix"></div>
             <script type="text/javascript">
-            		setTimeout(function(){ window.location = 'post-add.php'; }, 3000);
+            		setTimeout(function(){ window.location = 'index.php'; }, 3000);
             		</script>
             		</div>
           </div>
@@ -185,11 +175,17 @@ if(isset($_GET['post']))
 
                                 <option value="PG/Hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "PG/Hostels"))? "selected" : ''; ?>>PG/Hostels</option>
 
-                                <option value="Service apartments" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Service apartments"))? "selected" : ''; ?>>PG/Hostels</option>
+                                <option value="Boys hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Boys hostels"))? "selected" : ''; ?>>Boys hostels</option>
+
+                                <option value="Girls hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Girls hostels"))? "selected" : ''; ?>>Girls hostels</option>
+
                                 <option value="Commercial space" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Commercial space"))? "selected" : ''; ?>>Commercial space</option>
                                 <option value="Land & Plot" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Land & Plot"))? "selected" : ''; ?>>Land & Plot</option>
                                 <option value="Farm house" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Farm house"))? "selected" : ''; ?>>Farm house</option>
-                                <option value="Gated community" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Gated community"))? "selected" : ''; ?>>Gated community</option>
+                                <option value="Gated community apartments" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Gated community apartments"))? "selected" : ''; ?>>Gated community apartments</option>
+                                <option value="Gated community individual" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Gated community individual"))? "selected" : ''; ?>>Gated community individual</option>
+                                
+                                
 
 
 

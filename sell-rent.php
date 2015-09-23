@@ -320,30 +320,14 @@ else // user logged in
         	<div class="container">
                 <div class="row">
 	                <div class="links">
-                    	<!--ul id="inline-popups">
-              
+                    	<ul id="inline-popups">
+                    		<!-- <li><a href="#test-popup2" class="sing-buts click">Sign Up</a></li>
+                        	<li><a href="#test-popup" class="click2">Login</a></li> -->
 	                   		<li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
                      		<li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
 
                               <div class="clearfix"></div>
-                        </ul-->
-
-                         <?php if(isset($_SESSION['cnv_upid'])){?>
-                     <ul class="list-log-di">
-                      <li><a href="convention-profile-list.php"><?php echo $_SESSION['user_name']; ?></a></li>
-                       <li> <a href="logout.php" >Log out</a></li>
-                     <div class="clear"></div>
-                    </ul>
-                    <?php } else {?>
-                    <ul  id="inline-popups">
-                      <li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
-                        <li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
-                    <div class="clear"></div>
-                    </ul>
-                    <?php }?>
-
-
-
+                        </ul>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -351,7 +335,7 @@ else // user logged in
             </div>
         	<div class="clearfix"></div>
         </div>
-        <div class="container-fluid banner1">        
+        <div class="container-fluid sell-banner">        
         	<div>
             	<a href="#">
                 	<img src="images/logo.png" class="logo1"/>
@@ -360,11 +344,15 @@ else // user logged in
 	        <div class="container">
 	            <div class="row">
                 	<div>
-                    	<h1 class="head6">LOREM LPSUM DUMMY TEXT</h1>
-                        <form class="form1" method="get" action="convention-listview.php">
+                    	<h1 class="head6" style="color:#f2635d;">LOREM LPSUM DUMMY TEXT</h1>
+                        <form class="form1">
                         	<label>
                             	<img src="images/map-icon.png" class="map-icon"/>
-                            	<input type="text" placeholder="Search by locality or landmark or building"/>
+		<input type="text" placeholder="Search by locality or landmark or building" style="width:60% !important;"/>
+								<select class="rent-select">
+                                	<option>Rent</option>
+                                    <option>Sale</option>
+                                </select>
                                 <button type="submit"><img src="images/search-icon.png"/>Search</button>
                                 <div class="clearfix"></div>
                             </label>
@@ -378,7 +366,7 @@ else // user logged in
         <div class="container-fluid white-bg1">
         	<div class="container">
             	<div class="row">
-                	<h2 class="head7">Find suitable city for your events</h2>
+                	<h2 class="head7">Find suitable house in your city</h2>
                 	<div class="col-md-3 city-div">
                     	<img src="images/chennai.png"/>
                         <span>Chennai</span>
@@ -398,89 +386,7 @@ else // user logged in
                 </div>
             </div>
         </div>
-        <div class="container-fluid white-bg2">
-        	<div class="container">
-            	<div class="row">
-	                <h2 class="head8">Popular Venues</h2>
-                	<div class="col-md-4 venue-div">
-	                    <a href="#" class="book-a">
-                            <img src="images/venue.png"/>
-                            <ul>
-                                <li>
-                                    <p>Venue: </p>
-                                    <span>Lorem ipsum dolor sit amet</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <p>Seating Capacity: </p>
-                                    <span>100 People</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <p>Price: </p>
-                                    <span>Rs 650/-</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                            </ul>
-                        	<span class="book-span">Book Now</span>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                    <div class="col-md-4 venue-div">
-	                    <a href="#" class="book-a">
-                            <img src="images/venue.png"/>
-                            <ul>
-                                <li>
-                                    <p>Venue: </p>
-                                    <span>Lorem ipsum dolor sit amet</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <p>Seating Capacity: </p>
-                                    <span>100 People</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <p>Price: </p>
-                                    <span>Rs 650/-</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                            </ul>
-                        	<span class="book-span">Book Now</span>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                    <div class="col-md-4 venue-div venue-div1">
-	                    <a href="#" class="book-a">
-                            <img src="images/venue.png"/>
-                            <ul>
-                                <li>
-                                    <p>Venue: </p>
-                                    <span>Lorem ipsum dolor sit amet</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <p>Seating Capacity: </p>
-                                    <span>100 People</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <p>Price: </p>
-                                    <span>Rs 650/-</span>
-                                    <div class="clearfix"></div>
-                                </li>
-                            </ul>
-                        	<span class="book-span">Book Now</span>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="clearfix"></div>
+        <div class="clearfix clear-60"></div>
         <div>
         <div class="main-wrapper">
              <div class="banner-footer">

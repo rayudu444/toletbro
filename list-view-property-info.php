@@ -150,7 +150,7 @@ include_once('includes/inner-header.php');
                                    <div class="col-md-7" style="margin-left:5%;">
                                       <div class="room-price">
                                           <div class="unfurnish">
-                                              <p>3 BHK, Unfurnished</p>
+                                              <p><?=$p_info['bedrooms']?>BHK <?=$p_info['property_furnished_status']?></p>
                                               <img src="images/a1.png"/>
                                               <div class="clear"></div>
                                           </div>
@@ -161,25 +161,37 @@ include_once('includes/inner-header.php');
                                                    <p><?=$p_info['price_monthly']?></p>
                                                  </li>
                                                  <li>
+                                                   <span>Negotiable</span>
+                                                   <p><?=$p_info['negotiable']?></p>
+                                                 </li>
+                                                 <li>
+                                                   <span>Deposite</span>
+                                                   <p><?=$p_info['price_deposite']?></p>
+                                                 </li>
+                                                 <li>
+                                                   <span>Maintenance Charges</span>
+                                                   <p><?=$p_info['maintenance_monthly']?></p>
+                                                 </li>
+                                                 <li>
                                                    <span>Location</span>
                                                     <p><?=$p_info['addres_city']?></p>
                                                  </li>
                                                  <li>
-                                                   <span>Sublocation </span>
-                                                    <p><?=$p_info['addres_city']?></p>
+                                                   <span>Address </span>
+                                                    <p><?=$p_info['address']?></p>
                                                  </li>
-                                                 <li>
+                                                 <!-- <li>
                                                    <span>Agency</span>
                                                     <p></p>
-                                                 </li>
+                                                 </li> -->
                                                  <li>
                                                    <span>Property Type </span>
                                                     <p><?=$p_info['property_type']?></p>
                                                  </li>
-                                                 <li>
+                                                 <!-- <li>
                                                    <span>Garages  </span>
                                                     <p></p>
-                                                 </li>
+                                                 </li> -->
                                                  <li>
                                                    <span>Beds</span>
                                                     <p><?=$p_info['bedrooms']?></p>
@@ -192,6 +204,26 @@ include_once('includes/inner-header.php');
                                                    <span>Balconies</span>
                                                     <p><?=$p_info['balconies']?></p>
                                                  </li>
+                                                 <!-- <li>
+                                                   <span>Price</span>
+                                                   <p><?=$p_info['price_monthly']?></p>
+                                                 </li> -->
+                                                 <li>
+                                                   <span>2 Wheeler parking</span>
+                                                   <p><?=$p_info['parking_2wheeler']?></p>
+                                                 </li>
+                                                 <li>
+                                                   <span>4 Wheeler parking</span>
+                                                   <p><?=$p_info['parking_4wheeler']?></p>
+                                                 </li>
+                                                 <li>
+                                                   <span>Furnished Status</span>
+                                                   <p><?=$p_info['property_furnished_status']?></p>
+                                                 </li>
+                                                 <li>
+                                                   <span>Floor Number</span>
+                                                   <p><?=$p_info['floore_no']?></p>
+                                                 </li>
                                               </ul>
                                           
                                           </div>
@@ -200,8 +232,8 @@ include_once('includes/inner-header.php');
                                       <div class="flat-div">
                                         <h5>Flat Amenities</h5>
                                         <ul class="list-flatani">
-                                        <?php 
-                                        if($p_info['amenities']!=""){
+                                        <?php echo $p_info['amenities'];
+                                        /*if($p_info['amenities']!=""){
                                           $amen =explode(",", $p_info['amenities']);
                                           foreach ($amen as $amen_info) {
                                             # code...
@@ -209,7 +241,7 @@ include_once('includes/inner-header.php');
                                           ?>
                                           <li><?=$amen_info?></li>
                                         <?php
-                                         }
+                                         }*/
                                         ?>
                                           <div class="clearfix"></div>
                                         </ul>
@@ -219,8 +251,8 @@ include_once('includes/inner-header.php');
                                         <h5>Society Amenities</h5>
                                        
                                         <ul class="list-flatani">
-                                          <?php 
-                                        if($p_info['society_amenities']!=""){
+                                          <?php echo $p_info['society_amenities'];
+                                        /*if($p_info['society_amenities']!=""){
                                           $amen1 =explode(",", $p_info['society_amenities']);
                                           foreach ($amen1 as $amen_info1) {
                                             # code...
@@ -228,7 +260,7 @@ include_once('includes/inner-header.php');
                                           ?>
                                           <li><?=$amen_info1?></li>
                                         <?php
-                                         }
+                                         }*/
                                         ?>
                                           <div class="clearfix"></div>
                                         </ul>
