@@ -405,7 +405,7 @@ else // user logged in
                             <div class="clear"></div>
                         </ul>
                     </div>
-                    <div class="col-md-6 col-sm-12 margin-0">
+                    <div class="col-md-6 col-sm-12 margin-0">   
                         <ul class="list2">
                             <li><a href="sell-rent.php">Sale</a></li>
                             <li><a href="convention-centre.php">Convention Centers</a></li>

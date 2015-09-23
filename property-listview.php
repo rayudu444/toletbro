@@ -29,7 +29,7 @@ echo "<script>window.location.href='index.php'</script>";
   		$type = $_POST['type'];
   	
   		$sql .= " where property='$type'";
-  }
+  }   
   
   if((isset($_POST['address']) && $_POST['address'] != ''))
   {
