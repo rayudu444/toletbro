@@ -80,7 +80,7 @@ function initialize() {
         	<div>
             	<div class="row">
                 	<div class="col-md-5 paddingTop-3">
-                    	<form class="form2" action="property-listview.php" method="post">   
+                    	<form class="form2" action="property-listview.php" method="post">    
                         	<label>
                             	<select>
                                 	<option>Rent</option>

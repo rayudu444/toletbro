@@ -31,7 +31,7 @@ echo "<script>window.location.href='index.php'</script>";
   		$sql .= " where property='$type'";
   }   
   
-  if((isset($_POST['address']) && $_POST['address'] != ''))
+  if((isset($_POST['address']) && $_POST['address'] != '')) 
   {
   		$sql .= " HAVING distance <= 5";
   }
