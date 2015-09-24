@@ -11,34 +11,34 @@ echo "<script>window.location.href='index.php'</script>";
  
  $sql = "select * from post_add ";
  
- if(isset($_POST['address']) && $_POST['address'] != '')
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
  {
- 	 $Address = urlencode($_POST['address']);
-  	 $request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
+ 	 //$Address = urlencode($_POST['address']);
+  	 //$request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
   	 // Make the HTTP request
-     $data = @file_get_contents($request_url);
+     //$data = @file_get_contents($request_url);
      // Parse the json response
-     $jsondata = json_decode($data,true);
-     $lat_lng = $jsondata['results'][0]['geometry']['location'];
-     $lat = $lat_lng['lat'];
-     $lng = $lat_lng['lng'];
+     //$jsondata = json_decode($data,true);
+     //$lat_lng = $jsondata['results'][0]['geometry']['location'];
+     $lat = $_GET['lat'];
+     $lng = $_GET['lng'];
      $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
   }
-  if(isset($_POST['type']) && $_POST['address'] != '')
+  if(isset($_GET['type']))
   {
-  		$type = $_POST['type'];
+  		$type = $_GET['type'];
   	
   		$sql .= " where property='$type'";
   }   
   
-  if((isset($_POST['address']) && $_POST['address'] != '')) 
+  if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')) 
   {
   		$sql .= " HAVING distance <= 5";
   }
   
   $sql .= " order by post_id desc";
  //echo $sql;exit;
- 
+ //echo $sql;exit;
   $statement = $dbh->prepare($sql);
   $statement->execute();
   $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -46,6 +46,33 @@ echo "<script>window.location.href='index.php'</script>";
 <link rel="stylesheet" type="text/css" href="css/popup.css"/>
 <link rel="stylesheet" type="text/css" href="css/magnific-popup.css"/>
 
+<script>
+	$(document).ready(function(){
+		$(".post-filters").change(function(){
+			var formData = new FormData();
+			formData.append("property",$("#type").val());
+			formData.append("location_lat",$("#lat").val());
+			formData.append("location_long",$("#lng").val());
+			formData.append("bedrooms",$("#bhk").val());
+			formData.append("budget",$("#budget").val());
+			formData.append("listed_by",$("#listed-by").val());
+			formData.append("view","list_view");
+			 $.ajax({
+			        url: 'filter-posts.php',
+			        data: formData,
+			        contentType: false,
+			        processData: false,
+			        type: 'POST',
+			        success: function(data){
+			           $(".listing-div").empty();
+			           $(".listing-div").html(data);
+			           var length = $(".listing-div").find(".latlng-length").length;
+				}
+			  });
+			
+		});
+	});
+</script>
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -56,27 +83,29 @@ echo "<script>window.location.href='index.php'</script>";
                         	<ul class="list3">
                             	<li>Refine Results</li>
                                 <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
+                                	<select class="refine1 post-filters" id="bhk" >
+                                		<option value="">BHK</option>
+                                    	<option value="1">1 BHK</option>
+                                        <option value="2">2 BHK</option>
+                                        <option value="3">3 BHK</option>
                                     </select>
                                 </li>
                                 <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
+                                	<select class="refine2 post-filters" id="budget">
+                                    	<option value="">BUDGET</option>
+                                        <option value="10000">1,00,000</option>
+                                        <option value="10000">2,00,000</option>
+                                        <option value="10000">3,00,000</option>
                                     </select>
                                 </li>
                                 <li>
-                                	<select class="refine2">
-                                    	<option>BUDGET</option>
-                                        <option>1,00,000</option>
-                                        <option>2,00,000</option>
-                                        <option>3,00,000</option>
+                                	<select class="refine2 post-filters" id="listed-by">
+                                    	<option value="">Listed By</option>
+                                        <option value="Landlord">Landlord</option>
+                                        <option value="Agent">Agent</option>
                                     </select>
                                 </li>
+                                <!--
                                 <li>
                                 	<select class="refine2">
                                     	<option>Lease Type</option>
@@ -85,14 +114,7 @@ echo "<script>window.location.href='index.php'</script>";
                                         <option>3 Year</option>
                                     </select>
                                 </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Listed By</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
+                                --><!--
                                 <li>
                                 	<select class="refine1">
                                     	<option>More</option>
@@ -104,15 +126,15 @@ echo "<script>window.location.href='index.php'</script>";
                                 <li>
                                 	Reset
                                 </li>
-                                <div class="clearfix"></div>
+                                --><div class="clearfix"></div>
                             </ul>
                         	<div class="clearfix"></div>
                                 
                             </form>
                         </div>
                             <ul class="filter-ul">
-                            	<li><a href = "filter-conventions-sub.php">Map</a></li>
-                            	<li><a href = "property-listview.php">List</a></li>
+                            	<li><a href = "filter-conventions-sub.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">Map</a></li>
+                            	<li><a href = "property-listview.php?type=<?php echo @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">List</a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
@@ -143,7 +165,7 @@ echo "<script>window.location.href='index.php'</script>";
                         
                          <div class="row">
 	                        <div class="results-list1">
-                            <div>
+                            <div class="listing-div">
                             <?php 
 
 							 if($posts){
@@ -247,7 +269,15 @@ echo "<script>window.location.href='index.php'</script>";
                                     <div class="clearfix"></div>
                                 </div>
                             	<div class="clearfix"></div>
-                            	<!--popup code start here-->
+                            	
+                            	<?php }
+							 	}else{
+							 		echo "There is no Results";
+							 	}
+                            	?>
+                                <div class="clearfix"></div>
+                            </div>
+                            <!--popup code start here-->
                             	<div id="test-popup9" class="white-popup mfp-with-anim mfp-hide">
 						<div class="col-md-12 left-part-12">
                             <div class="col-md-6">	
@@ -301,14 +331,6 @@ echo "<script>window.location.href='index.php'</script>";
                         </div>
                         <div class="clearfix"></div>
 			        </div><!--popup code end here-->
-                            	<?php }
-							 	}else{
-							 		echo "There is no Results";
-							 	}
-                            	?>
-                                <div class="clearfix"></div>
-                            </div>
-                            
                         	<div class="clearfix"></div>	
                         </div>
                         </div>

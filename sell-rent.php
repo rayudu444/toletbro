@@ -40,6 +40,10 @@ var componentForm = {
 
 };
 
+function fillInAddress(){
+	
+}
+
 function initialize() {
 
   // Create the autocomplete object, restricting the search
@@ -51,15 +55,28 @@ function initialize() {
       /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
 
       { types: ['geocode'] });
+  
 
-  console.log(autocomplete);
+
   // When the user selects an address from the dropdown,
 
   // populate the address fields in the form.
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
-    fillInAddress();
+    var address = 	$('#autocomplete').val();
+	var geocoder = new google.maps.Geocoder();
+	
+
+	geocoder.geocode( { 'address': address}, function(results, status) {
+
+		if (status == google.maps.GeocoderStatus.OK) {
+			var latitude = results[0].geometry.location.lat();
+			var longitude = results[0].geometry.location.lng();
+		   	$("#lat").val(latitude);
+		   	$("#lng").val(longitude);
+		    } 
+		}); 
 
   });
 
@@ -405,10 +422,12 @@ else // user logged in
 	            <div class="row">
                 	<div>
                     	<h1 class="head6" style="color:#f2635d;">LOREM LPSUM DUMMY TEXT</h1>
-                        <form class="form1" action="property-listview.php" method="post">
+                        <form class="form1" action="property-listview.php" method="get">
                         	<label>
                             	<img src="images/map-icon.png" class="map-icon"/>
-								<input type="text" id="autocomplete" name="address" placeholder="Search by locality or landmark or building"  style="width:60% !important;"/>
+								<input type="text" id="autocomplete"  placeholder="Search by locality or landmark or building"  style="width:60% !important;"/>
+								<input type="hidden" name="lat" value=""  id="lat"/>
+								<input type="hidden" name="lng" value=""  id="lng"/>
 								<select class="rent-select" name="type">
                                 	<option>Rent</option>
                                     <option>Sale</option>

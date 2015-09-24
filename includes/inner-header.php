@@ -46,14 +46,26 @@ function initialize() {
 
       { types: ['geocode'] });
 
-  console.log(autocomplete);
+
   // When the user selects an address from the dropdown,
 
   // populate the address fields in the form.
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
+	  var address = 	$('#autocomplete').val();
+		var geocoder = new google.maps.Geocoder();
+		
 
-    fillInAddress();
+		geocoder.geocode( { 'address': address}, function(results, status) {
+
+			if (status == google.maps.GeocoderStatus.OK) {
+				var latitude = results[0].geometry.location.lat();
+				var longitude = results[0].geometry.location.lng();
+			   	$("#lat").val(latitude);
+			   	$("#lng").val(longitude);
+			    } 
+			}); 
+    
 
   });
 
@@ -62,17 +74,22 @@ function initialize() {
   auto= document.getElementById('autocomplete');
 
 
-	  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
-		    if (e.keyCode == 13) { 
-		        e.preventDefault(); 
-		       
-		    }
-		   
-		}); 
+	
 
 }
 
   </script>
+<?php 
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
+ {
+	$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($_GET['lat']).','.trim($_GET['lng']).'&sensor=false';
+	$json = @file_get_contents($url);
+	$data=json_decode($json);
+	$status = $data->status;
+	if($status=="OK")
+	$addr = $data->results[0]->formatted_address;
+ }
+?>
 </head>
 <body onLoad="initialize()">
 	<section>
@@ -80,17 +97,19 @@ function initialize() {
         	<div>
             	<div class="row">
                 	<div class="col-md-5 paddingTop-3">
-                    	<form class="form2" action="property-listview.php" method="post">    
+                    	<form class="form2" action=""  method="get">    
                         	<label>
-                            	<select>
-                                	<option>Rent</option>
-                                    <option>Sale</option>
+                            	<select name="type" id="type">
+                                	<option  value="Rent" <?php echo @($_GET['type'] == "Rent")? "selected" : "";?>>Rent</option>
+                                    <option  value="Sale" <?php echo @($_GET['type'] == "Sale")? "selected" : "";?>>Sale</option>
                                 </select>
                             </label>
                             
                             <label class="label1">
                             	<i class="fa fa-map-marker map-icon2"></i>
-                            	<input type="text" name="address" id="autocomplete" placeholder="Search by locality or landmark or building"/>
+                            	<input type="text"  id="autocomplete" value="<?php echo  @$addr;?>" placeholder="Search by locality or landmark or building"/>
+                            	<input type="hidden" name="lat" value="<?php echo  @$_GET['lat'];?>" class="post-filters"  id="lat"/>
+								<input type="hidden" name="lng" value="<?php echo  @$_GET['lng'];?>" class="post-filters"  id="lng"/>
                                 <button type="submit"><i class="fa fa-search search-icon"></i></button>
                                 <div class="clearfix"></div>
                             </label>

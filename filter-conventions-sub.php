@@ -1,18 +1,41 @@
 <?php 
   session_start(); 
-  include_once('includes/dbutil.php');
- 
-  if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
-{
-echo "<script>window.alert('Please LogIn....')</script>";
-echo "<script>window.location.href='index.php'</script>";
-}
+ include_once('includes/dbutil.php');
  include_once('includes/inner-header.php');
  
- $sql = "select post_id,description,contact_name,bedrooms,property_furnished_status,contact_mobile,plot_area,plot_state,location_lat,location_long,price_monthly,property_image from post_add where property='Rent' order by post_id desc";
- $statement = $dbh->prepare($sql);
- $statement->execute();
- $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+ $sql = "select * from post_add ";
+ 
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
+ {
+ 	 //$Address = urlencode($_POST['address']);
+  	 //$request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
+  	 // Make the HTTP request
+     //$data = @file_get_contents($request_url);
+     // Parse the json response
+     //$jsondata = json_decode($data,true);
+     //$lat_lng = $jsondata['results'][0]['geometry']['location'];
+     $lat = $_GET['lat'];
+     $lng = $_GET['lng'];
+     $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
+  }
+  if(isset($_GET['type']))
+  {
+  		$type = $_GET['type'];
+  	
+  		$sql .= " where property='$type'";
+  }   
+  
+  if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')) 
+  {
+  		$sql .= " HAVING distance <= 5";
+  }
+  
+  $sql .= " order by post_id desc";
+ //echo $sql;exit;
+ //echo $sql;exit;
+  $statement = $dbh->prepare($sql);
+  $statement->execute();
+  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
  
 ?>
 
@@ -36,7 +59,7 @@ echo "<script>window.location.href='index.php'</script>";
    }
 
  </style>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+
 <script src="js/markerwithlabel.js"></script>
  <script>
 	$(function(){
@@ -45,7 +68,7 @@ echo "<script>window.location.href='index.php'</script>";
 				$(".dialog").hide();
 		});		
 	});
-	function initialize() {
+	function initialize12() {
 	 
 	 
 	  var mapProp = {
@@ -112,7 +135,34 @@ echo "<script>window.location.href='index.php'</script>";
 	  <?php ++$count; } ?>
 	  map.setZoom(12)
 	}
-	google.maps.event.addDomListener(window, 'load', initialize);
+	google.maps.event.addDomListener(window, 'load', initialize12);
+</script>
+<script>
+	$(document).ready(function(){
+		$(".post-filters").change(function(){
+			var formData = new FormData();
+			formData.append("property",$("#type").val());
+			formData.append("location_lat",$("#lat").val());
+			formData.append("location_long",$("#lng").val());
+			formData.append("bedrooms",$("#bhk").val());
+			formData.append("budget",$("#budget").val());
+			formData.append("listed_by",$("#listed-by").val());
+			formData.append("view","map_view");
+			 $.ajax({
+			        url: 'filter-posts.php',
+			        data: formData,
+			        contentType: false,
+			        processData: false,
+			        type: 'POST',
+			        success: function(data){
+			           $(".listing-div").empty();
+			           $(".listing-div").html(data);
+			           var length = $(".listing-div").find(".latlng-length").length;
+				}
+			  });
+			
+		});
+	});
 </script>
 
 			<div class="dialog" style="display:none;" >
@@ -125,8 +175,8 @@ echo "<script>window.location.href='index.php'</script>";
                     	<div class="filter-inner-div">
                         	<h1>Filter Properties</h1>
                             <ul  class="filter-ul">
-                            	<li><a href="filter-conventions-sub.php">Map</a></li>
-                                <li><a href="property-listview.php">List</a></li>
+                            	<li><a href="filter-conventions-sub.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">Map</a></li>
+                                <li><a href="property-listview.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">List</a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
@@ -134,55 +184,28 @@ echo "<script>window.location.href='index.php'</script>";
                         	<form>
                         	<ul class="list3">
                             	<li>Refine Results</li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
+                                 <li>
+                                	<select class="refine1 post-filters" id="bhk" >
+                                		<option value="">BHK</option>
+                                    	<option value="1">1 BHK</option>
+                                        <option value="2">2 BHK</option>
+                                        <option value="3">3 BHK</option>
                                     </select>
                                 </li>
                                 <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
+                                	<select class="refine2 post-filters" id="budget">
+                                    	<option value="">BUDGET</option>
+                                        <option value="10000">1,00,000</option>
+                                        <option value="10000">2,00,000</option>
+                                        <option value="10000">3,00,000</option>
                                     </select>
                                 </li>
                                 <li>
-                                	<select class="refine2">
-                                    	<option>BUDGET</option>
-                                        <option>1,00,000</option>
-                                        <option>2,00,000</option>
-                                        <option>3,00,000</option>
+                                	<select class="refine2 post-filters" id="listed-by">
+                                    	<option value="">Listed By</option>
+                                        <option value="Landlord">Landlord</option>
+                                        <option value="Agent">Agent</option>
                                     </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Lease Type</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Listed By</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>More</option>
-                                        <option>Generator</option>
-                                        <option>Generator</option>
-                                        <option>Generator</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	Reset
-                                    <i class="fa fa-undo" style="color:#444; font-size:10px;"></i>
                                 </li>
                                 <div class="clearfix"></div>
                             </ul>
