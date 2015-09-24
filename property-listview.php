@@ -56,7 +56,7 @@ echo "<script>window.location.href='index.php'</script>";
 			formData.append("bedrooms",$("#bhk").val());
 			formData.append("budget",$("#budget").val());
 			formData.append("listed_by",$("#listed-by").val());
-			formData.append("view","list_view"); 
+			formData.append("view","list_view");
 			 $.ajax({
 			        url: 'filter-posts.php',
 			        data: formData,

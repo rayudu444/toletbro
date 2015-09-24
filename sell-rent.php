@@ -212,7 +212,7 @@ $gClient->setClientSecret($google_client_secret);
 $gClient->setRedirectUri($google_redirect_url);
 $gClient->setDeveloperKey($google_developer_key);
 
-$google_oauthV2 = new Google_Oauth2Service($gClient); 
+$google_oauthV2 = new Google_Oauth2Service($gClient);
 
 //If user wish to log out, we just unset Session variable
 if (isset($_REQUEST['reset'])) 
