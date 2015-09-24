@@ -17,7 +17,7 @@ include_once('includes/inner-header.php');
                                 <li>
                                 	<select class="refine1">
                                     	<option>1 BHK</option>
-                                        <option>2 BHK</option>
+                                        <option>2 BHK</option> 
                                         <option>3 BHK</option>
                                     </select>
                                 </li>

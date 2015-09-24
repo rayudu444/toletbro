@@ -132,7 +132,7 @@
                                                  <p></p>
                                               </li>
                                               <li class="view-but">
-                                                 <a href="list-view-property-info.php?property=<?=$result_info['post_id']?>">View <i class="fa fa-angle-down"></i></a>
+                                                 <a href="list-view-property-info.php?property=<?=$result_info['post_id']?>">View <i class="fa fa-angle-down"></i></a> 
                                                  
                                               </li>
                                               <div class="clearfix"></div>

@@ -135,7 +135,7 @@
 	  <?php ++$count; } ?>
 	  map.setZoom(12)
 	}
-	google.maps.event.addDomListener(window, 'load', initialize12);
+	google.maps.event.addDomListener(window, 'load', initialize12); 
 </script>
 <script>
 	$(document).ready(function(){

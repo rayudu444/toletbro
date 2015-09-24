@@ -82,7 +82,7 @@ function initialize() {
 <?php 
  if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
  {
-	$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($_GET['lat']).','.trim($_GET['lng']).'&sensor=false';
+	$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($_GET['lat']).','.trim($_GET['lng']).'&sensor=false'; 
 	$json = @file_get_contents($url);
 	$data=json_decode($json);
 	$status = $data->status;
