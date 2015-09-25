@@ -14,7 +14,7 @@
 	unset($data['location_lat']);
 	unset($data['location_long']);
 	unset($data['posted-order']);
-	unset($data['price-order']);
+	unset($data['price-order']); 
 	
 	
 	$sql = "  FROM `post_add` WHERE";

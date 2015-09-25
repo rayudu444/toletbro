@@ -90,7 +90,7 @@ include("includes/dbutil.php");
 					
                 }else{
 					
-                    alert("Failed to login");
+                    alert("Failed to login"); 
                 }
             },
             error: function () {

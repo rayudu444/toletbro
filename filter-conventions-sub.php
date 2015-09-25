@@ -180,7 +180,7 @@
 			        processData: false,
 			        type: 'POST',
 			        success: function(data){
-						var posts = JSON.parse(data);
+						var posts = JSON.parse(data); 
 						//getting lat n lng values
 						/*var lat = $("#lat").val();
 					   	var lng = $("#lng").val();

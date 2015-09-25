@@ -356,7 +356,7 @@ echo "<script>window.location.href='index.php'</script>";
                     </div>
                     
                 </div>
-               <div class="clearfix"></div>
+               <div class="clearfix"></div> 
             </div>
             <div class="clearfix"></div>
         </div>        

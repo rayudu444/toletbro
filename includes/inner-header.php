@@ -147,7 +147,7 @@ function initialize() {
                                 </select>
                             </label>
                             
-                            <label class="label1">
+                            <label class="label1"> 
                             	<i class="fa fa-map-marker map-icon2"></i>
                             	<input type="text"  id="autocomplete" value="<?php echo  @$addr;?>" placeholder="Search by locality or landmark or building"/>
                             	<input type="hidden" name="lat" value="<?php echo  @$_GET['lat'];?>" class="post-filters"  id="lat"/>
