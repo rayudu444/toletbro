@@ -11,6 +11,9 @@
 <link rel="stylesheet" type="text/css" href="css/responsive.css"/>
 <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/popup.css"/>
+<link rel="stylesheet" type="text/css" href="css/magnific-popup.css"/>
+
 <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
 <script src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
@@ -92,8 +95,47 @@ function initialize() {
 ?>
 </head>
 <body onLoad="initialize()">
+ 
 	<section>
 		<div class="container-fluid"> 
+          <div id="test-popup" class="white-popup mfp-with-anim mfp-hide">
+            <div class="col-md-5 left-part">
+                          <a href="#">
+                              <img src="images/logo-w.png"/>
+                            </a>
+                            <div class="signup-div">
+                              <h1>Why sign up?</h1>
+                                <ul>
+                                  <li>Save time filling forms</li>
+                                    <li>Access your recent searches</li>
+                                    <li>Track shortlisted, messaged properties</li>
+                                </ul>
+                            </div>
+                        </div>
+            <div class="col-md-7">
+                          <div class="login-div">
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+                                  <form method="post" action="checkuser.php">
+                                  <input type="email" placeholder="Email Id" name="user_email"/>
+                                    <input type="password" placeholder="Password" name="password"/>
+                                    <button type="submit">Login</button>
+                                </form>
+                                </div>
+                                <span><img src="images/or.png" class="or-img"/></span>
+                                <div class="clearfix"></div>
+                              <a href="#"><img id="fb-login" src="images/fb-login.png"/></a>
+                                <div class="clearfix"></div>
+                              <!--  <a href="#"><img src="images/gplus-login.png"/></a> -->
+                               <?php 
+            if($is_user_login){ ?>
+              <a class="login" href="<?= $authUrl; ?>"><img src="images/gplus-login.png"/></a>
+          <?php } ?>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+              </div>
         	<div>
             	<div class="row">
                 	<div class="col-md-5 paddingTop-3">
@@ -132,3 +174,5 @@ function initialize() {
             </div>
         </div>
         <div class="clearfix height10"></div>
+<script src='js/jquery.magnific-popup.min.js'></script>
+<script src="js/index.js"></script>

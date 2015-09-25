@@ -8,8 +8,14 @@
 	$longitude = $data['location_long'];
 	$distance_condition = '';
 	
+	$price_order = $data['price-order'];
+	$posted_order = $data['posted-order'];
+	
 	unset($data['location_lat']);
 	unset($data['location_long']);
+	unset($data['posted-order']);
+	unset($data['price-order']);
+	
 	
 	$sql = "  FROM `post_add` WHERE";
 	
@@ -35,7 +41,24 @@
 		$sql = "SELECT * ".$sql;
 			
 	}
-	$sql .= " order by post_id desc";
+	$sql .= " order by ";
+	
+	if($price_order != '')
+	{
+		$sql .= "price_monthly $price_order,";
+	}
+	
+	if($posted_order != '')
+	{
+		$sql .= "  post_id $posted_order";
+	}else{
+		$sql .= "  post_id desc";
+	}
+	
+	
+	
+	
+	
 	
 	$statement = $dbh->prepare($sql);
 	$statement->execute();

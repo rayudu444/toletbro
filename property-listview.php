@@ -57,6 +57,8 @@ echo "<script>window.location.href='index.php'</script>";
 			formData.append("budget",$("#budget").val());
 			formData.append("listed_by",$("#listed-by").val());
 			formData.append("view","list_view");
+			formData.append("price-order",$("#sort-by-price").val());
+			formData.append("posted-order",$("#sort-by-posted").val());
 			 $.ajax({
 			        url: 'filter-posts.php',
 			        data: formData,
@@ -105,6 +107,7 @@ echo "<script>window.location.href='index.php'</script>";
                                         <option value="Agent">Agent</option>
                                     </select>
                                 </li>
+                               
                                 <!--
                                 <li>
                                 	<select class="refine2">
@@ -154,8 +157,21 @@ echo "<script>window.location.href='index.php'</script>";
                           <h6>6 flats found. <span style="color:#f2635d;">Include nearby flats</span></h6>
                           <ul class="date-add">
                             <li>Sort by: <span style="color:#f2635d;">Relevance</span> </li>    
-                            <li>Date Added (Recent First)</li>  
-                            <li>Price: Low High</li>
+                            <li>
+                                <select class="refine2 post-filters" id="sort-by-posted">
+                                    <option value="">Date Added </option>
+                                        <option value="desc">Recent-older</option>
+                                        <option value="asc">Older-Recent</option>
+                                    </select>
+                            </li>
+
+                            <li>
+                                <select class="refine2 post-filters" id="sort-by-price">
+                                    <option value="">Price</option>
+                                        <option value="asc">Low-High</option>
+                                        <option value="desc">High-Low</option>
+                                    </select>
+                            </li>
                             <li><i class="fa fa-heart-o" style="margin-right:2px;"></i>0 Shortlisted Properties </li>
                             
                           </ul>
@@ -182,9 +198,9 @@ echo "<script>window.location.href='index.php'</script>";
                                        <div class="row">
                                           <div class="col-md-8">
                                    
-                                    <div class="bhk-un">
+                                    <div class="bhk-un" id="<?php echo (isset($_SESSION['upid']))? '' : 'inline-popups' ;?>">
                                         <h1><?=$result_info['bedrooms']?>BHK <?=$result_info['property_furnished_status']?></h1>
-                                        <i class="fa fa-heart-o"></i>
+                                        <a class="liked" href="<?php echo (isset($_SESSION['upid']))? 'javascript:void(0)' : '#test-popup' ;?>" id="<?= $result_info['post_id'];?>"><i class="fa fa-heart-o" ></i></a>
                                         <div class="clear"></div>
                                      </div>
                                       <div class="par-div">
@@ -365,3 +381,8 @@ echo "<script>window.location.href='index.php'</script>";
 </html>
 <script src='js/jquery.magnific-popup.min.js'></script>
 <script src="js/index.js"></script>
+<script type="text/javascript">
+  $(document).ready(fucntion(){
+    $()
+  });
+</script>

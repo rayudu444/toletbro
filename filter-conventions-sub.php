@@ -62,12 +62,24 @@
 
 <script src="js/markerwithlabel.js"></script>
  <script>
+ 	var map = null;
+ 	var markers = [];
 	$(function(){
 		$(document).on("click","#popup-close",function(){
 				$(".dialog").empty();
 				$(".dialog").hide();
 		});		
 	});
+
+	function emptyMarker()
+	{
+		for (var i = 0, marker; marker = markers[i]; i++) {
+		      marker.setMap(null);
+		    }
+	}
+	
+
+	//initializing google maps
 	function initialize12() {
 	 
 	 
@@ -76,8 +88,8 @@
 	    zoom:18,
 	    mapTypeId:google.maps.MapTypeId.ROADMAP
 	  };
-	  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
+	   map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	  
 		
 	  <?php 
 	  	$count = 1;
@@ -106,10 +118,10 @@
 	           labelAnchor: new google.maps.Point( 24, 37),
 	           labelClass: "labels", // the CSS class for the label
 	           labelInBackground: false,
+	           icon : " "
 	           
-	          
-	      });
-	     
+	         });
+	      markers.push(marker<?= $count;?>);
 	      marker<?= $count;?>.image = '<?= $image;?>';
 	      marker<?= $count;?>.address = "<?= $post["description"];?>";
 	      marker<?= $count;?>.price = '<?= $post["price_monthly"];?>';
@@ -138,6 +150,17 @@
 	google.maps.event.addDomListener(window, 'load', initialize12);
 </script>
 <script>
+	function markerClicked(e) {
+	    
+		   var popup_content = '<div class="pop-ums"><a href="javascript:void(0);" id="popup-close" style="float:right;">X</a><div class="col-im-87"><img src="uploads/property_images/'+ this.image+'"/></div><div class="col-im-88">';
+		   popup_content += "<h3>"+this.bedrooms+"BHK FLAT "+this.furnished+"</h3><h6>Price:"+this.price+"</h6>"; 
+		   popup_content += '<ul style="list-style-type: none;"><li>Area : '+this.area+'</li><li>Description :'+ this.description+' </li></ul></div> <div class="clearfix"></div></div>';
+	    
+	    $(".dialog").empty();
+	    $(".dialog").append(popup_content);
+	    $(".dialog").show();
+	   return false;
+	}
 	$(document).ready(function(){
 		$(".post-filters").change(function(){
 			var formData = new FormData();
@@ -148,6 +171,8 @@
 			formData.append("budget",$("#budget").val());
 			formData.append("listed_by",$("#listed-by").val());
 			formData.append("view","map_view");
+			formData.append("price-order",$("#sort-by-price").val());
+			formData.append("posted-order",$("#sort-by-posted").val());
 			 $.ajax({
 			        url: 'filter-posts.php',
 			        data: formData,
@@ -155,9 +180,89 @@
 			        processData: false,
 			        type: 'POST',
 			        success: function(data){
-			           $(".listing-div").empty();
-			           $(".listing-div").html(data);
-			           var length = $(".listing-div").find(".latlng-length").length;
+						var posts = JSON.parse(data);
+						//getting lat n lng values
+						/*var lat = $("#lat").val();
+					   	var lng = $("#lng").val();
+						if(lat != '' && lng != '')
+						{
+							var panPoint = new google.maps.LatLng(lat, lat);
+					        map.panTo(panPoint);
+						}*/
+					   	
+					   	
+						$(".content").empty();
+						if(posts.length >0)
+						{	
+							emptyMarker();
+							$.each(posts,function(index,value){
+								
+					        	var image = '';
+					        	if(value.property_image != '')
+					        	{
+						        	var image = value.property_image.split(",")[0];
+					        	}
+					        	//creating div elements
+				        		var post = '<div class="results-list-div">'+
+				             	'<div class="col-md-4 cont-im">'+
+				                     '<img src="'+  "uploads/property_images/"+image+'"/>'+
+				                 '</div>'+
+				                 '<div class="col-md-8">'+
+				                
+				                 '<div class="bhk-un">'+
+				                     '<h1>'+value.bedrooms+' BHK'+ value.property_furnished_status+'</h1>'+
+				                     '<i class="fa fa-heart-o"></i>'+
+				                     '<div class="clear"></div>'+
+				                  '</div>'+
+				                   '<p class="para-1">'+value.description.substr(0,200)+'</p>'+
+				                  '<div class="cont-sit-but">'+
+				                   '<span class="rs-sp"><i class="fa fa-inr"></i>'+value.price_monthly+'</span>'+
+				                    
+				                    '<div class="clearfix"></div>'+
+				                   '</div>'+
+				                 '</div>'+
+				                 '<div class="clearfix"></div>'
+				             	'</div>'+
+				         		'<div class="clearfix"></div>';
+				         		
+				         		//creating latlng object
+				         		var latlnt = new google.maps.LatLng(value.location_lat,value.location_long);
+				         	
+				         		var pictureLabel = document.createElement("img");
+					           	 pictureLabel.src = "uploads/property_images/"+image; ;
+					           	 pictureLabel.style.height = '50px';
+					           	 pictureLabel.style.width = '50px';
+					           	 
+					       	     var marker =  new MarkerWithLabel({
+					       	    	position: latlnt,
+					       	    	map: map,
+					       	    	labelContent: pictureLabel,
+					       	        labelAnchor: new google.maps.Point( 24, 37),
+					       	        labelClass: "labels", // the CSS class for the label
+					       	        labelInBackground: false,
+					       	        icon : " "
+					       	           
+					       	      });
+					       	      markers.push(marker);
+					       	   	  marker.image = image;
+					 	          marker.address = value.description;
+					 	          marker.price = value.price_monthly;
+					 	          marker.bedrooms = value.bedrooms;
+					 	          marker.furnished = value.property_furnished_status;
+					 	          marker.description = value.description.substr(0,200);
+					 	          marker.area =  (value.plot_state== 1)? value.plot_area+" Square feets" : "$post[plot_area] Square yards"; 
+					 	          google.maps.event.addListener(marker, 'click', markerClicked);
+								  
+				         		
+				         		
+				        		$(".content").append(post);
+					        });
+						}else{
+							emptyMarker();
+							$(".content").append("<span style='color:red'>No posts found</span>");
+						}
+				        	
+						
 				}
 			  });
 			
@@ -211,11 +316,16 @@
                             </ul>
                         	<div class="clearfix"></div>
                             <div class="sort-price">
-                            	<select>
-                                	<option>Sort By</option>
-                                    <option>Price</option>
-                                    <option>Category</option>
-                                </select>
+                            	<select class="refine2 post-filters" id="sort-by-posted">
+                                    <option value="">Date Added </option>
+                                        <option value="desc">Recent-older</option>
+                                        <option value="asc">Older-Recent</option>
+                                    </select>
+                                    <select class="refine2 post-filters" id="sort-by-price">
+                                    <option value="">Price</option>
+                                        <option value="asc">Low-High</option>
+                                        <option value="desc">High-Low</option>
+                                    </select>
                                 <div class="result-bt">
                                     <ul>
                                        <li><i class="fa fa-list-ul"></i>Result</li>
@@ -228,6 +338,7 @@
                             </form>
                         </div>
                         <div class="clearfix"></div>
+                        
                         <div class="row" id="demo">
 	                        <div class="results-list id="examples"">
                             <div id="content-1" class="content">
