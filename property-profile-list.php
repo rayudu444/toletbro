@@ -41,7 +41,7 @@ echo "<script>window.location.href='index.php'</script>";exit;
                     <td><?=$result_info['plot_area']?></td>
                      <td><?=$result_info['price_monthly']?></td>
                     <td><?=$result_info['bedrooms']?></td>
-                     <td><a href="#"><!-- <a href="convention-post.php?post=<?=$result_info['post_id']?>"> --><i class="fa fa-pencil-square-o"></i></a></td>
+                     <td><!-- <a href="#"> --><a href="post-add.php?post=<?=$result_info['post_id']?>"><i class="fa fa-pencil-square-o"></i></a></td>
                     <td><a href="del-property.php?post=<?=$result_info['post_id']?>"><i class="fa fa-trash-o"></i></a></td>
                   </tr>
                     <?php }

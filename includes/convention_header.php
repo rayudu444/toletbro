@@ -35,7 +35,7 @@
                         <nav class="nav-list3 paddingTop-6 con-row">
                         	<ul class="singul">
                             <?php if(isset($_SESSION['cnv_upid']) && $_SESSION['cnv_upid'] != ''){?>
-                                <li><a href="#"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>
+                                <li><a href="convention-profile-list.php"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>
                             <li><a href="logout.php">Log out</a></li><?php } ?>
                                 <div class="clearfix"></div>
                             </ul>

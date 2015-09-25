@@ -3498,8 +3498,8 @@ border:none;
 }
 .sell-banner{
     width: 100%;
-    height: 1000px;
-    background: url(../images/sell-banner.png);
+    height: 600px;
+    background: url(../images/sell-banner.png) center;
     background-size: cover;
 }
 .downloadapp-left{

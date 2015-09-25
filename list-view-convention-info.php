@@ -2,11 +2,11 @@
   session_start(); 
   include_once('includes/dbutil.php');
   
-  if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
+  /*if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
 {
 echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
-}
+}*/
 include_once('includes/inner-header.php');
 ?>
 <!--thumbnile-slider-->
@@ -158,42 +158,6 @@ include_once('includes/inner-header.php');
         </div>
       </section>
     </div>
- 
-                                            <!-- /thumbcarousel -->
-                                                
-        <!-- <div id="carousel" class="carousel slide" data-ride="carousel">
-
-            <div class="carousel-inner">
-                <?php $dbimg =explode(",", $p_info['images']);
-                      $count_img = count($dbimg);
-                      $x=0;
-                      foreach ($dbimg as $dbimg_info) {
-                        ?>
-                      <div class="item <?php if($x==0){?>active<?php }?>">
-                        <img src="uploads/convention_images/<?=$dbimg_info?>">
-                      </div>  
-                      <?php $x++;}
-                 ?>
-            </div>
-        </div>  -->
-    <!-- <div class="clearfix">
-        <div id="thumbcarousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <?php $y=0;
-                    foreach ($dbimg as $dbimg_info) {?>
-                    <div data-target="#carousel" data-slide-to="<?=$y?>" class="thumb"><img src="uploads/convention_images/<?=$dbimg_info?>"></div>
-                    <?php $y++; }?>
-                </div>/item
-            </div>
-            <a class="left carousel-control left-arrow" href="#thumbcarousel" role="button" data-slide="prev">
-                <span class="fa fa-chevron-left"></span>
-            </a>
-            <a class="right carousel-control right-arrow" href="#thumbcarousel" role="button" data-slide="next">
-                <span class="fa fa-chevron-right"></span>
-            </a>
-        </div> 
-    </div> --><!-- /clearfix -->
     </div>
                                    <div class="col-md-6" style="margin-left:5%;">
                                       <div class="room-price">

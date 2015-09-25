@@ -1,10 +1,14 @@
 <?php 
   session_start(); 
   include_once('includes/dbutil.php');
-  
-  
+
 include_once('includes/inner-header.php');
 ?>
+<!--thumbnile-slider-->
+<link href="css1/demo.css" rel="stylesheet" type="text/css" />
+ <link href="css1/flexslider.css" rel="stylesheet" type="text/css" />
+<script src="js1/modernizr.js" type="text/javascript"></script>
+<!--thumbnile-slider-->
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -109,41 +113,59 @@ include_once('includes/inner-header.php');
                          <div class="row">
 	                        <div class="results-list1">
                                <div class="col-md-12" style="padding:0px;">
-                                  <div class="col-sm-4 sider-div">
-        <div id="carousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <?php $dbimg =explode(",", $p_info['property_image']);
+                                  
+
+
+
+
+<div class="col-sm-5 sider-div">
+	
+
+                                       <div id="main" role="main">
+      <section class="slider">
+        <div id="slider" class="flexslider">
+          <ul class="slides">
+               
+             
+                 <?php $dbimg =explode(",", $p_info['property_image']);
                       $count_img = count($dbimg);
-                      $x=0;
+                      
                       foreach ($dbimg as $dbimg_info) {
                         ?>
-                      <div class="item <?php if($x==0){?>active<?php }?>">
+                      <!-- <div class="item <?php if($x==0){?>active<?php }?>"> -->
+                      <li>
                         <img src="uploads/property_images/<?=$dbimg_info?>">
-                      </div>  
-                      <?php $x++;}
+                        </li>
+                      <!-- </div> -->  
+                      <?php }
                  ?>
-            </div>
-        </div> 
-    <div class="clearfix">
-        <div id="thumbcarousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <?php $y=0;
-                    foreach ($dbimg as $dbimg_info) {?>
-                    <div data-target="#carousel" data-slide-to="<?=$y?>" class="thumb"><img src="uploads/property_images/<?=$dbimg_info?>"></div>
-                    <?php $y++; }?>
-                </div><!-- /item -->
-            </div><!-- /carousel-inner -->
-            <a class="left carousel-control left-arrow" href="#thumbcarousel" role="button" data-slide="prev">
-                <span class="fa fa-chevron-left"></span>
-            </a>
-            <a class="right carousel-control right-arrow" href="#thumbcarousel" role="button" data-slide="next">
-                <span class="fa fa-chevron-right"></span>
-            </a>
-        </div> <!-- /thumbcarousel -->
-    </div><!-- /clearfix -->
+            
+          </ul>
+        </div>
+        <div id="carousel" class="flexslider">
+          <ul class="slides">
+             <?php $dbimg =explode(",", $p_info['property_image']);
+                      $count_img = count($dbimg);
+                      
+                      foreach ($dbimg as $dbimg_info) {
+                        ?>
+                      <!-- <div class="item <?php if($x==0){?>active<?php }?>"> -->
+                      <li>
+                        <img src="uploads/property_images/<?=$dbimg_info?>">
+                        </li>
+                      <!-- </div> -->  
+                      <?php }
+                 ?>
+            
+          </ul>
+        </div>
+      </section>
     </div>
-                                   <div class="col-md-7" style="margin-left:5%;">
+    
+</div>
+
+
+                                   <div class="col-md-6" style="margin-left:5%;">
                                       <div class="room-price">
                                           <div class="unfurnish">
                                               <p><?=$p_info['bedrooms']?>BHK <?=$p_info['property_furnished_status']?></p>
@@ -431,3 +453,37 @@ include_once('includes/inner-header.php');
 	</script>
 </body>
 </html>
+
+<!--thumbnile-slider-->
+   <script src="js1/jquery-1.7.1.js" type="text/javascript"></script>
+    <script src="js1/jquery.flexslider.js" type="text/javascript"></script>
+  
+    <script type="text/javascript">
+    $(function(){
+      SyntaxHighlighter.all();
+    });
+    $(window).load(function(){
+      $('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: true,
+        itemWidth:150,
+        itemMargin: 5,
+    auto:true,
+        asNavFor: '#slider'
+      });
+
+      $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: true,
+        sync: "#carousel",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+    });
+  </script>
+<!--thumbnile-slider-->
