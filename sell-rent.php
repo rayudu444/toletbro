@@ -397,7 +397,12 @@ else // user logged in
         	<div class="container">
                 <div class="row">
 	                <div class="links">
-                    	
+                    	<ul id="inline-popups" style="height:40px;">
+                    		<!-- <li><a href="#test-popup2" class="sing-buts click">Sign Up</a></li>
+                        	<li><a href="#test-popup" class="click2">Login</a></li> -->
+	                   		
+                              <div class="clearfix"></div>
+                        </ul>
                     </div>
                     <div class="clearfix"></div>
                 </div>
