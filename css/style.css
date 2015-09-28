@@ -1755,7 +1755,7 @@ list-style:none;
    border-bottom:1px solid #919090; 	
 }
 .div-pad2 p{
-   font-size:18px;
+   font-size:20px;
    font-weight:400;
    font-family:Myriad Pro;
    color:#444f53;
@@ -2239,12 +2239,13 @@ border-bottom:1px solid #999898;
    float:left;	
 }
 .div-pad3 p {
-    font-size: 16px;
-    font-weight: 400;
-    font-family: Lato;
-    padding:5px 0px;
-    margin: 0px;
-    border-bottom: 1px solid #919090;
+    font-size:20px;
+   font-weight:400;
+   font-family:Myriad Pro;
+   color:#444f53;
+   padding:3px 0px;
+   margin:0px;
+   border-bottom:1px solid #999999; 
 }
 .box-filters{
    width:650px;
@@ -3530,11 +3531,19 @@ float:left;
 } 
 .hand-app{
    width:100%;
+   position: relative;
    margin:5% auto 0%; 
+   right:0%;
 }
 .hand-app img{
    width:50%;
    margin:auto;
+
+   top:24px;
+   position: absolute;
+   -ms-transform: rotate(12deg);
+    -webkit-transform: rotate(12deg); 
+    transform: rotate(12deg);
    display:block; 
 }
 .cont-add-im{

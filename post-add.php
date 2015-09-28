@@ -51,7 +51,7 @@ if(isset($_GET['post']))
 			                    </script>  
 <div class="container-fluid white-bg1" style="padding:0px">
     <div class="col-md-12 div-pad1">
-      <p style="color:#f2635d;">POST AN ADD</p>
+      <p style="color:#f2635d;">POST AN AD</p>
     </div>
         	<div class="container">
         	<?php if(isset($_GET['message']))
@@ -231,7 +231,7 @@ if(isset($_GET['post']))
                        
                         
                            
-                            <div class="list-check singlecheck">
+                            <div class="list-check cont2-form singlecheck">
                               <p style="width:50%;">
                                 <input type="checkbox" id="test83" value="Landlord" name="listed" <?php echo  (isset($post_details['listed_by']) && $post_details['listed_by'] == "Landlord" )? "checked" : ''; ?>/>
                                 <label for="test83">Landlord</label>
@@ -273,7 +273,7 @@ if(isset($_GET['post']))
                               <div class="form-1" id="cat_data" >
                              
                                <select name="city" id="city">
-                                <option value="">select City</option>
+                                <option value="">Select City</option>
                                 <?php if(isset($cities)){
                                 	
                                 		foreach ($cities as $city)
@@ -298,7 +298,7 @@ if(isset($_GET['post']))
                               </div>
                              <div class="list-check">
                               
-                               <div class="input-title"><input type="text" id="test2" placeholder="Adress" name="address1"  value='<?php echo  @$post_details['address'];?>' /></div>
+                               <div class="input-title"><input type="text" id="test2" placeholder="Address" name="address1"  value='<?php echo  @$post_details['address'];?>' /></div>
                                <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" value='<?php echo  @$post_details['address_next'];?>' /></div>
                             
                             <div class="clearfix"></div>   

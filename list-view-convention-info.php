@@ -99,7 +99,7 @@ include_once('includes/inner-header.php');
                               $p_info = mysql_fetch_array($query);
                             //}
                            ?>
-                          <h2>Flats for Rent in Jubilee Hills </h2>
+                          <h2>Convention Centres in Hyderabad </h2>
                         </div>
                         <div class="clearfix"></div>
                         <div class="row flats-found">

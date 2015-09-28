@@ -397,14 +397,7 @@ else // user logged in
         	<div class="container">
                 <div class="row">
 	                <div class="links">
-                    	<ul id="inline-popups">
-                    		<!-- <li><a href="#test-popup2" class="sing-buts click">Sign Up</a></li>
-                        	<li><a href="#test-popup" class="click2">Login</a></li> -->
-	                   		<li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
-                     		<li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
-
-                              <div class="clearfix"></div>
-                        </ul>
+                    	
                     </div>
                     <div class="clearfix"></div>
                 </div>

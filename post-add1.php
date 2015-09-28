@@ -243,7 +243,7 @@ $( ".parking_4" ).click(function() {
   ?>
   <div class="container-fluid white-bg1" style="padding:0px">
     <div class="col-md-12 div-pad1">
-      <p style="color:#f2635d;">POST AN ADD</p>
+      <p style="color:#f2635d;">POST AN AD</p>
     </div>  
      <div class="container">
     <div class="container-sub3">
@@ -277,10 +277,11 @@ $( ".parking_4" ).click(function() {
                 <div class="row mob-row">
                               
                                 <div class="clearfix"></div>
-                   <div class="container-post1">
-                             <div class="div-pad3">
+                                <div class="div-pad3">
                                   <p>Bedrooms</p>
                                </div>
+                   <div class="container-post1">
+                             
                                <div class="box-filters">
                                   <input class="Bedrooms " type="button" value="0"/>
                                     <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==1)?"active1":""?>" type="button" value="1"/>
@@ -298,12 +299,13 @@ $( ".parking_4" ).click(function() {
                   <div class="clearfix"></div>
 
                   <div class="row mob-row">
-                              
-                                <div class="clearfix"></div>
-                   <div class="container-post1">
-                             <div class="div-pad3">
+                              <div class="div-pad3">
                                   <p>Bathrooms</p>
                                </div>
+                                <div class="clearfix"></div>
+
+                   <div class="container-post1">
+                             
                                <div class="box-filters ">
                                    <input class="Bathrooms " type="button" value="0"/>
                                     <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==1)?"active1":""?>" type="button" value="1"/>
@@ -320,12 +322,12 @@ $( ".parking_4" ).click(function() {
                 
                  <div class="clearfix"></div>
                   <div class="row mob-row">
-                              
-                                <div class="clearfix"></div>
-                   <div class="container-post1">
-                             <div class="div-pad3">
+                              <div class="div-pad3">
                                   <p>Balconies</p>
                                </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post1">
+                             
                                <div class="box-filters ">
                                    <input class="balconies " type="button" value="0"/>
                                     <input class="balconies" <?php echo @ ($get_info['balconies']==1)?"active1":""?> type="button" value="1"/>
@@ -334,6 +336,7 @@ $( ".parking_4" ).click(function() {
                                        <input class="balconies <?php echo @ ($get_info['balconies']==4)?"active1":""?>" type="button" value="4"/>
                                         <input class="balconies <?php echo @ ($get_info['balconies']=="5+")?"active1":""?>"  type="button" value="5+"/>
 								  <input type="hidden" name="no_balconies"  id="no_balconies" value="" />
+                  <div class="clearfix"></div>
                                </div>
                    </div>
                     <div class="clear-60"></div>
@@ -344,11 +347,14 @@ $( ".parking_4" ).click(function() {
                               <div class="col-md-12 div-pad2">
                                   <p>Parking avalibilty</p>
                                </div>
-                                <div class="clearfix"></div>
-                   <div class="container-post1">
-                             <div class="div-pad3">
+                                 <div class="clearfix"></div>
+                               <div class="div-pad2"></div>
+                               <div class="div-pad3">
                                   <p>2 Wheeler</p>
                                </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post1">
+                             
                                <div class="box-filters ">
                                    <input class="parking_2 " type="button" value="0"/>
                                     <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==1)?"active1":""?>" type="button" value="1"/>
@@ -360,11 +366,11 @@ $( ".parking_4" ).click(function() {
 								  <input type="hidden" name="no_parking2" id="no_parking2" value="" />
                                </div>
                    </div>
-                   
-                   <div class="container-post1">
-                             <div class="div-pad3">
+                                <div class="div-pad3">
                                   <p>4 Wheeler</p>
                                </div>
+                   <div class="container-post1">
+                            
                                <div class="box-filters ">
                                    <input class="parking_4 " type="button" value="0"/>
                                     <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==1)?"active1":""?>" type="button" value="1"/>

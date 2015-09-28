@@ -161,7 +161,7 @@ function initialize() {
                     	<a href="index.php"><img src="images/logo-w.png" class="logo-w"/></a>
                         <nav class="nav-list1 paddingTop-5">
                         	<ul>
-                            	<li><a href="#">Download App</a></li>
+                            	<li><a href="download-app.html">Download App</a></li>
                                 <li><a href="#">Sell/Rent Property</a></li>
                             	<?php if(isset($_SESSION['upid']) && $_SESSION['upid'] != ''){?>
               <li><a href="#"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>

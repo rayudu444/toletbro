@@ -23,7 +23,7 @@
                 	<div class="col-md-5">
                     	 <nav class="nav-list3 paddingTop-6">
                         	<ul>
-                               	<li><a href="#">Download App</a></li>
+                               	<li><a href="download-app.html">Download App</a></li>
                                 <li><a href="#">Sell/Rent Property</a></li>
                                 <div class="clearfix"></div>
                             </ul>
@@ -39,7 +39,7 @@
                             <li><a href="logout.php">Log out</a></li><?php } ?>
                                 <div class="clearfix"></div>
                             </ul>
-                            <div class="map-pointer"><img src="images/map-pont.png"/></div>
+                            
                         </nav>
                     </div>
                     <div class="clearfix"></div>

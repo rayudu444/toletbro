@@ -20,7 +20,7 @@ echo "<script>window.location.href='index.php'</script>";
 
 <div class="container-fluid white-bg1" style="padding:0px">
     <div class="col-md-12 div-pad1">
-      <p style="color:#f2635d;">POST AN ADD</p>
+      <p style="color:#f2635d;">POST AN AD</p>
     </div>            
                                           
         	<div class="container">
