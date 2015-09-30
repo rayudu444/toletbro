@@ -16,9 +16,10 @@ $usrData = array('user_name'=>$username,
 				  'user_mobile'=>$mobileno,
 				  'password'=>$password1);
 $user = insertdata($usrData,'users');
+
 if($user){
 $_SESSION['msg']='<div style="color:green">User successfully registered....</div>';
-	header('location:index.php');
+	//header('location:index.php');
 	
 	/*echo ("<SCRIPT LANGUAGE='JavaScript'> 
 	window.alert('vendor created  successfully...');
@@ -26,7 +27,7 @@ $_SESSION['msg']='<div style="color:green">User successfully registered....</div
 }
 else{
 	$_SESSION['msg']='<div style="color:red">User not registered....</div>';
-	header('location:index.php');
+	//header('location:index.php');
 	
 	/*echo ("<SCRIPT LANGUAGE='JavaScript'>
 
@@ -39,7 +40,7 @@ else{
 }
 else{
 	$_SESSION['msg']='<div style="color:red">User all ready registered....</div>';
-	header('location:index.php');
+	//header('location:index.php');
 	
 	/*echo ("<SCRIPT LANGUAGE='JavaScript'>
 

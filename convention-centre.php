@@ -19,7 +19,194 @@ include("includes/dbutil.php");
 <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<style>
+.login-div1{
+	
+	width:380px;
+	padding:20px 15px; 
+	margin:auto;
+	display:block;
+	border-radius:5px;
+}
+	
+</style>
+<script>
+
+// This example displays an address form, using the autocomplete feature
+
+// of the Google Places API to help users fill in the information.
+    
+var placeSearch, autocomplete;
+
+var componentForm = {
+
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+
+};
+
+function fillInAddress(){
+	
+}
+
+function initialize() {
+
+  // Create the autocomplete object, restricting the search
+
+  // to geographical location types.
+
+  autocomplete = new google.maps.places.Autocomplete(
+
+      /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+
+      { types: ['geocode'] });
+  
+
+
+  // When the user selects an address from the dropdown,
+
+  // populate the address fields in the form.
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+
+    var address = 	$('#autocomplete').val();
+	var geocoder = new google.maps.Geocoder();
+	
+
+	geocoder.geocode( { 'address': address}, function(results, status) {
+
+		if (status == google.maps.GeocoderStatus.OK) {
+			var latitude = results[0].geometry.location.lat();
+			var longitude = results[0].geometry.location.lng();
+		   	$("#lat").val(latitude);
+		   	$("#lng").val(longitude);
+		    } 
+		}); 
+
+  });
+
+  // populate the address fields in the form.
+  
+  auto= document.getElementById('autocomplete');
+
+
+	  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
+		    if (e.keyCode == 13) { 
+		        e.preventDefault(); 
+		       
+		    }
+		   
+		}); 
+
+}
+
+  </script>
+  <script>
+	$(document).ready(function(){
+		$("#sign-up").submit(function(e) {
+		    e.preventDefault();
+		}).validate({
+		   rules: {
+			emailid: {
+			    required: true,
+			    email: true,
+			    remote:{
+					url: "check-convention-email.php",
+					type:'POST',
+					data: {
+						email: function() {
+			            	return $( "#emailid" ).val();
+			            }
+			 		}
+		   		}
+			}
+		},
+		   	 messages :{
+				 emailid : {
+		   		 	remote : "User already registered with this Email ID"
+					 
+					 }
+				 
+		   	 },
+		   	 //perform an AJAX post to ajax.php
+             submitHandler: function() {
+                 
+                $("#test-popup2").addClass('mfp-hide');
+             
+                $.ajax({
+                    url : "mobile-verification.php",
+                    type : "POST",
+                    data : {mobile : $("#mobileno").val()},
+                    success: function(data){
+                     	if(data == 1)
+                     	{
+                     		   $("#test-popup7").removeClass('mfp-hide');
+                     	}else{
+                     		alert("Error While sign up please try again");
+                     	}
+                     	
+                    }
+                });
+                
+             }
+			    
+		  
+		
+		});
+		
+		$(document).on("click","#verify",function(){
+			var password = $("#one-time-password").val();
+			if(password != '')
+			{
+				$.ajax({
+					url : "verify-code.php",
+					type : "POST",
+					data : {code:password},
+					success : function(data){
+						
+						if(parseInt(data) == 1)
+						{
+							
+							var form = $("#sign-up").serialize();
+							$.ajax({
+								url : "convention-userregister.php",
+								type : "POST",
+								data: form,
+								success:function(data)
+								{
+									window.location = 'convention-centre.php';
+								}
+								
+							});
+						}else{
+							$("#one-required").text("");
+							$("#one-required").text("Pasword not matched");
+						}
+						
+					}
+				});
+				
+				
+			}else{
+				$("#one-required").text("");
+				$("#one-required").text("This field is required");
+			}
+			
+		});
+	});
+</script>
+<style>
+	.error{
+		color: red;
+	}
+</style>
 
 <script>
          //Load the Facebook JS SDK
@@ -232,7 +419,7 @@ else // user logged in
   ?>
 
 </head>
-<body>
+<body onLoad="initialize()">
 	<section class="white-div-wrapper">
 	    <div class="container">
         	<div class="row">
@@ -297,10 +484,10 @@ else // user logged in
                         	<div class="login-div">
                                 <div class="clearfix"></div>
                                 <div class="login-form">
-	                                <form method="post" action="convention-userregister.php">
-                                        <input type="text" placeholder="Name" name="username" id="username"/>
-                                        <input type="email" placeholder="Email Id" name="emailid" id="emailid"/>
-                                        <input type="text" placeholder="Mobile Number" name="mobileno" id="mobileno"/>
+	                                <form method="post" id="sign-up" action="">
+                                        <input type="text" placeholder="Name" class="required" name="username" id="username"/>
+                                        <input type="email" placeholder="Email Id" class="required email" name="emailid" id="emailid"/>
+                                        <input type="number" placeholder="Mobile Number" class="mobile required"  name="mobileno" id="mobileno"/>
                                         <input type="password" placeholder="Password" name="password" id="password"/>
                                         <input type="password" placeholder="Confirm Password" name="conformpassword" id="conformpassword"/>
                                         <button type="submit">Sign Up</button>
@@ -312,6 +499,26 @@ else // user logged in
                         <div class="clearfix"></div>
 			        
 			      </div>
+			      
+			       <div id="test-popup7" class="white-popup mfp-with-anim mfp-hide" style="position: absolute; z-index: 999999; left:35%; top:150px;">
+						
+						<div class="col-md-12" style="margin: auto !important;">
+                        	<div class="login-div1">
+                        		
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+	                                	<span>Please Verify One time password sent to your mobile</span>
+	                                	<input type="text"/>
+                                        <!--<input type="text" class="required" placeholder="One Time Password" name="password" id="one-time-password"/>-->
+                                        <span style="color:red" id="one-required"></span>
+                                        <button type="button" id="verify">Verify</button>
+	                                
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+			        </div>
 
 		        </div>
 	        </div>
@@ -328,7 +535,7 @@ else // user logged in
                               <div class="clearfix"></div>
                         </ul-->
 
-                         <?php if(isset($_SESSION['cnv_upid'])){?>
+                         <?php if(isset($_SESSION['cnv_upid']) || isset($_SESSION['upid'])){?>
                      <ul class="list-log-di">
                       <li><a href="convention-profile-list.php"><?php echo $_SESSION['user_name']; ?></a></li>
                        <li> <a href="logout.php" >Log out</a></li>
@@ -337,11 +544,16 @@ else // user logged in
                     <?php } else {?>
                     <ul  id="inline-popups">
                       <li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
-                        <li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">Convention Center Signup</a></li>
+                        <li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">| Signup</a></li>
                     <div class="clear"></div>
                     </ul>
                     <?php }?>
-
+					 <?php
+						  if(isset($_SESSION['msg'])){
+							  echo $_SESSION['msg'];
+							  unset($_SESSION['msg']);
+						  }
+						  ?>
 
 
                     </div>
@@ -361,11 +573,18 @@ else // user logged in
 	            <div class="row">
                 	<div>
                     	<h1 class="head6">LOREM LPSUM DUMMY TEXT</h1>
-                        <form class="form1" method="get" action="convention-listview.php">
+                        <form class="form1" action="convention-listview.php" method="get">
                         	<label>
                             	<img src="images/map-icon.png" class="map-icon"/>
-                            	<input type="text" placeholder="Search by locality or landmark or building"/>
-                                <button type="submit"><img src="images/search-icon.png"/>Search</button>
+								<input type="text" id="autocomplete"  placeholder="Search by locality or landmark or building"  style="width:60% !important;"/>
+								<input type="hidden" name="lat" value=""  id="lat"/>
+								<input type="hidden" name="lng" value=""  id="lng"/>
+								<input type="hidden" name="view" value="convention"  />
+								<!--<select class="rent-select" name="type">
+                                	<option>Rent</option>
+                                    <option>Sale</option>
+                                </select>
+                                --><button type="submit"><img src="images/search-icon.png"/>Search</button>
                                 <div class="clearfix"></div>
                             </label>
                             <div class="clearfix"></div>

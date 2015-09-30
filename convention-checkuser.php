@@ -25,7 +25,7 @@ $row1=get_row_by_condition('convention_users',$cond);
 $_SESSION['cnv_upid']=$row1['cnv_upid'];
 
 $_SESSION['user_name']=$row1['user_name'];
-
+$_SESSION['user_type']=$row1['user_type'];
 echo ("<SCRIPT LANGUAGE='JavaScript'>
 		  window.location.href='convention-post.php';</SCRIPT>");
 	

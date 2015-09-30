@@ -8,7 +8,59 @@ echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";exit;
 }*/
  include_once('includes/inner-header.php');
+ 
+ $sql = "select * from convention_post_add ";
+ 
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
+ {
+ 	 //$Address = urlencode($_POST['address']);
+  	 //$request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
+  	 // Make the HTTP request
+     //$data = @file_get_contents($request_url);
+     // Parse the json response
+     //$jsondata = json_decode($data,true);
+     //$lat_lng = $jsondata['results'][0]['geometry']['location'];
+     $lat = $_GET['lat'];
+     $lng = $_GET['lng'];
+     $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from convention_post_add  ";
+  }
+  
+  if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')) 
+  {
+  		$sql .= " HAVING distance <= 5";
+  }
+  
+  $sql .= " order by convention_post_id desc";
+ //echo $sql;exit;
+ //echo $sql;exit;
+  $statement = $dbh->prepare($sql);
+  $statement->execute();
+  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<script>
+	$(document).ready(function(){
+//		$(".post-filters").change(function(){
+//			var formData = new FormData();
+//			formData.append("location_lat",$("#lat").val());
+//			formData.append("location_long",$("#lng").val());
+//			formData.append("bedrooms",$("#bhk").val());
+//			
+//			 $.ajax({
+//			        url: 'filter-convention.php',
+//			        data: formData,
+//			        contentType: false,
+//			        processData: false,
+//			        type: 'POST',
+//			        success: function(data){
+//			           $(".listing-div").empty();
+//			           $(".listing-div").html(data);
+//			           var length = $(".listing-div").find(".latlng-length").length;
+//				}
+//			  });
+//			
+//		});
+	});
+</script>
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
@@ -19,54 +71,14 @@ echo "<script>window.location.href='index.php'</script>";exit;
                         	<ul class="list3">
                             	<li>Refine Results</li>
                                 <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
+                                	<select class="refine1 post-filters" id="bhk">
+                                    	<option value="ac">AC</option>
+                                        <option value="non-ac">NON-AC</option>
                                     </select>
                                 </li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>BUDGET</option>
-                                        <option>1,00,000</option>
-                                        <option>2,00,000</option>
-                                        <option>3,00,000</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Lease Type</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Listed By</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>More</option>
-                                        <option>Generator</option>
-                                        <option>Generator</option>
-                                        <option>Generator</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	Reset
-                                </li>
+                                
+                                
+                               
                                 <div class="clearfix"></div>
                             </ul>
                         	<div class="clearfix"></div>
@@ -74,8 +86,8 @@ echo "<script>window.location.href='index.php'</script>";exit;
                             </form>
                         </div>
                             <ul class="filter-ul">
-                            	<li><a href = "conventions-map-view.php">Map</a></li>
-                            	<li><a href = "convention-listview.php">List</a></li>
+                            	<li><a href = "conventions-map-view.php?lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">Map</a></li>
+                            	<li><a href = "convention-listview.php?lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">List</a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
@@ -107,12 +119,11 @@ echo "<script>window.location.href='index.php'</script>";exit;
                          <div class="row">
 	                        <div class="results-list1">
                             <div>
-                            <?php $query= mysql_query("select * from convention_post_add  order by convention_post_id desc");
-							$count =mysql_num_rows($query);
+                            <?php 
 
-							 if($count>0){
+							 if($posts){
 							 	//$result=mysql_fetch_array($query);
-							 	while($result_info=mysql_fetch_array($query)) {
+							 	foreach($posts as $result_info) {
 							 	
 							?>
                             	<div class="results-list-div1">

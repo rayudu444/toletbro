@@ -16,7 +16,12 @@
      //$lat_lng = $jsondata['results'][0]['geometry']['location'];
      $lat = $_GET['lat'];
      $lng = $_GET['lng'];
-     $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
+     //$sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
+     $sql =  "select *, (((acos(sin((".$lat."*pi()/180)) * 
+            sin((`location_lat`*pi()/180))+cos((".$lat."*pi()/180)) * 
+            cos((`location_lat`*pi()/180)) * cos(((".$lng."- `location_long`)* 
+            pi()/180))))*180/pi())*60*1.1515* 1.609344
+        )  as distance  from post_add  ";
   }
   if(isset($_GET['type']))
   {
@@ -95,6 +100,7 @@
 	  	$count = 1;
 	  	//print_r($posts);exit;
 	    foreach ($posts as $post) {
+	    	
 	    		if(!empty($post['property_image']))
                 {
                    $images = explode(',',$post['property_image']); 
@@ -123,12 +129,12 @@
 	         });
 	      markers.push(marker<?= $count;?>);
 	      marker<?= $count;?>.image = '<?= $image;?>';
-	      marker<?= $count;?>.address = "<?= $post["description"];?>";
+	      marker<?= $count;?>.address = '<?= str_replace('"',' ',trim($post['addres_locality'])) ;?>';
 	      marker<?= $count;?>.price = '<?= $post["price_monthly"];?>';
 	      marker<?= $count;?>.bedrooms = '<?= $post["bedrooms"];?>';
 	      marker<?= $count;?>.furnished = '<?= $post["property_furnished_status"];?>';
-	      marker<?= $count;?>.description = '<?= substr($post["description"],0,100);?>';
-	      marker<?= $count;?>.area = '<?=  ($post['plot_state']== 1)? "$post[plot_area] Square feets" : "$post[plot_area] Square yards"; ?>';
+	      marker<?= $count;?>.description = '<?= str_replace('"',' ',trim(substr($post["description"],0,100))) ;?>';
+	      marker<?= $count;?>.area = '<?=  ($post["plot_state"]== 1)? $post["plot_area"].' Square feets' : $post["plot_area"].' Square yards'; ?>';
 	     
 	      google.maps.event.addListener(marker<?= $count;?>, 'click', markerClicked<?= $count;?>);
 	

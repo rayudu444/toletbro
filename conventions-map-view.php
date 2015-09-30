@@ -2,17 +2,35 @@
   session_start(); 
   include_once('includes/dbutil.php');
  
-  if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
-{
-echo "<script>window.alert('Please LogIn....')</script>";
-echo "<script>window.location.href='index.php'</script>";exit;
-}
  include_once('includes/inner-header.php');
  
- $sql = "select * from convention_post_add  order by convention_post_id desc";
- $statement = $dbh->prepare($sql);
- $statement->execute();
- $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+ $sql = "select * from convention_post_add ";
+ 
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
+ {
+ 	 //$Address = urlencode($_POST['address']);
+  	 //$request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
+  	 // Make the HTTP request
+     //$data = @file_get_contents($request_url);
+     // Parse the json response
+     //$jsondata = json_decode($data,true);
+     //$lat_lng = $jsondata['results'][0]['geometry']['location'];
+     $lat = $_GET['lat'];
+     $lng = $_GET['lng'];
+     $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from convention_post_add  ";
+  }
+  
+  if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')) 
+  {
+  		$sql .= " HAVING distance <= 5";
+  }
+  
+  $sql .= " order by convention_post_id desc";
+ //echo $sql;exit;
+ //echo $sql;exit;
+  $statement = $dbh->prepare($sql);
+  $statement->execute();
+  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
  
 ?>
 
@@ -36,7 +54,7 @@ echo "<script>window.location.href='index.php'</script>";exit;
    }
 
  </style>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+
 <script src="js/markerwithlabel.js"></script>
  <script>
 	$(function(){
@@ -123,8 +141,8 @@ echo "<script>window.location.href='index.php'</script>";exit;
                     	<div class="filter-inner-div">
                         	<h1>Filter Properties</h1>
                             <ul  class="filter-ul">
-                            	<li><a href="conventions-map-view.php">Map</a></li>
-                                <li><a href="convention-listview.php">List</a></li>
+                            	<li><a href="conventions-map-view.php?lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">Map</a></li>
+                                <li><a href="convention-listview.php?lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">List</a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>

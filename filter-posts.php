@@ -35,7 +35,7 @@
 	
 	if($latitude != '' && $longitude != '')
 	{
-		$sql = "SELECT *,( 3959 * acos( cos( radians($latitude) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $longitude ) ) + sin( radians( $latitude) ) * sin( radians( location_lat ) ) ) ) as distance".$sql;
+		$sql = "SELECT *,( 3959 * acos( cos( radians($latitude) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $longitude ) ) + sin( radians( $latitude) ) * sin( radians( location_lat ) ) ) ) * 1.609344 as distance".$sql;
 		$sql .= " HAVING distance <= 5";
 	}else{
 		$sql = "SELECT * ".$sql;
@@ -59,7 +59,7 @@
 	
 	
 	
-	
+	//echo $sql;exit;
 	$statement = $dbh->prepare($sql);
 	$statement->execute();
 	$posts = $statement->fetchAll(PDO::FETCH_ASSOC);

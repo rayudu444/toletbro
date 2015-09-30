@@ -7,7 +7,8 @@ include("includes/dbutil.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width intial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<meta name="viewport" content="width=device-width intial-scale=1.0 
+imum-scale=1.0 user-scalable=yes" />
 <title>Tolet Bro</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
@@ -117,7 +118,9 @@ include("includes/dbutil.php");
 </script>
 <script>
 	$(document).ready(function(){
-		$("#sign-up").validate({
+		$("#sign-up").submit(function(e) {
+		    e.preventDefault();
+		}).validate({
 		   rules: {
 			emailid: {
 			    required: true,
@@ -139,10 +142,71 @@ include("includes/dbutil.php");
 					 
 					 }
 				 
-		   	 }
+		   	 },
+		   	 //perform an AJAX post to ajax.php
+             submitHandler: function() {
+                 
+                $("#test-popup2").hide();
+             
+                $.ajax({
+                    url : "mobile-verification.php",
+                    type : "POST",
+                    data : {mobile : $("#mobileno").val()},
+                    success: function(data){
+                     	if(data == 1)
+                     	{
+                     		   $("#test-popup3").removeClass('mfp-hide');
+                     	}else{
+                     		alert("Error While sign up please try again");
+                     	}
+                     	
+                    }
+                });
+                
+             }
 			    
 		  
 		
+		});
+		
+		$(document).on("click","#verify",function(){
+			var password = $("#one-time-password").val();
+			if(password != '')
+			{
+				$.ajax({
+					url : "verify-code.php",
+					type : "POST",
+					data : {code:password},
+					success : function(data){
+						
+						if(parseInt(data) == 1)
+						{
+							
+							var form = $("#sign-up").serialize();
+							$.ajax({
+								url : "userregister.php",
+								type : "POST",
+								data: form,
+								success:function(data)
+								{
+									window.location = 'index.php';
+								}
+								
+							});
+						}else{
+							$("#one-required").text("");
+							$("#one-required").text("Pasword not matched");
+						}
+						
+					}
+				});
+				
+				
+			}else{
+				$("#one-required").text("");
+				$("#one-required").text("This field is required");
+			}
+			
 		});
 	});
 </script>
@@ -338,10 +402,12 @@ else // user logged in
 	                                <form method="post" id="sign-up" action="userregister.php">
                                         <input type="text" class="required" placeholder="Name" name="username" id="username"/>
                                         <input type="email" class="email" placeholder="Email Id" name="emailid" id="emailid"/>
-                                        <input type="text" class="required" placeholder="Mobile Number" name="mobileno" id="mobileno"/>
+                                        <input type="number" placeholder="Mobile Number" class="mobile required"  name="mobileno" id="mobileno"/>
                                         <input type="password" placeholder="Password" name="password" id="password"/>
                                         <input type="password" placeholder="Confirm Password" name="conformpassword" id="conformpassword"/>
+                                        <div id="inline-popups">
                                         <button type="submit">Sign Up</button>
+                                        </div>
 	                                </form>
                                 </div>
                                 <div class="clearfix"></div>
@@ -350,8 +416,39 @@ else // user logged in
                         <div class="clearfix"></div>
 			        </div>
 		        </div>
+		        
+		        
 	        </div>
         </div>
+        <div id="test-popup3" class="white-popup mfp-with-anim mfp-hide" style="position:absolute; z-index: 9999999;">
+						<div class="col-md-5 left-part">
+                        	<a href="#">
+                            	<img src="images/logo-w.png"/>
+                            </a>
+                            <div class="signup-div">
+                            	<h1>Why sign up?</h1>
+                                <ul>
+                                	<li>Save time filling forms</li>
+                                    <li>Access your recent searches</li>
+                                    <li>Track shortlisted, messaged properties</li>
+                                </ul>
+                            </div>
+                        </div>
+						<div class="col-md-7">
+                        	<div class="login-div">
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+	                                	<span>Please Verify One time password sebt to your mobile</span>
+                                        <input type="text" class="required" placeholder="One Time Password" name="password" id="one-time-password"/>
+                                        <span style="color:red" id="one-required"></span>
+                                        <button type="button" id="verify">Verify</button>
+	                                
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+			        </div>
     	<div class="header-banner">
 	        <div class="container-fluid">
         	<div class="row">

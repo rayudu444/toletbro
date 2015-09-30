@@ -9,20 +9,20 @@ echo "<script>window.location.href='index.php'</script>";
 }*/
  include_once('includes/inner-header.php');
  
- $sql = "select * from post_add ";
+ $shortlisted = 0;
+ $sql = (isset($_GET['shortlisted']) && isset($_SESSION['upid']))? "select * from post_add inner join short_lists ON short_lists.post_id = post_add.post_id where short_lists.user_id =  $_SESSION[upid] " :  "select * from post_add ";
  
  if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
  {
- 	 //$Address = urlencode($_POST['address']);
-  	 //$request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
-  	 // Make the HTTP request
-     //$data = @file_get_contents($request_url);
-     // Parse the json response
-     //$jsondata = json_decode($data,true);
-     //$lat_lng = $jsondata['results'][0]['geometry']['location'];
+ 	 
      $lat = $_GET['lat'];
      $lng = $_GET['lng'];
-     $sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
+     $sql =  "select *, (((acos(sin((".$lat."*pi()/180)) * 
+            sin((`location_lat`*pi()/180))+cos((".$lat."*pi()/180)) * 
+            cos((`location_lat`*pi()/180)) * cos(((".$lng."- `location_long`)* 
+            pi()/180))))*180/pi())*60*1.1515* 1.609344
+        )  as distance  from post_add  ";
+     
   }
   if(isset($_GET['type']))
   {
@@ -33,15 +33,25 @@ echo "<script>window.location.href='index.php'</script>";
   
   if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')) 
   {
-  		$sql .= " HAVING distance <= 5";
+  		$sql .= " HAVING distance  <= 5";
   }
   
-  $sql .= " order by post_id desc";
- //echo $sql;exit;
- //echo $sql;exit;
+  $sql .= " order by post_add.post_id desc";
+
   $statement = $dbh->prepare($sql);
   $statement->execute();
   $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+  
+  if(isset($_SESSION['upid']))
+  {
+  	//getting sortilisted properties
+  	$sql = "SELECT count(*) FROM `short_lists` WHERE `user_id` =? AND `user_type` = ?";
+  	$statement = $dbh->prepare($sql);
+  	$statement->execute(array($_SESSION['upid'],1));
+  	$shortlisted = $statement->fetchColumn();
+  }
+ 
+  
 ?>
 <link rel="stylesheet" type="text/css" href="css/popup.css"/>
 <link rel="stylesheet" type="text/css" href="css/magnific-popup.css"/>
@@ -141,6 +151,7 @@ echo "<script>window.location.href='index.php'</script>";
                             </ul>
                             <div class="clearfix"></div>
                         </div>
+                        
                         <div class="flats-home">
                            <ul>
                              <li>Home/</li>
@@ -155,7 +166,7 @@ echo "<script>window.location.href='index.php'</script>";
                         <div class="row flats-found">
                         
                           <h6>6 flats found. <span style="color:#f2635d;">Include nearby flats</span></h6>
-                          <ul class="date-add">
+                          <ul class="date-add" id="<?php echo (isset($_SESSION['upid']))? '' : 'inline-popups' ;?>">
                             <li>Sort by: <span style="color:#f2635d;">Relevance</span> </li>    
                             <li>
                                 <select class="refine2 post-filters" id="sort-by-posted">
@@ -172,7 +183,7 @@ echo "<script>window.location.href='index.php'</script>";
                                         <option value="desc">High-Low</option>
                                     </select>
                             </li>
-                            <li><i class="fa fa-heart-o" style="margin-right:2px;"></i>0 Shortlisted Properties </li>
+                            <li><a href="<?php echo (isset($_SESSION['upid']))? "property-listview.php?shortlisted" : "#test-popup" ?>" ><i class="fa fa-heart-o" style="margin-right:2px;"></i><?= $shortlisted;?> Shortlisted Properties</a> </li>
                             
                           </ul>
                          <div class="clear"></div>
@@ -381,8 +392,4 @@ echo "<script>window.location.href='index.php'</script>";
 </html>
 <script src='js/jquery.magnific-popup.min.js'></script>
 <script src="js/index.js"></script>
-<script type="text/javascript">
-  $(document).ready(fucntion(){
-    $()
-  });
-</script>
+
