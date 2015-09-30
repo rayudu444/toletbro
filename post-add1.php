@@ -71,9 +71,9 @@ function initialize() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
-  var defaultBounds = new google.maps.LatLngBounds(
+  /*var defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(17.385044, 78.486671),
-      new google.maps.LatLng(17.385044, 78.486671));
+      new google.maps.LatLng(17.385044, 78.486671));*/
  
   var myOptions = {
     zoom: 14,
@@ -85,17 +85,21 @@ function initialize() {
   
   marker = new google.maps.Marker({
       	position: myLatlng, 
-      	map: map
+      	map: map,
+        draggable: true
   	});
 	
   google.maps.event.addListener(map, 'center_changed', function() {
   	var location = map.getCenter();
-	var address=getaddress(location.lat(),location.lng());
-	document.getElementById("lat1").value = location.lat();
-	document.getElementById("lon1").value = location.lng();
+
+  	var address = getaddress(location.lat(),location.lng());
+
+  	document.getElementById("lat1").value = location.lat();
+  	document.getElementById("lon1").value = location.lng();
+
     placeMarker(location);
   });
-  
+   markers.push(marker);
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
@@ -132,9 +136,9 @@ function initialize() {
       // Create a marker for each place.
       var marker = new google.maps.Marker({
         map: map,
-        icon: image,
         title: place.name,
-        position: place.geometry.location
+        position: place.geometry.location,
+        draggable: true
       });
 
       markers.push(marker);
@@ -144,7 +148,14 @@ function initialize() {
 
     map.fitBounds(bounds);
   });
+  auto= document.getElementById('pac-input');
   // [END region_getplaces]
+  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
+      if (e.keyCode == 13) { 
+          e.preventDefault(); 
+      }
+     
+    });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
     var bounds = map.getBounds();

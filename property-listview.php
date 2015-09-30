@@ -12,7 +12,7 @@ echo "<script>window.location.href='index.php'</script>";
  $shortlisted = 0;
  $sql = (isset($_GET['shortlisted']) && isset($_SESSION['upid']))? "select * from post_add inner join short_lists ON short_lists.post_id = post_add.post_id where short_lists.user_id =  $_SESSION[upid] " :  "select * from post_add ";
  
- if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '') )
  {
  	 
      $lat = $_GET['lat'];
@@ -85,9 +85,9 @@ echo "<script>window.location.href='index.php'</script>";
 		});
 	});
 </script>
-        <div class="container-fluid white-div-wrapper"> 
+        <div class="container-fluid white-div-wrapper" id="<?php echo (!isset($_SESSION['upid']))? 'inline-popups' : '' ;?>"> 
         	<div class="row"> 
-	            <div class="col-md-12 results-left-div">
+	            <div class="col-md-12 results-left-div"  >
                 	<div>
                     	<div class="filter-inner-div">
                         	 <div class="list-uls">
@@ -166,7 +166,7 @@ echo "<script>window.location.href='index.php'</script>";
                         <div class="row flats-found">
                         
                           <h6>6 flats found. <span style="color:#f2635d;">Include nearby flats</span></h6>
-                          <ul class="date-add" id="<?php echo (isset($_SESSION['upid']))? '' : 'inline-popups' ;?>">
+                          <ul class="date-add " id="<?php echo (isset($_SESSION['upid']))? '' : '' ;?>">
                             <li>Sort by: <span style="color:#f2635d;">Relevance</span> </li>    
                             <li>
                                 <select class="refine2 post-filters" id="sort-by-posted">
@@ -183,7 +183,7 @@ echo "<script>window.location.href='index.php'</script>";
                                         <option value="desc">High-Low</option>
                                     </select>
                             </li>
-                            <li><a href="<?php echo (isset($_SESSION['upid']))? "property-listview.php?shortlisted" : "#test-popup" ?>" ><i class="fa fa-heart-o" style="margin-right:2px;"></i><?= $shortlisted;?> Shortlisted Properties</a> </li>
+                            <li><a href="<?php echo (isset($_SESSION['upid']))? "property-listview.php?shortlisted" : "#test-popup" ?>"  ><i class="fa fa-heart-o" style="margin-right:2px;"></i><?= $shortlisted;?> Shortlisted Properties</a> </li>
                             
                           </ul>
                          <div class="clear"></div>
@@ -209,9 +209,9 @@ echo "<script>window.location.href='index.php'</script>";
                                        <div class="row">
                                           <div class="col-md-8">
                                    
-                                    <div class="bhk-un" id="<?php echo (isset($_SESSION['upid']))? '' : 'inline-popups' ;?>">
+                                    <div class="bhk-un" id="<?php echo (isset($_SESSION['upid']))? '' : '' ;?>" >
                                         <h1><?=$result_info['bedrooms']?>BHK <?=$result_info['property_furnished_status']?></h1>
-                                        <a class="liked" href="<?php echo (isset($_SESSION['upid']))? 'javascript:void(0)' : '#test-popup' ;?>" id="<?= $result_info['post_id'];?>"><i class="fa fa-heart-o" ></i></a>
+                                        <a class="liked " href="<?php echo (isset($_SESSION['upid']))? 'javascript:void(0)' : '#test-popup' ;?>"   id="<?= $result_info['post_id']; ?>"><i class="fa fa-heart-o" ></i></a>
                                         <div class="clear"></div>
                                      </div>
                                       <div class="par-div">

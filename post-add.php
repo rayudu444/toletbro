@@ -3,8 +3,13 @@
   include_once('includes/dbutil.php');  
   if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
 {
-echo "<script>window.alert('Please LogIn....')</script>";
-echo "<script>window.location.href='index.php'</script>";
+  if(isset($_SESSION['cnv_upid']))
+  {
+    echo "<script>window.alert('Please LogIn as user....')</script>";
+    echo "<script>window.location.href='index.php'</script>";exit;
+  }
+  echo "<script>window.alert('Please LogIn....')</script>";
+  echo "<script>window.location.href='index.php'</script>";exit;
 }
 include_once('includes/property_header.php');
 

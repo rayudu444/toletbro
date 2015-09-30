@@ -1,6 +1,14 @@
 <?php
 	include('includes/dbutil.php');
-	 $condition = "where user_email = '".$_POST['email']."'";
+
+	if(isset($_POST['email']))
+	{
+		$condition = "where user_email = '".$_POST['email']."'";	
+	}else{
+		$condition = "where user_mobile = '".$_POST['mobile']."'";
+	}
+	
+	 
 	 $count = get_row_count_by_condition('users',$condition);
 	
 	if($count >0)

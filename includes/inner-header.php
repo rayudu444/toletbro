@@ -16,6 +16,7 @@
 
 <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
 <script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 
@@ -192,6 +193,7 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
 		
 		$(".liked").click(function(){
 			var link = $(this).attr("href");
+			var this1 = $(this);
 			if(link == "#test-popup" )	
 			{
 				$( "input[action='checkuser.php']" ).append("<input type='hidden' name='selected' value='selected'>");
@@ -205,8 +207,10 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
 						
 						switch(parseInt(data))
 						{
-							case 1 : 
+							case 1 :
+								this1.find(".fa").addClass("bhk-un1"); 
 								alert("Successfully Shortilisted");
+								
 								break;
 							case 2 : 
 								alert("Error While Shorlist");
@@ -256,6 +260,9 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
 		  
 		
 		});
+		
+		
+		
 	});
 </script>
 <style>
@@ -452,7 +459,7 @@ else // user logged in
                             
                             <label class="label1"> 
                             	<i class="fa fa-map-marker map-icon2"></i>
-                            	<input type="text"  id="autocomplete" value="<?php echo  @$addr;?>" placeholder="Search by locality or landmark or building"/>
+                            	<input type="text"  id="autocomplete"  value="<?php echo  @$addr;?>" placeholder="Search by locality or landmark or building"/>
                             	<input type="hidden" name="lat" value="<?php echo  @$_GET['lat'];?>" class="post-filters"  id="lat"/>
 								<input type="hidden" name="lng" value="<?php echo  @$_GET['lng'];?>" class="post-filters"  id="lng"/>
                                 <button type="submit"><i class="fa fa-search search-icon"></i></button>

@@ -412,7 +412,7 @@ else // user logged in
         </div>
         <div class="container-fluid sell-banner">        
         	<div>
-            	<a href="#">
+            	<a href="index.php">
                 	<img src="images/logo.png" class="logo1"/>
                 </a>
             </div>

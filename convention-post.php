@@ -385,7 +385,8 @@ function initialize() {
   
   marker = new google.maps.Marker({
         position: myLatlng, 
-        map: map
+        map: map,
+        draggable: true
     });
   
   google.maps.event.addListener(map, 'center_changed', function() {
@@ -395,7 +396,7 @@ function initialize() {
   document.getElementById("lon1").value = location.lng();
     placeMarker(location);
   });
-  
+  markers.push(marker);
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
@@ -421,20 +422,20 @@ function initialize() {
     markers = [];
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0, place; place = places[i]; i++) {
-      var image = {
+      /*var image = {
         url: place.icon,
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(15, 15)
       };
-
+*/
       // Create a marker for each place.
       var marker = new google.maps.Marker({
         map: map,
-        icon: image,
         title: place.name,
-        position: place.geometry.location
+        position: place.geometry.location,
+        draggable: true
       });
 
       markers.push(marker);
@@ -445,6 +446,15 @@ function initialize() {
     map.fitBounds(bounds);
   });
   // [END region_getplaces]
+
+  auto= document.getElementById('pac-input');
+ 
+  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
+      if (e.keyCode == 13) { 
+          e.preventDefault(); 
+      }
+     
+    });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
     var bounds = map.getBounds();

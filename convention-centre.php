@@ -125,20 +125,36 @@ function initialize() {
 			            	return $( "#emailid" ).val();
 			            }
 			 		}
-		   		}
-			}
+		   		}},
+          mobileno: {
+          required: true,
+          
+          remote:{
+          url: "check-convention-email.php",
+          type:'POST',
+          data: {
+            mobile: function() {
+                    return $( "#mobileno" ).val();
+                  }
+          }
+          }
+      }
+			
 		},
 		   	 messages :{
 				 emailid : {
 		   		 	remote : "User already registered with this Email ID"
 					 
-					 }
+					 },
+           mobileno: {
+          remote : "User already registered with this Mobile"
+        }
 				 
 		   	 },
 		   	 //perform an AJAX post to ajax.php
              submitHandler: function() {
                  
-                $("#test-popup2").addClass('mfp-hide');
+                $("#form-content").hide();
              
                 $.ajax({
                     url : "mobile-verification.php",
@@ -147,7 +163,34 @@ function initialize() {
                     success: function(data){
                      	if(data == 1)
                      	{
-                     		   $("#test-popup7").removeClass('mfp-hide');
+                     		  var one_password = 	'<div class="col-md-5 left-part">'+
+					                        	'<a href="#">'+
+					                            	'<img src="images/logo-w.png"/>'+
+					                            '</a>'+
+					                            '<div class="signup-div">'+
+					                            	'<h1>Why sign up?</h1>'+
+					                                '<ul>'+
+					                                	'<li>Save time filling forms</li>'+
+					                                    '<li>Access your recent searches</li>'+
+					                                    '<li>Track shortlisted, messaged properties</li>'+
+					                                '</ul>'+
+					                            '</div>'+
+					                        '</div>'+
+											'<div class="col-md-7">'+
+					                        	'<div class="login-div">'+
+					                                '<div class="clearfix"></div>'+
+					                                '<div class="login-form">'+
+						                                	'<span>Please Verify One time password sent to your mobile</span>'+
+					                                        '<input type="text" class="required" placeholder="One Time Password" name="password" id="one-time-password"/>'+
+					                                        '<span style="color:red" id="one-required"></span>'+
+					                                        '<button type="button" id="verify">Verify</button>'+
+						                                
+					                                '</div>'+
+					                                '<div class="clearfix"></div>'+
+					                            '</div>'+
+					                        '</div>'+
+					                        '<div class="clearfix"></div>';
+					          $("#test-popup2").append(one_password);
                      	}else{
                      		alert("Error While sign up please try again");
                      	}
@@ -466,7 +509,7 @@ else // user logged in
 			      </div>
 
 			      <div id="test-popup2" class="white-popup mfp-with-anim mfp-hide">
-			      	
+			      		<div id="form-content">
 						<div class="col-md-5 left-part">
                         	<a href="#">
                             	<img src="images/logo-w.png"/>
@@ -497,29 +540,10 @@ else // user logged in
                             </div>
                         </div>
                         <div class="clearfix"></div>
-			        
+			        </div>
 			      </div>
 			      
-			       <div id="test-popup7" class="white-popup mfp-with-anim mfp-hide" style="position: absolute; z-index: 999999; left:35%; top:150px;">
-						
-						<div class="col-md-12" style="margin: auto !important;">
-                        	<div class="login-div1">
-                        		
-                                <div class="clearfix"></div>
-                                <div class="login-form">
-	                                	<span>Please Verify One time password sent to your mobile</span>
-	                                	<input type="text"/>
-                                        <!--<input type="text" class="required" placeholder="One Time Password" name="password" id="one-time-password"/>-->
-                                        <span style="color:red" id="one-required"></span>
-                                        <button type="button" id="verify">Verify</button>
-	                                
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-			        </div>
-
+			       
 		        </div>
 	        </div>
         </div>
@@ -543,8 +567,10 @@ else // user logged in
                     </ul>
                     <?php } else {?>
                     <ul  id="inline-popups">
-                      <li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">Convention Center Login</a></li>
+                    	
+                      <li><a href="#test-popup" class="click2" data-effect="mfp-zoom-in">| Login</a></li>
                         <li><a href="#test-popup2" class="sing-buts click" data-effect="mfp-zoom-in">| Signup</a></li>
+                        <li><a>Convention Center</a></li>
                     <div class="clear"></div>
                     </ul>
                     <?php }?>
@@ -565,7 +591,7 @@ else // user logged in
         </div>
         <div class="container-fluid banner1">        
         	<div>
-            	<a href="#">
+            	<a href="index.php">
                 	<img src="images/logo.png" class="logo1"/>
                 </a>
             </div>
