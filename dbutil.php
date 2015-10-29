@@ -1,9 +1,9 @@
 <?php
 error_reporting(0);
 define ( "DB_HOST", "localhost" );
-define ( "DB_USER", "docniin_toletbro" );
-define ( "DB_PASS", "toletbro123@" );
-define ( "DB_NAME", "docniin_toletbro" );
+define ( "DB_USER", "root" );
+define ( "DB_PASS", "" );
+define ( "DB_NAME", "toletbro" );
 
 $uri = "http://toletbro.docni.in";
  define('URI', $uri);
@@ -11,8 +11,8 @@ $uri = "http://toletbro.docni.in";
 include_once 'database.class.php';
 $dbh = new Database_class();
 
-mysql_connect("localhost","docniin_toletbro","toletbro123@");
-mysql_select_db("docniin_toletbro");
+mysql_connect("localhost","root","");
+mysql_select_db("toletbro");
  
  date_default_timezone_set('Asia/Calcutta');
 

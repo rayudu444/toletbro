@@ -12,9 +12,11 @@ include_once('includes/dbutil.php');
 	
 	$usrData=array(
         'price_monthly'=>$monthly,
+        'price_type'=>$price_type,
     	'price_deposite'=>$deposite,
 		'negotiable'=>$Negotiable,
 		'maintenance_monthly'=>$maintance_month,
+		'maintenance_type'=>$maintance_type,
     	'additional_charges'=>$maintance_additional_charge,
 		'additional_charges1'=>$maintance_additional_charge1,
     	'plot_area'=>$plot_area,

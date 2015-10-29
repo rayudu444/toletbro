@@ -1,3 +1,4 @@
+<?php include("include_pforgotpwd.php"); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -22,7 +23,9 @@
 
 <script>
 <?php
-		$page_url = explode('/',$_SERVER['PHP_SELF']);
+    //$pageurl= basename($_SERVER['PHP_SELF']);
+$pageurl = explode('/',$_SERVER['PHP_SELF']);
+	$page_url = explode('/',$_SERVER['PHP_SELF']);
 		$current_url = $page_url[count($page_url) - 1];
 ?>
 // This example displays an address form, using the autocomplete feature
@@ -93,7 +96,9 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
 }
 
   </script>
-   <script>
+
+
+<script>
          //Load the Facebook JS SDK
         (function(d){
            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
@@ -136,7 +141,7 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
         //alert(user_details);
         user_details = JSON.parse(user_details);
 
-		$.ajax({
+    $.ajax({
             url: 'fb-authentication.php',
             type: 'POST',
             data: { 
@@ -152,15 +157,15 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
             
             success: function (response) {
                 //your success code
-				//alert(response);
+        //alert(response);
                 var data = JSON.parse(response);
                 if(data.status == "true" )
                 {
-				
-    				window.location = 'index.php';
-					
+        
+            window.location = 'index.php';
+          
                 }else{
-					
+          
                     alert("Failed to login"); 
                 }
             },
@@ -187,51 +192,270 @@ google.maps.event.addDomListener(auto, 'keydown', function(e) {
   };
 </script>
 <script>
-	$(document).ready(function(){
-		var user_id = '<?= @$_SESSION['upid']; ?>';
-		var user_type = '<?= @$_SESSION['user_type']; ?>';
-		
-		$(".liked").click(function(){
-			var link = $(this).attr("href");
-			var this1 = $(this);
-			if(link == "#test-popup" )	
-			{
-				$( "input[action='checkuser.php']" ).append("<input type='hidden' name='selected' value='selected'>");
-			}else{
-				var id = $(this).attr("id");
-				$.ajax({
-					url : "short-list.php",
-					type : "POST",
-					data : {post_id : id,user_id : user_id,user_type : user_type,post_type : 1},
-					success : function(data){
-						
-						switch(parseInt(data))
-						{
-							case 1 :
-								this1.find(".fa").addClass("bhk-un1"); 
-								alert("Successfully Shortilisted");
-								
-								break;
-							case 2 : 
-								alert("Error While Shorlist");
-								break;
-							case 3 :
-								 alert("Deleted From Shortlist");
-								break;
-							case 4 : 
-								alert("Error While dis Shortlist");
-								break;
-						}
-						
-						
-						
-					}
-					
-				});
-			}
-			
-			
-		});
+  $(document).ready(function(){
+    $("#sign-up").submit(function(e) {
+        e.preventDefault();
+    }).validate({
+       rules: {
+      emailid: {
+          required: true,
+          email: true,
+          remote:{
+          url: "check-email.php",
+          type:'POST',
+          data: {
+            email: function() {
+                    return $( "#emailid" ).val();
+                  }
+          }
+          }
+      },
+      mobileno: {
+          required: true,
+          
+          remote:{
+          url: "check-email.php",
+          type:'POST',
+          data: {
+            mobile: function() {
+                    return $( "#mobileno" ).val();
+                  }
+          }
+          }
+      }
+    },
+         messages :{
+         emailid : {
+            remote : "User already registered with this Email ID"
+           
+          },
+        mobileno: {
+          remote : "User already registered with this Mobile"
+        }
+         
+         },
+         //perform an AJAX post to ajax.php
+             submitHandler: function() {
+                 
+                $("#form-content").hide();
+             
+                $.ajax({
+                    url : "mobile-verification.php",
+                    type : "POST",
+                    data : {mobile : $("#mobileno").val()},
+                    success: function(data){
+                      if(data == 1)
+                      {
+                        
+              var one_password =  '<div class="col-md-5 left-part">'+
+                                    '<a href="#">'+
+                                        '<img src="images/logo-w.png"/>'+
+                                      '</a>'+
+                                      '<div class="signup-div">'+
+                                        '<h1>Why sign up?</h1>'+
+                                          '<ul>'+
+                                            '<li>Save time filling forms</li>'+
+                                              '<li>Access your recent searches</li>'+
+                                              '<li>Track shortlisted, messaged properties</li>'+
+                                          '</ul>'+
+                                      '</div>'+
+                                  '</div>'+
+                      '<div class="col-md-7">'+
+                                    '<div class="login-div">'+
+                                          '<div class="clearfix"></div>'+
+                                          '<div class="login-form">'+
+                                              '<span>Please Verify One time password sent to your mobile</span>'+
+                                                  '<input type="text" class="required" placeholder="One Time Password" name="password" id="one-time-password"/>'+
+                                                  '<span style="color:red" id="one-required"></span>'+
+                                                  '<button type="button" id="verify">Verify</button>'+
+                                            
+                                          '</div>'+
+                                          '<div class="clearfix"></div>'+
+                                      '</div>'+
+                                  '</div>'+
+                                  '<div class="clearfix"></div>';
+                    $("#test-popup2").append(one_password);
+                                  
+                        
+                                    
+                      }else{
+                        alert("Error While sign up please try again");
+                      }
+                      
+                    }
+                });
+                
+             }
+          
+      
+    
+    });
+    
+    $(document).on("click","#verify",function(){
+      var password = $("#one-time-password").val();
+      if(password != '')
+      {
+        $.ajax({
+          url : "verify-code.php",
+          type : "POST",
+          data : {code:password},
+          success : function(data){
+            
+            if(parseInt(data) == 1)
+            {
+              
+              var form = $("#sign-up").serialize();
+              $.ajax({
+                url : "userregister.php",
+                type : "POST",
+                data: form,
+                success:function(data)
+                {
+                  window.location = 'index.php';
+                }
+                
+              });
+            }else{
+              $("#one-required").text("");
+              $("#one-required").text("Pasword not matched");
+            }
+            
+          }
+        });
+        
+        
+      }else{
+        $("#one-required").text("");
+        $("#one-required").text("This field is required");
+      }
+      
+    });
+  });
+</script>
+<style>
+  .error{
+    color: red;
+  }
+</style>
+<?php 
+   $is_user_login = 0;
+########## Google Settings.. Client ID, Client Secret from https://cloud.google.com/console #############
+$google_client_id       = '394341835770-td97u9sunc8rgijgll23pa4brhhs9mk1.apps.googleusercontent.com';
+$google_client_secret   = 'ROGTcqICqifViYLujjZJFGi_';
+$google_redirect_url    = 'http://localhost/toletbro/index.php'; //path to your script
+$google_developer_key   = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+//include google api files
+include_once 'src/Google_Client.php';
+include_once 'src/contrib/Google_Oauth2Service.php';
+
+
+$gClient = new Google_Client();
+$gClient->setApplicationName('Login to toletbro.com');
+$gClient->setClientId($google_client_id);
+$gClient->setClientSecret($google_client_secret);
+$gClient->setRedirectUri($google_redirect_url);
+$gClient->setDeveloperKey($google_developer_key);
+
+$google_oauthV2 = new Google_Oauth2Service($gClient);
+
+//If user wish to log out, we just unset Session variable
+if (isset($_REQUEST['reset'])) 
+{
+  
+  unset($_SESSION['token']);
+  $gClient->revokeToken();
+  header('Location: ' . filter_var($google_redirect_url, FILTER_SANITIZE_URL)); //redirect user back to page
+}
+
+//If code is empty, redirect user to google authentication page for code.
+//Code is required to aquire Access Token from google
+//Once we have access token, assign token to session variable
+//and we can redirect user back to page and login.
+if (isset($_GET['code'])) 
+{ 
+    
+  $gClient->authenticate($_GET['code']);
+  $_SESSION['token'] = $gClient->getAccessToken();
+  header('Location: ' . filter_var($google_redirect_url, FILTER_SANITIZE_URL));
+  return;
+}
+
+
+if (isset($_SESSION['token'])) 
+{ 
+  $gClient->setAccessToken($_SESSION['token']);
+}
+
+
+if ($gClient->getAccessToken()) 
+{
+    //For logged in user, get details from google using access token
+    $user         = $google_oauthV2->userinfo->get();
+    
+    $user_id        = $user['id'];
+    $user_name      = filter_var($user['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $email        = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
+    $profile_url      = filter_var($user['link'], FILTER_VALIDATE_URL);
+    $profile_image_url  = filter_var($user['picture'], FILTER_VALIDATE_URL);
+    $personMarkup     = "$email<div><img src='$profile_image_url?sz=50'></div>";
+    $_SESSION['token']  = $gClient->getAccessToken();
+}
+else 
+{
+  //For Guest user, get google login url
+  $authUrl = $gClient->createAuthUrl();
+}
+if(isset($authUrl)) //user is not logged in, show login button
+{
+  ++$is_user_login;
+ 
+} 
+else // user logged in 
+{
+   /* connect to database using mysqli */
+  //unset($_SESSION['token']);
+  //$user_exist = $mysqli->query("SELECT COUNT(google_id) as usercount FROM user_profile WHERE google_id=$user_id ")->fetch_object()->usercount; 
+  $user_count=get_row_count_by_condition("users","where user_email='".$email."'");
+ 
+  if($user_count>0)
+  {
+    $user_info=get_row_by_condition("users","where user_email='".$email."'");
+    $_SESSION['user_mobile'] = $user_info['user_mobile'];
+    $_SESSION['upid'] = $user_info['upid'];
+    $_SESSION['user_name'] = $user_info['user_name'];
+    $_SESSION['user_email']  = $user_info['user_email'];
+    
+    //header("location:http://localhost/safe-wash/index.php");
+  }else{ 
+    //user is new
+    //echo 'Hi '.$user_name.', Thanks for Registering!';
+    $user_info1=array('google_id'=>$user_id,'user_name'=>$user_name,'user_email'=>$email);
+    $inserted=insertdata($user_info1,"users");
+    /*$mysqli->query("INSERT INTO user_profile (google_id, name, email) 
+    VALUES ($user_id, '$user_name','$email')");*/
+    if($inserted>0){
+      if(!isset($_SESSION['user_email']))
+      {
+        $user_info=get_row_by_condition("users","where user_email='".$email."'");
+        $_SESSION['user_mobile'] = $user_info['user_mobile'];
+        $_SESSION['upid'] = $user_info['upid'];
+        $_SESSION['user_name'] = $user_info['user_name'];
+        $_SESSION['user_email']  = $user_info['user_email'];
+      }
+        
+    }
+
+    
+    
+  }
+ 
+} 
+  ?>
+
+
+<script>
+
 		
 		$("#sign-up").validate({
 		   rules: {
@@ -425,6 +649,101 @@ else // user logged in
                                 <div class="clearfix"></div>
                                 <div class="login-form">
                                   <form method="post" action="checkuser.php">
+                                  <input type="text" required placeholder="Email Id" name="user_email"/>
+                                    <input type="password" placeholder="Password" name="password"/>
+                                    <button type="submit">Login</button>
+                                </form>
+                                <span><a href="#test-forgot" class="sing-buts clickforgot inline-popups-a">Forgot Password</a>
+                                </span>
+                                </div>
+                                <span><img src="images/or.png" class="or-img"/></span>
+                                <div class="clearfix"></div>
+                              <a href="#"><img id="fb-login" src="images/fb-login.png"/></a>
+                                <div class="clearfix"></div>
+                              <!--  <a href="#"><img src="images/gplus-login.png"/></a> -->
+                               <?php 
+            if($is_user_login){ ?>
+              <a class="login" href="<?= $authUrl; ?>"><img src="images/gplus-login.png"/></a>
+          <?php } ?>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+              </div>
+        	<div>
+            	<div class="row">
+                	<div class="col-md-5 paddingTop-3">
+                    	<?php if($pageurl != "download-app.php" || $pageurl != "preset-password.php" ){ ?><form class="form2" action="property-listview.php"  method="get">    
+                        	<?php if($current_url != "convention-listview.php"){?>
+                        <label>
+                              <select name="type" id="type">
+                                  <option  value="Rent" <?php echo @($_GET['type'] == "Rent")? "selected" : "";?>>Rent</option>
+                                    <option  value="Sale" <?php echo @($_GET['type'] == "Sale")? "selected" : "";?>>Sale</option>
+                                </select>
+                            </label>
+                            <?php }?>
+                            
+                            <label class="label1"> 
+                            	<i class="fa fa-map-marker map-icon2"></i>
+                            	<input type="text"  id="autocomplete"  value="<?php echo  @$_GET['search_input'];?>" placeholder="Search by locality or landmark or building"/>
+                            	<input type="hidden" name="lat" value="<?php echo  @$_GET['lat'];?>" class="post-filters"  id="lat"/>
+								              <input type="hidden" name="lng" value="<?php echo  @$_GET['lng'];?>" class="post-filters"  id="lng"/>
+                                <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                                <div class="clearfix"></div>
+                            </label>
+                        </form><?php }?>
+                    </div>
+                    <div class="col-md-7">
+                    	<a href="index.php"><img src="images/logo-w.png" class="logo-w"/></a>
+                        <nav class="nav-list1 paddingTop-5">
+                        	<ul>
+                              <li><a href="index.php">Home</a></li>
+                            	<?php if($pageurl!="download-app.php"){ ?><li><a href="download-app.php">Download App</a></li><?php }?>
+                             
+                                <?php if($pageurl!="convention-listview.php"){ ?>
+                                <li><a <?php echo (isset($_SESSION['upid'])) ? 'href="post-add.php"' : 'href="#test-popup" class="click2 inline-popups-a"' ?>>Sell/Rent Property</a></li>
+<?php }?>
+                            	 <?php if(isset($_SESSION['upid']) && $_SESSION['upid'] != ''){?>
+                            <li class="main-menu"><a href="#"><?php echo ucfirst($_SESSION['user_name']); ?></a>
+                                    <ul class="sub-menu" style="top: 28px; left: -78px;">
+                                      <li><a href="user-profile.php">My Profile</a></li>
+                                      <li><a href="property-profile-list.php">Listing</a></li>
+                                      <li><a href="#">Shortlisted</a></li>
+                                      <li><a href="user-change-pwd.php">Change Password</a></li>
+                                   </ul>
+                            </li>
+                            <li><a href="logout.php">Log out</a></li><?php } else{ ?>
+                             <li><a href="#test-popup2"  class="sing-buts click inline-popups-a">Sign Up</a></li>
+                             <li><a href="#test-popup" class="click2 inline-popups-a">Login</a></li>
+                            <?php }?>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix height10"></div>
+
+              <div id="test-popup" class="white-popup mfp-with-anim mfp-hide">
+            <div class="col-md-5 left-part">
+                          <a href="#">
+                              <img src="images/logo-w.png"/>
+                            </a>
+                            <div class="signup-div">
+                              <h1>Why sign up?</h1>
+                                <ul>
+                                  <li>Save time filling forms</li>
+                                    <li>Access your recent searches</li>
+                                    <li>Track shortlisted, messaged properties</li>
+                                </ul>
+                            </div>
+                        </div>
+            <div class="col-md-7">
+                          <div class="login-div">
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+                                  <form method="post" action="checkuser.php">
                                   <input type="email" placeholder="Email Id" name="user_email"/>
                                     <input type="password" placeholder="Password" name="password"/>
                                     <button type="submit">Login</button>
@@ -444,45 +763,45 @@ else // user logged in
                         </div>
                         <div class="clearfix"></div>
               </div>
-        	<div>
-            	<div class="row">
-                	<div class="col-md-5 paddingTop-3">
-                    	<form class="form2" action="property-listview.php"  method="get">    
-                        	<?php if($current_url != "convention-listview.php"){?>
-                        <label>
-                              <select name="type" id="type">
-                                  <option  value="Rent" <?php echo @($_GET['type'] == "Rent")? "selected" : "";?>>Rent</option>
-                                    <option  value="Sale" <?php echo @($_GET['type'] == "Sale")? "selected" : "";?>>Sale</option>
-                                </select>
-                            </label>
-                            <?php }?>
-                            
-                            <label class="label1"> 
-                            	<i class="fa fa-map-marker map-icon2"></i>
-                            	<input type="text"  id="autocomplete"  value="<?php echo  @$addr;?>" placeholder="Search by locality or landmark or building"/>
-                            	<input type="hidden" name="lat" value="<?php echo  @$_GET['lat'];?>" class="post-filters"  id="lat"/>
-								<input type="hidden" name="lng" value="<?php echo  @$_GET['lng'];?>" class="post-filters"  id="lng"/>
-                                <button type="submit"><i class="fa fa-search search-icon"></i></button>
+
+
+              <div id="test-popup2" class="white-popup mfp-with-anim mfp-hide">
+                <div id="form-content">
+            <div class="col-md-5 left-part">
+                          <a href="#">
+                              <img src="images/logo-w.png"/>
+                            </a>
+                            <div class="signup-div">
+                              <h1>Why sign up?</h1>
+                                <ul>
+                                  <li>Save time filling forms</li>
+                                    <li>Access your recent searches</li>
+                                    <li>Track shortlisted, messaged properties</li>
+                                </ul>
+                            </div>
+                        </div>
+            <div class="col-md-7">
+                          <div class="login-div">
                                 <div class="clearfix"></div>
-                            </label>
-                        </form>
-                    </div>
-                    <div class="col-md-7">
-                    	<a href="index.php"><img src="images/logo-w.png" class="logo-w"/></a>
-                        <nav class="nav-list1 paddingTop-5">
-                        	<ul>
-                            	<li><a href="download-app.html">Download App</a></li>
-                                <li><a href="#">Sell/Rent Property</a></li>
-                            	<?php if(isset($_SESSION['upid']) && $_SESSION['upid'] != ''){?>
-              <li><a href="#"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>
-                            <li><a href="logout.php">Log out</a></li><?php } ?>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix height10"></div>
-<script src='js/jquery.magnific-popup.min.js'></script>
-<script src="js/index.js"></script>
+                                <div class="login-form">
+                                  <form method="post" id="sign-up" action="userregister.php">
+                                        <input type="text" class="required" placeholder="Name" name="username" id="username"/>
+                                        <input type="email" class="email" placeholder="Email Id" name="emailid" id="emailid"/>
+                                        <input type="number" placeholder="Mobile Number" class="mobile required"  name="mobileno" id="mobileno"/>
+                                        <input type="password" placeholder="Password" name="password" id="password"/>
+                                        <input type="password" placeholder="Confirm Password" name="conformpassword" id="conformpassword"/>
+                                        
+                                        <button type="submit">Sign Up</button>
+                                       
+                                  </form>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                       </div>
+              </div>
+            
+            
+<!-- <script src='js/jquery.magnific-popup.min.js'></script>
+<script src="js/index.js"></script> -->

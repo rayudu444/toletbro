@@ -3,44 +3,156 @@
  include_once('includes/dbutil.php');
  include_once('includes/inner-header.php');
  
- $sql = "select * from post_add ";
+ include_once('property-filters.php');
  
- if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')  )
+ $shortlisted = 0;
+ $sql = (isset($_GET['shortlisted']) && isset($_SESSION['upid']))? "select * from post_add inner join short_lists ON short_lists.post_id = post_add.post_id where short_lists.user_id =  $_SESSION[upid] and post_add.status=2 and short_lists.post_type=1" :  "select * from post_add ";
+ 
+ if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '') )
  {
- 	 //$Address = urlencode($_POST['address']);
-  	 //$request_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$Address."&sensor=true";
-  	 // Make the HTTP request
-     //$data = @file_get_contents($request_url);
-     // Parse the json response
-     //$jsondata = json_decode($data,true);
-     //$lat_lng = $jsondata['results'][0]['geometry']['location'];
+ 	 
      $lat = $_GET['lat'];
      $lng = $_GET['lng'];
-     //$sql =  "select *, ( 3959 * acos( cos( radians($lat) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians( $lng ) ) + sin( radians( $lat) ) * sin( radians( location_lat ) ) ) ) as distance from post_add  ";
      $sql =  "select *, (((acos(sin((".$lat."*pi()/180)) * 
             sin((`location_lat`*pi()/180))+cos((".$lat."*pi()/180)) * 
             cos((`location_lat`*pi()/180)) * cos(((".$lng."- `location_long`)* 
             pi()/180))))*180/pi())*60*1.1515* 1.609344
-        )  as distance  from post_add  ";
+        )  as distance  from post_add";
+     
   }
-  if(isset($_GET['type']))
+  if(isset($_GET['type'],$_GET['property_type']) && ($_GET['type']!="") && ($_GET['property_type']!="") )
   {
   		$type = $_GET['type'];
+
+
   	
-  		$sql .= " where property='$type'";
-  }   
+  		$sql .= " where property='$type' and status=2 and property_type='".$_GET['property_type']."'";
+  } else if(isset($_GET['type']))
+  {
+      $type = $_GET['type'];
+    
+      $sql .= " where property='$type' and status=2";
+  }  
   
   if((isset($_GET['lng']) && $_GET['lng'] != '') && (isset($_GET['lat']) && $_GET['lat'] != '')) 
   {
-  		$sql .= " HAVING distance <= 5";
+  		if($_GET['lat']=='17.385044' && $_GET['lng']=='78.486671'){
+  		$sql .= " HAVING distance  <= 40";
+    }else{$sql .= " HAVING distance  <= 5";}
   }
+  /*Filters code start here*/
+  if(isset($_POST['filter_search']))
+{
+  extract($_POST);
+  $condition_res="";
+ if(!empty($price))
+  {   
+    $price = explode(";",$price); 
+    $condition_res[] .= "price_monthly between ($price[0] and $price[1])";   
+  }
+  if(!empty($property_for))
+  {
+
+    $condition_res[] .= "property_for='$property_for'";   
+  }
+  if(!empty($property))
+  {
+
+    $condition_res[] .= "property='$property'";   
+  }
+  if(!empty($listed_by))
+  {
+
+    $condition_res[] .= "listed_by='$listed_by'";   
+  }
+
+  if(!empty($bedrooms))
+  {
+
+    $condition_res[] .= "bedrooms='$bedrooms'";   
+  }
+  if(!empty($bathrooms))
+  {
+
+    $condition_res[] .= "bathrooms='$bathrooms'";   
+  }
+  if(!empty($no_parking2))
+  {
+
+    $condition_res[] .= "parking_2wheeler='$no_parking2'";   
+  }
+  if(!empty($no_parking4))
+  {
+
+    $condition_res[] .= "parking_4wheeler='$no_parking4'";   
+  }
+  if(!empty($funished_status))
+  {
+
+    $condition_res[] .= "property_furnished_status='$funished_status'";   
+  }
+
+  if(!empty($facing))
+  {
+
+    $condition_res[] .= "door_facing='$facing'";   
+  }
+  if(!empty($pets_allowed))
+  {
+
+    $condition_res[] .= "pets_allowed='$pets_allowed'";   
+  }
+  /*if(!empty($Amenities))
+  {
+    $amen =implode(",", $Amenities);
+    //$condition_res[] .= "amenities like ".'%'.$amen.'%';   
+    $condition_res[] .= "amenities = '$amen'";   
+  }
+ 
+  if(!empty($SocietyAmenities))
+  {
+    $amen1 =implode(",", $SocietyAmenities);
+    //$condition_res[] .= "amenities like ".'%'.$amen.'%';   
+    $condition_res[] .= "society_amenities = '$amen1'";   
+  }*/
+
+  $condition= implode(" and ",$condition_res);
   
-  $sql .= " order by post_id desc";
- //echo $sql;exit;
- //echo $sql;exit;
+  if(!empty($condition))
+  {
+    $cond = "where $condition and status=2";
+  }
+  else
+  {
+    $cond = "where status=2";
+  }
+  $sql = "select * from post_add $cond";
+}
+
+
+ /*Filters code end here*/
+
+ $sql .= " order by post_add.post_id desc";
+  
+
   $statement = $dbh->prepare($sql);
   $statement->execute();
+   $property_count = $statement->rowCount();
   $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+  
+  if(isset($_SESSION['upid']))
+  {
+  	//getting sortilisted properties
+  	$sql = "SELECT count(*) FROM `short_lists` WHERE `user_id` =? AND `user_type` = ?";       
+  	$statement = $dbh->prepare($sql);
+  	$statement->execute(array($_SESSION['upid'],1));
+    $shortlisted = $statement->fetchColumn();
+
+    
+  }   
+/*  $statement = $dbh->prepare($sql);
+  $statement->execute();
+  $posts = $statement->fetchAll(PDO::FETCH_ASSOC);*/
  
 ?>
 
@@ -64,6 +176,57 @@
    }
 
  </style>
+ <script type="text/javascript">
+    $(document).ready(function(){
+    var user_id = '<?= @$_SESSION['upid']; ?>';
+    var user_type = '<?= @$_SESSION['user_type']; ?>';
+    
+    $(".liked").click(function(){
+      var link = $(this).attr("href");
+      var this1 = $(this);
+      if(link == "#test-popup" )  
+      {
+        $( "input[action='checkuser.php']" ).append("<input type='hidden' name='selected' value='selected'>");
+      }else{
+        var id = $(this).attr("id");
+        $.ajax({
+          url : "short-list.php",
+          type : "POST",
+          data : {post_id : id,user_id : user_id,user_type : user_type,post_type : 1},
+          success : function(data){
+            
+            switch(parseInt(data))
+            {
+              case 1 :
+                this1.find(".fa").addClass("bhk-un1"); 
+                //alert("Successfully Shortilisted");
+                $(".bhk-un1").css("color","Red");
+                
+                break;
+              case 2 : 
+                alert("Error While Shorlist");
+                break;
+              case 3 :
+                 //alert("Deleted From Shortlist");
+
+                $(".bhk-un1").css("color","#ccc");
+                 this1.find(".fa").removeClass("bhk-un1");
+                break;
+              case 4 : 
+                alert("Error While dis Shortlist");
+                break;
+            }
+            
+            
+            
+          }
+          
+        });
+      }
+      
+       });
+    });
+</script>
 
 <script src="js/markerwithlabel.js"></script>
  <script>
@@ -284,65 +447,22 @@
 	            <div class="col-md-6 results-left-div">
                 	<div>
                     	<div class="filter-inner-div">
-                        	<h1>Filter Properties</h1>
+                        	<h2><?php echo $_GET['property_type']." for ".$_GET['type']." in ".$_GET['search_input']; ?> Properties</h2>
                             <ul  class="filter-ul">
-                            	<li><a href="filter-conventions-sub.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">Map</a></li>
-                                <li><a href="property-listview.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>">List</a></li>
+                            	<li><a href = "filter-conventions-sub.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>&search_input=<?php echo @$_GET['search_input']?>&property_type=<?php echo @$_GET['property_type']?>">Map</a></li>
+                            	<li><a href = "property-listview.php?type=<?php echo  @$_GET['type']?>&lat=<?php echo @$_GET['lat']?>&lng=<?php echo @$_GET['lng']?>&search_input=<?php echo @$_GET['search_input']?>&property_type=<?php echo @$_GET['property_type']?>">List</a></li>
                             </ul>
+
                             <div class="clearfix"></div>
                         </div>
-                        <div>
-                        	<form>
-                        	<ul class="list3">
-                            	<li>Refine Results</li>
-                                 <li>
-                                	<select class="refine1 post-filters" id="bhk" >
-                                		<option value="">BHK</option>
-                                    	<option value="1">1 BHK</option>
-                                        <option value="2">2 BHK</option>
-                                        <option value="3">3 BHK</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2 post-filters" id="budget">
-                                    	<option value="">BUDGET</option>
-                                        <option value="10000">1,00,000</option>
-                                        <option value="10000">2,00,000</option>
-                                        <option value="10000">3,00,000</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2 post-filters" id="listed-by">
-                                    	<option value="">Listed By</option>
-                                        <option value="Landlord">Landlord</option>
-                                        <option value="Agent">Agent</option>
-                                    </select>
-                                </li>
-                                <div class="clearfix"></div>
-                            </ul>
-                        	<div class="clearfix"></div>
-                            <div class="sort-price">
-                            	<select class="refine2 post-filters" id="sort-by-posted">
-                                    <option value="">Date Added </option>
-                                        <option value="desc">Recent-older</option>
-                                        <option value="asc">Older-Recent</option>
-                                    </select>
-                                    <select class="refine2 post-filters" id="sort-by-price">
-                                    <option value="">Price</option>
-                                        <option value="asc">Low-High</option>
-                                        <option value="desc">High-Low</option>
-                                    </select>
-                                <div class="result-bt">
-                                    <ul>
-                                       <li><i class="fa fa-list-ul"></i>Result</li>
-                                       <li><i class="fa fa-heart-o"></i>shortlist</li>
-                                       <div class="clear"></div>
-                                    </ul>
-                                </div>
-                            	<div class="clearfix"></div>
-                            </div>    
-                            </form>
+
+                        <div class="row flats-found">
+                        
+                          <h6><?=$property_count?> flats found. <span style="color:#f2635d;">Include nearby flats</span></h6>
+                          
+                         <div class="clear"></div>
                         </div>
+                        
                         <div class="clearfix"></div>
                         
                         <div class="row" id="demo">
@@ -357,14 +477,17 @@
                             	
                             ?>
                             	<div class="results-list-div">
-	                            	<div class="col-md-4 cont-im">
+	                            	<div class="col-md-4 cont-im1">
 	                                    <img src="<?php echo  "uploads/property_images/".@$image; ?>"/>
                                     </div>
                                     <div class="col-md-8">
                                    
                                     <div class="bhk-un">
                                         <h1><?= $post['bedrooms']; ?> BHK <?= $post['property_furnished_status'] ?></h1>
-                                        <i class="fa fa-heart-o"></i>
+                                        <?php  $query9=mysql_query("select * from short_lists where user_id=".$_SESSION['upid']." and post_id=".$post['post_id']);
+                                         $like_count = mysql_num_rows($query9);
+                                         ?>
+                                        <a  <?php if(isset($_SESSION['upid'])){?> href='javascript:void(0)' class="liked" <?php }else{?> href='#test-popup' class="inline-popups-a" <?php }?>   id="<?= $post['post_id'];?>"><i class="fa fa-heart"<?php if(isset($like_count) && $like_count>0){?> style="color: red"<?php }?>></i></a>
                                         <div class="clear"></div>
                                      </div>
                                       <p class="para-1"><?php echo substr($post['description'],0,200).'..';?></p>
@@ -384,8 +507,8 @@
                         </div>
                         </div>
                         <div class="clearfix"></div>
-                    </div>
-                    <div class="near-localities-div">
+                    </div><!--
+                    <div class="near-localities-div"> 
                     	<h1>Nearby Localities</h1>
                         <ul>
                         	<li><a href="#">1 BHK In Madhapur</a></li>
@@ -398,7 +521,7 @@
                             <li><a href="#">1 BHK In Madhapur</a></li>
                         </ul>
                     	<div class="clearfix"></div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-6 map-right-div" id="googleMap" style="height:700px;">
                 	
@@ -410,6 +533,7 @@
         </div>        
         <div class="clearfix"></div>
     </section>
+    <?php include("includes/footer.php"); ?>
     <!-- custom scrollbar plugin -->
 	<script src="js/jquery.mCustomScrollbar.min.js"></script>
 	

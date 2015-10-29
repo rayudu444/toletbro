@@ -55,10 +55,12 @@ $(document).ready(function(){
                         
                             <div class="list-input">
                                  <p class="price-p">Price</p>
-                              <div class="input-title"  style="margin-top:10px;"><input type="text" id="test1" value="<?php echo @$price_per_plate?>" name="price_per_plate" placeholder="Per plate"></div>
+                              <div class="input-seats"  style="margin-top:10px;">
+                              <i class="fa fa-inr fa-rup"></i>
+                              <input type="number"  value="<?php echo @$price_per_plate?>" name="price_per_plate" placeholder="Per plate"></div>
                                <div class="input-seats" style="margin-top:10px;">
-                              
-                                <input type="input" value="<?php echo @$deposite?>" name="deposite"   placeholder="Deposite"/>
+                              <i class="fa fa-inr fa-rup"></i>
+                                <input type="number" value="<?php echo @$deposite?>" name="deposite"   placeholder="Deposit"/>
                              </div>
 
                             <div class="clearfix"></div>   
@@ -110,7 +112,8 @@ $(document).ready(function(){
                         
                             <div class="list-check">
                                   
-                                  <div class="input-title"><input type="text" name="other_charges" value="<?php echo @$other_charges?>" id="test1" placeholder="Other Charges"></div>
+                                  <div class="input-seats">
+                                  <i class="fa fa-inr fa-rup"></i><input type="number" name="other_charges" value="<?php echo @$other_charges?>" id="test1" placeholder="Other Charges"></div>
                                  <div class="clearfix"></div>  
                                  
                             <div class="clearfix"></div>   
@@ -134,7 +137,7 @@ $(document).ready(function(){
                      <div class="but-submits">
                      <input type="hidden" name="convention_post_id" value="<?=$_REQUEST['post']?>">
                      <input type="submit" name="submit" style="float:right;" value="Save">
-                       
+                       <a href="convention-post2.php?post=<?= @$_GET['post']; ?>" class="bc-but">Back</a>
                        <div class="clearfix"></div>                   
                      </div>
                    

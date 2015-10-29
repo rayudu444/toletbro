@@ -5,7 +5,8 @@ include_once('includes/dbutil.php');
 	extract($_POST);
 	
 	$imagescount = count($_FILES);
-	
+	$Date1=date('Y-m-d');
+	$exp_date=date('Y-m-d', strtotime($Date1. ' + 30 day'));
 		
     $date=strtotime(date('d-m-Y h:i:s'));
     $errors= array();
@@ -51,6 +52,7 @@ include_once('includes/dbutil.php');
     	'contact_mobile'=>$mobile,
     	'contact_email'=>$email,
         'listed_by'=>$listed,
+        'country'=>$country,
 		'addres_state'=>$state,
     	'addres_city'=>$city,
         'addres_locality'=>$locality,
@@ -67,6 +69,7 @@ include_once('includes/dbutil.php');
 		$issuccess = 0;
 		
 		if(!isset($_POST['post_id'])){
+			$usrData['exp_date'] = $exp_date;
 		 insertdata($usrData,'post_add');
 		 $post_id = mysql_insert_id(); 
 		 ++$issuccess;
@@ -77,7 +80,7 @@ include_once('includes/dbutil.php');
 			$usrData['post_id'] = $post_id;
 			
 			$usrData['property_image'] = (isset($images))? ','.$usrData['property_image'] :'' ;
-			$sql = "UPDATE `post_add` SET `property`=:property,`property_image`=concat(property_image,:property_image),`property_type`=:property_type,`contact_name`=:contact_name,`contact_mobile`=:contact_mobile,`contact_email`=:contact_email,`listed_by`=:listed_by,`addres_state`=:addres_state,`addres_city`=:addres_city,`addres_locality`=:addres_locality,`address`=:address,`address_next`=:address_next,`name_project_society`=:name_project_society WHERE  `post_id` = :post_id";
+			$sql = "UPDATE `post_add` SET `property`=:property,`property_image`=concat(property_image,:property_image),`property_type`=:property_type,`contact_name`=:contact_name,`contact_mobile`=:contact_mobile,`contact_email`=:contact_email,`listed_by`=:listed_by,`country`=:country,`addres_state`=:addres_state,`addres_city`=:addres_city,`addres_locality`=:addres_locality,`address`=:address,`address_next`=:address_next,`name_project_society`=:name_project_society WHERE  `post_id` = :post_id";
 			$statement = $dbh->prepare($sql);
 			$statement->execute($usrData);
 			$post_id = $_POST['post_id'];

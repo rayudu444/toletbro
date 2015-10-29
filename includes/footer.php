@@ -21,11 +21,12 @@
                           <li><a href="#">FAQ</a></li>
                     </ul>
                  </div>
+                 <h4>Complaints/Suggetions</h4>
+                 <br>
                  <div class="adress-maill">
+                 
                      <form class="address-mails" method="post" action="#">
-                        <label>
-                          <input type="text" name="name" placeholder="User Name">
-                        </label>
+                        
                         <label>
                           <input type="text" name="email" placeholder="E-mail">
                         </label>
@@ -34,7 +35,7 @@
                           <textarea name="message" placeholder="Message"></textarea>
                         </label>
                          <label>
-                          <input type="submit" name="submit" value="Save" style="border:none !important;">
+                          <input type="submit" name="submit" value="Send" style="border:none !important;">
                           <input type="button" value="Clear" class="clear-but">
                           <div class="clear"></div>
                         </label>
@@ -44,17 +45,19 @@
                  <div class="social-media">
                    <div class="cont-btm">
                        <img src="images/map1.png" style="width:18px;">
-                       <span>12-6-23/6/4. opp kukatpally depot,<br>moosapet,hyderabad-72</span>
+                       <span> plot no:22/ southern part, diamond valley,behind GRK garden, bandlaguda jagir, rajendranagar(M). pincode:500086
+                       Hyderabad,Telangana.
+                        </span>
                        <div class="clear"></div>
                     </div>
                       <div class="cont-btm">
                        <img src="images/mail1.png" style="width:24px;">
-                       <span style="margin-top:5px;">sisirreddy@yahoo.com</span>
+                       <span style="margin-top:5px;">toletbrohelp@gmail.com</span>
                        <div class="clear"></div>
                     </div>
                     <div class="cont-btm">
                        <img src="images/call1.png" style="width:24px;">
-                       <span>+91 8464892222<br>+91 40 23862386</span>
+                       <span>85003-85004<br>94925-94926</span>
                        <div class="clear"></div>
                     </div> 
                     <ul class="sol-ic">

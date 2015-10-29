@@ -25,7 +25,8 @@ echo "<script>window.location.href='index.php'</script>";exit;
                     <th>Area</th>
                     <th>Monthly Rent</th>
                     <th>BHK</th>
-                   
+                    <th>Expires</th>
+                   <th>Repost</th>
                     <th>Edit</th>
                     <th>Delete</th>
                   </tr>
@@ -41,8 +42,10 @@ echo "<script>window.location.href='index.php'</script>";exit;
                     <td><?=$result_info['plot_area']?></td>
                      <td><?=$result_info['price_monthly']?></td>
                     <td><?=$result_info['bedrooms']?></td>
+                    <td><?=date("d/m/Y",strtotime($result_info['exp_date']))?></td>
+                    <td><a href="property-repost.php?post_id">Repost</a></td>
                      <td><!-- <a href="#"> --><a href="post-add.php?post=<?=$result_info['post_id']?>"><i class="fa fa-pencil-square-o"></i></a></td>
-                    <td><a href="del-property.php?post=<?=$result_info['post_id']?>"><i class="fa fa-trash-o"></i></a></td>
+                    <td><a href="del-property.php?post=<?=$result_info['post_id']?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o"></i></a></td>
                   </tr>
                     <?php }
                     }else {?>

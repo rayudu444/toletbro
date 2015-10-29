@@ -9,6 +9,7 @@ echo "<script>window.location.href='index.php'</script>";
 }
 include_once('includes/convention_header.php');
 ?>
+<!-- <script type="text/javascript" src="js/jquery.validate.js"></script> -->
 <?php
   if(isset($_REQUEST['post'])){ 
   $query= mysql_query("select * from convention_post_add where convention_post_id='".$_REQUEST['post']."'");
@@ -24,7 +25,7 @@ include_once('includes/convention_header.php');
                              <div class="col-md-12 div-pad1">
                                   <p>POST FOR CONVENTIONS</p>
                                </div> 
-           <form method="post" action="dbadd-convention1.php">                                 
+           <form method="post" id="page2" action="dbadd-convention1.php">                                 
         	<div class="container">
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
@@ -53,19 +54,20 @@ include_once('includes/convention_header.php');
                             <div class="list-input">
                               <div class="input-seats">
                                  <label>Minimum</label>
-                                <input type="input" value="<?php echo @$seating_cap_min?>" name="seating_cap_min" placeholder="100"/>
+                                 
+                                <input type="number" class="required" value="<?php echo @$seating_cap_min?>" name="seating_cap_min" placeholder="100"/>
                              </div>
                                <div class="input-seats">
                                  <label>Maximum</label>
-                                <input type="input" value="<?php echo @$seating_cap_max?>"  name="seating_cap_max"  placeholder="500"/>
+                                <input type="number" value="<?php echo @$seating_cap_max?>"  name="seating_cap_max"  placeholder="500"/>
                              </div>
                              <div class="input-seats">
                                  <label>Floating</label>
-                                <input type="input" value="<?php echo @$seating_cap_floating?>"  name="seating_cap_floating" placeholder="800"/>
+                                <input type="number" value="<?php echo @$seating_cap_floating?>"  name="seating_cap_floating" placeholder="800"/>
                              </div>
                              <div class="input-seats">
                                  <label>Dining Capacity</label>
-                                <input type="input"  value="<?php echo @$dining_seating_cap?>" name="dining_seating_cap"  placeholder="1000"/>
+                                <input type="number"  value="<?php echo @$dining_seating_cap?>" name="dining_seating_cap"  placeholder="1000"/>
                              </div>
                             <div class="clearfix"></div>   
                            </div>
@@ -121,13 +123,13 @@ include_once('includes/convention_header.php');
                             <div class="list-check">
                                  <div class="parking">
                                      <span>Two wheelers</span>
-                                      <input type="text" value="<?php echo @$wheeler_parking_cap2?>" name="twowheeler_parking_cap"  placeholder=""/>
+                                      <input type="number" value="<?php echo @$wheeler_parking_cap2?>" name="twowheeler_parking_cap"  placeholder=""/>
                                      <span>Approx</span>
                                      <div class="clearfix"></div> 
                                  </div> 
                                   <div class="parking">
                                      <span>four wheelers</span>
-                                      <input type="text" value="<?php echo @$wheeler_parking_cap4?>" name="fourwheeler_parking_cap" placeholder=""/>
+                                      <input type="number" value="<?php echo @$wheeler_parking_cap4?>" name="fourwheeler_parking_cap" placeholder=""/>
                                      <span>Approx</span>
                                      <div class="clearfix"></div> 
                                  </div>
@@ -271,4 +273,45 @@ include_once('includes/convention_header.php');
             </form>
         </div>
         
-   <?php include_once('includes/footer.php');?>     
+   <?php include_once('includes/footer.php');?> 
+
+         <script type="text/javascript">
+
+        $(document).ready(function(){
+
+           /*$.validator.addMethod("userRegex", function(value, element) {
+
+              return this.optional(element) || /^[A-Za-z][A-Za-z0-9.@-]*$/i.test(value);
+
+          }, "Username does not contains any spaces or special characters.");
+*/
+
+
+         $("#page2").validate({
+
+             rules : {
+
+              seating_cap_min : {
+        
+                required: true,
+              },           
+             },
+
+             messages :{
+
+              
+              seating_cap_min:{
+
+                required : "min  is mandatory",
+
+              },
+
+
+
+            }
+
+          });
+
+        });
+
+      </script>    

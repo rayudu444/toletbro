@@ -40,7 +40,7 @@ echo ("<SCRIPT LANGUAGE='JavaScript'>
 
     window.alert('You entered incorrect Username or Password ')
 
-    window.location.href='index.php';
+    window.location.href='convention-centre.php';
 
     </SCRIPT>");
 

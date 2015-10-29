@@ -1,13 +1,18 @@
 <?php 
   session_start(); 
   include_once('includes/dbutil.php');
+    if (!isset($_SESSION['cnv_upid']) || $_SESSION['cnv_upid'] == '' )
+{
+  echo "<script>window.alert('Please Login....')</script>";
+  echo "<script>window.location.href='convention-centre.php'</script>";exit;
+}
   include_once('includes/convention_header.php');
   
   	if(isset($_GET['post']))
   	{
   		try{
 		$post_id = $_GET['post'];
-		$sql = "SELECT `title`,`images`,`convention_type`,`contact_person_name`,`contact_person_mobile`,`contact_person_email`,`state`,`city`,`locality`,`address`,`location_lat`,`location_long` FROM `convention_post_add` WHERE `convention_post_id` = ? ";
+		$sql = "SELECT `title`,`images`,`ctype`,`country`,`convention_type`,`contact_person_name`,`contact_person_mobile`,`contact_person_email`,`state`,`city`,`locality`,`address`,`location_lat`,`location_long` FROM `convention_post_add` WHERE `convention_post_id` = ? ";
 		$statement = $dbh->prepare($sql);
 		$statement->execute(array($post_id));
 		$post_details = $statement->fetch(PDO::FETCH_ASSOC);
@@ -85,6 +90,32 @@ $(document).ready(function(){
         width: 345px;
       }
 </style>
+<script type='text/javascript'>
+/*$(function(){
+var overlay = $('<div id="overlay"></div>');
+$('.click').click(function(){
+$('.popup').addClass("width");
+//$('.popup').show();
+overlay.show();
+overlay.appendTo(document.body);
+return false;
+});
+
+
+$('.close').click(function(){
+  $('.popup').hide();
+$('.popup').removeClass('width');
+overlay.appendTo(document.body).remove();
+return false;
+});
+
+$('.x').click(function(){
+$('.popup').hide();
+overlay.appendTo(document.body).remove();
+return false;
+});
+});*/
+</script> 
 <?php $lat="17.385044"; $lon="78.486671"; ?>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 
@@ -140,17 +171,17 @@ $(document).ready(function(){
           <?php if(isset($_GET['message']))
 
       {      ?>
-            <div class="col-md-12">
-           <div id="test-popup5" class="bg-pop white-popup mfp-with-anim mfp-hide">
-      
-                        <a href="#" class="login-pox" >Convention Post added successfully...</a>
-            <div class="clearfix"></div>
-            <script type="text/javascript">
-                setTimeout(function(){ window.location = 'convention-centre.php'; }, 3000);
-                </script>
-                </div>
-          </div>
-          </div>
+            <div class='popup popup-anim1' id="overlay" style="">
+<div class='cnt223'>
+<img src='images/close.png' alt='quit' class='x' id='x' />
+<p>
+Your add has been submitted & will be verified in 24Hrs<br/>
+
+ <a  class='close'>Ok</a>
+ <div class="clearfix"></div>
+</p>
+</div>
+</div>
             <?php } ?>
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
@@ -164,11 +195,39 @@ $(document).ready(function(){
                             
                             	
                               
-                                <div class="input-title"><input type="text" name="title" id="test1" placeholder="Title" value='<?= @$post_details['title'];?>' /></div>
+                                <div class="input-title"><input type="text" required name="title" id="test1" placeholder="Name of convention/function/banquet hall" value='<?= @$post_details['title'];?>' /></div>
                             
                             <div class="clearfix"></div>   
                            </div>
                          
+                   </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="row">
+                              <div class="col-md-12 div-pad2">
+                                  <p>Convention Type</p>
+                               </div>
+                                <div class="clearfix"></div>
+                   <div class="container-post">
+                        
+                            <div class="form-1">
+                             
+                               <select name="ctype">
+                               <?=$post_details['ctype']?>
+                 <option value="" hidden>Select</option>
+
+                                <option value="Convention centre" <?php echo @($post_details['ctype'] == "Convention centre")? "selected" : ''; ?>>Convention centre</option>
+                                <option value="Function hall" <?php echo @($post_details['ctype'] == "Function hall")? "selected" : ''; ?>>Function hall</option>
+                                <option value="Banquet hall" <?php echo @($post_details['ctype'] == "Banquet hall")? "selected" : ''; ?>>Banquet hall</option>
+
+                                
+                                                                
+                              </select>
+                              
+                              </div>
+                              
+                        
                    </div>
                     <div class="clearfix"></div>
                 </div>
@@ -252,7 +311,9 @@ $(document).ready(function(){
                                </div>
                     <div class="clearfix"></div>
                 </div>
-                
+                <?php $query1= mysql_query("select * from convention_users where cnv_upid='".$_SESSION['cnv_upid']."'");
+                                $user_info=mysql_fetch_array($query1);
+                            ?>
                 <div class="row">
                               <div class="col-md-12 div-pad2">
                                   <p>Contact Details</p>
@@ -261,9 +322,9 @@ $(document).ready(function(){
                    <div class="container-post">
                          
                             <div class="list-check">
-                                <div class="input-title"><input type="text" name="contact_person_name" id="test1" placeholder="Full Name" value='<?php echo @$post_details["contact_person_name"];?>' /></div>
-                               <div class="input-title"><input type="text" name="contact_person_mobile" id="test1" placeholder="Mobile" value='<?php echo @$post_details["contact_person_mobile"];?>' /></div>
-                               <div class="input-title"><input type="text" name="contact_person_email" id="test1" placeholder="Email" value='<?php echo @$post_details["contact_person_email"];?>' /></div>
+                                <div class="input-title"><input type="text" required name="contact_person_name" id="test1" placeholder="Full Name" value='<?php echo @($post_details["contact_person_name"]!="") ? $post_details["contact_person_name"] : $user_info['user_name'];?>' /></div>
+                               <div class="input-title"><input type="text" name="contact_person_mobile" id="test1" placeholder="Mobile" value='<?php echo @($post_details["contact_person_mobile"]!="") ? $post_details["contact_person_mobile"] : $user_info['user_mobile'] ;?>' /></div>
+                               <div class="input-title"><input type="text" name="contact_person_email" id="test1" placeholder="Email" value='<?php echo @($post_details["contact_person_email"]!="") ? $post_details["contact_person_email"] : $user_info['user_email'];?>' /></div>
                             <div class="clearfix"></div>   
                            </div>
                          
@@ -278,11 +339,25 @@ $(document).ready(function(){
                                </div>
                                 <div class="clearfix"></div>
                    <div class="container-post">
-                         
+                          <div class="form-1">
+                             
+                               <!-- <div class="input-title"><input type="text"  placeholder="Country" name="country"  value='<?php echo  @$post_details['country'];?>' /></div> -->
+                               <div class="form-1">
+                             
+                               <select name="country">
+                                
+                
+                                <option value="India" selected>India</option>
+                
+                                
+                              </select>
+                              
+                              </div>
+                              </div>
                             <div class="form-1">
                              
                                <select name="state" id="state">
-                                <option value="">Select State</option>
+                                <option value="" hidden>Select State</option>
 					                <?php $result = get_all_data('tbl_state');
 					                foreach($result as $resu){?>
 					                  <option value="<?= $resu['state_name']?>" <?php echo ( isset($post_details['state']) && $post_details['state']==$resu['state_name'])? "selected" :""?> ><?= $resu['state_name'] ?></option>
@@ -295,7 +370,7 @@ $(document).ready(function(){
                               <div class="form-1" id="cat_data" >
                              
                                <select name="city" id="city">
-                                <option value="">select City</option>
+                                <option value="" hidden>select City</option>
                                 <?php if(isset($cities)){
                                 	
                                 		foreach ($cities as $city)
@@ -365,18 +440,18 @@ var lat = <?php echo (isset($post_details['location_lat']) && $post_details['loc
 var lng = <?php echo (isset($post_details['location_long']) && $post_details['location_long'] != '' )? $post_details['location_long'] : 78.486671; ?>;
 
 function initialize() {
-  var myLatlng = new google.maps.LatLng(lat,lng);
+  var myLatlng = new google.maps.LatLng(17.385044,78.486671);
   var markers = [];
   var map = new google.maps.Map(document.getElementById('gmap'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
-  var defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(lat, lng),
-      new google.maps.LatLng(lat, lng));
+  /*var defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(17.385044, 78.486671),
+      new google.maps.LatLng(17.385044, 78.486671));*/
  
   var myOptions = {
-    zoom: 14,
+    zoom: 13,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
@@ -386,17 +461,20 @@ function initialize() {
   marker = new google.maps.Marker({
         position: myLatlng, 
         map: map,
-        draggable: true
+        draggable: false
     });
   
   google.maps.event.addListener(map, 'center_changed', function() {
     var location = map.getCenter();
-  var address=getaddress(location.lat(),location.lng());
-  document.getElementById("lat1").value = location.lat();
-  document.getElementById("lon1").value = location.lng();
+
+    var address = getaddress(location.lat(),location.lng());
+
+    document.getElementById("lat1").value = location.lat();
+    document.getElementById("lon1").value = location.lng();
+
     placeMarker(location);
   });
-  markers.push(marker);
+   markers.push(marker);
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
@@ -422,14 +500,14 @@ function initialize() {
     markers = [];
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0, place; place = places[i]; i++) {
-      /*var image = {
+      var image = {
         url: place.icon,
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
+        anchor: new google.maps.Point(17, 17),
         scaledSize: new google.maps.Size(15, 15)
       };
-*/
+
       // Create a marker for each place.
       var marker = new google.maps.Marker({
         map: map,
@@ -445,10 +523,8 @@ function initialize() {
 
     map.fitBounds(bounds);
   });
-  // [END region_getplaces]
-
   auto= document.getElementById('pac-input');
- 
+  // [END region_getplaces]
   google.maps.event.addDomListener(auto, 'keydown', function(e) { 
       if (e.keyCode == 13) { 
           e.preventDefault(); 
@@ -457,10 +533,31 @@ function initialize() {
     });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
-    var bounds = map.getBounds();
-    searchBox.setBounds(bounds);
-  });
+     if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(10);
+    }
 
+  });
+ google.maps.event.autocomplete.addListener('place_changed', function() {
+    infowindow.close();
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      return;
+    }
+
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(10);
+    }
+
+    // Set the position of the marker using the place ID and location.
+   
+  });
   google.maps.event.addListener(map, 'zoom_changed', function() {
     zoomLevel = map.getZoom();
   document.getElementById("zoom_level").innerHTML = zoomLevel;

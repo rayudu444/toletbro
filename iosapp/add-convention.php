@@ -3,11 +3,13 @@ include ('../includes/dbutil.php');
 include ('includes/validation.php');
 $parameters = 
 array('cnv_upid',
+		'ctype',
         'title',
 		'convention_type',
     	'contact_person_name',
     	'contact_person_mobile',
     	'contact_person_email',
+    	'country',
 		'state',
     	'city',
         'locality',
@@ -61,14 +63,18 @@ if($is_parameter_available == 0)
 		$images=implode(",",$val);
 	}
 	*/
+	$user_count=get_row_count_by_condition("convention_users","where cnv_upid=".$cnv_upid);
+
 	$isSuccess = 0;
 	$usrData=array(
-		'cnv_upid'=>$_SESSION['cnv_upid'],
+		'cnv_upid'=>$cnv_upid,
         'title'=>$title,
+        'ctype'=>$ctype,
 		'convention_type'=>$convention_type,
     	'contact_person_name'=>$contact_person_name,
     	'contact_person_mobile'=>$contact_person_mobile,
     	'contact_person_email'=>$contact_person_email,
+    	'country'=>$country,
 		'state'=>$state,
     	'city'=>$city,
         'locality'=>$locality,
@@ -82,21 +88,25 @@ if($is_parameter_available == 0)
     		$usrData['images'] = $images;
     	}*/
 		
-		
+		 if($user_count>0)
+		 {			
 		 insertdata($usrData,'convention_post_add');
 		 $post_id = mysql_insert_id(); 
-		
-		
-		
-		
+				
 		$result['status'] = "success";
 		$result['convention_post_id'] = $post_id;
 		echo json_encode($result);
 		}
 		else
 		{
-			echo json_encode(array("status" => "failed"));
+		$result['status'] = "your not auser";
+		echo json_encode($result);
 		}
+}
+else
+{
+	echo json_encode(array("status" => "please provide all all fields"));
+}
 		
 		
 ?>

@@ -13,105 +13,81 @@ include_once('includes/inner-header.php');
 <link href="css1/demo.css" rel="stylesheet" type="text/css" />
  <link href="css1/flexslider.css" rel="stylesheet" type="text/css" />
 <script src="js1/modernizr.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="css/popup.css"/>
+<link rel="stylesheet" type="text/css" href="css/magnific-popup.css"/>
 <!--thumbnile-slider-->
+
+<style type="text/css">
+#gmap {
+    height:400px;
+  width:100%;
+}.controls {
+        margin-top: 16px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        padding: 0 11px 0 13px;
+        width: 300px;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        text-overflow: ellipsis;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+        margin-left: -1px;
+        padding-left: 14px;  /* Regular padding-left + 1. */
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+#target {
+        width: 345px;
+      }
+</style>
 
         <div class="container-fluid white-div-wrapper"> 
         	<div class="row"> 
 	            <div class="col-md-12 results-left-div">
                 	<div>
-                    	<div class="filter-inner-div">
-                        	 <div class="list-uls">
-                        	<form>
-                        	<ul class="list3">
-                            	<li>Refine Results</li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>1 BHK</option>
-                                        <option>2 BHK</option>
-                                        <option>3 BHK</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>BUDGET</option>
-                                        <option>1,00,000</option>
-                                        <option>2,00,000</option>
-                                        <option>3,00,000</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Lease Type</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine2">
-                                    	<option>Listed By</option>
-                                        <option>1 Year</option>
-                                        <option>2 Year</option>
-                                        <option>3 Year</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	<select class="refine1">
-                                    	<option>More</option>
-                                        <option>Generator</option>
-                                        <option>Generator</option>
-                                        <option>Generator</option>
-                                    </select>
-                                </li>
-                                <li>
-                                	Reset
-                                </li>
-                                <div class="clearfix"></div>
-                            </ul>
-                        	<div class="clearfix"></div>
-                                
-                            </form>
-                        </div>
-                            <ul class="filter-ul">
-                            	<li><a>Map</a></li>
-                                <li><a>List</a></li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
+                    	
                         <div class="flats-home">
-                           <ul>
-                             <li>Home/</li>
-                             <li>Rent/</li>
-                             <li>Hyderabad/</li>
-                             <li>Jubilee Hills</li>
-                              <div class="clearfix"></div>
-                           </ul>
+                           
                            <?php $query= mysql_query("select * from convention_post_add where convention_post_id=".$_REQUEST['convention']); 
                             $count = mysql_num_rows($query);
                             //if($count>0){
                               $p_info = mysql_fetch_array($query);
                             //}
                            ?>
-                          <h2>Convention Centres in Hyderabad </h2>
+                          <h2>Convention Centre in Hyderabad </h2>
                         </div>
                         <div class="clearfix"></div>
                         <div class="row flats-found">
                         
-                          <h6>6 flats found. <span style="color:#f2635d;">Include nearby flats</span></h6>
-                          <ul class="date-add">
-                            <li>Sort by: <span style="color:#f2635d;">Relevance</span> </li>    
-                            <li>Date Added (Recent First)</li>  
-                            <li>Price: Low High</li>
-                            <li><i class="fa fa-heart-o" style="margin-right:2px;"></i>0 Shortlisted Properties </li>
-                            
-                          </ul>
+                          
+                         
                          <div class="clear"></div>
                         </div>
                         <div class="container-fluid"> 
@@ -277,12 +253,13 @@ include_once('includes/inner-header.php');
                                       <div class="clearfix"></div>
                                       <div class="flat-div">
                                          <div class="clearfix"></div>
-                                        <div class="cont-but cont-but12">
+                                        <a href="#test-popup9<?=$p_info['convention_post_id']?>" class="inline-popups-a"  style="color:#fff; outline:none;"data-effect="mfp-zoom-in"><div class="cont-but cont-but12">
                                               
                                                  <i class="fa fa-phone"></i>
-                                                 <h6>Contact Person</h6>
+                                                  <h6> Contact</h6>
+
                                                   <div class="clearfix"></div>
-                                             </div>
+                                             </div></a>
                                       </div>
                                    </div>
                                </div>  
@@ -311,8 +288,152 @@ include_once('includes/inner-header.php');
 	                        <div class="results-list1">
                                <div class="col-md-12 div-pad">
                                   <div class="map-div">
-                                      <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15228.240037099087!2d78.45813229999999!3d17.40890755!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1439450263006" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen style="position:fixed;"></iframe>
-                                   
+<!--                                       <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15228.240037099087!2d78.45813229999999!3d17.40890755!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1439450263006" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen style="position:fixed;"></iframe>
+ -->                                  
+                                     <!--  <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15228.240037099087!2d78.45813229999999!3d17.40890755!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1439450263006" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen style="position:fixed;"></iframe> -->
+                                   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+<script type="text/javascript">
+var map;
+var marker=false;
+function initialize() {
+  var myLatlng = new google.maps.LatLng(<?=$p_info['location_lat']?>,<?=$p_info['location_long']?>);
+  var markers = [];
+  var map = new google.maps.Map(document.getElementById('gmap'), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+ 
+  var myOptions = {
+    zoom: 8,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  
+  map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+  
+  marker = new google.maps.Marker({
+        position: myLatlng, 
+        map: map,
+        draggable: true
+    });
+  
+  google.maps.event.addListener(map, 'center_changed', function() {
+    var location = map.getCenter();
+
+    var address = getaddress(location.lat(),location.lng());
+
+    document.getElementById("lat1").value = location.lat();
+    document.getElementById("lon1").value = location.lng();
+
+    placeMarker(location);
+  });
+   markers.push(marker);
+  // Create the search box and link it to the UI element.
+  var input = /** @type {HTMLInputElement} */(
+      document.getElementById('pac-input'));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var searchBox = new google.maps.places.SearchBox(
+    /** @type {HTMLInputElement} */(input));
+  
+  // [START region_getplaces]
+  // Listen for the event fired when the user selects an item from the
+  // pick list. Retrieve the matching places for that item.
+  google.maps.event.addListener(searchBox, 'places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+    for (var i = 0, marker; marker = markers[i]; i++) {
+      marker.setMap(null);
+    }
+
+    // For each place, get the icon, place name, and location.
+    markers = [];
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0, place; place = places[i]; i++) {
+      var image = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(15, 15)
+      };
+
+      // Create a marker for each place.
+      var marker = new google.maps.Marker({
+        map: map,
+        title: place.name,
+        position: place.geometry.location,
+        draggable: true
+      });
+
+      markers.push(marker);
+
+      bounds.extend(place.geometry.location);
+    }
+
+    map.fitBounds(bounds);
+  });
+  auto= document.getElementById('pac-input');
+  // [END region_getplaces]
+  google.maps.event.addDomListener(auto, 'keydown', function(e) { 
+      if (e.keyCode == 13) { 
+          e.preventDefault(); 
+      }
+     
+    });
+
+  google.maps.event.addListener(map, 'bounds_changed', function() {
+    var bounds = map.getBounds();
+    searchBox.setBounds(bounds);
+  });
+
+  google.maps.event.addListener(map, 'zoom_changed', function() {
+    zoomLevel = map.getZoom();
+  document.getElementById("zoom_level").innerHTML = zoomLevel;
+  });
+  google.maps.event.addListener(marker, 'dblclick', function() {
+    zoomLevel = map.getZoom()+1;
+    if (zoomLevel == 21) {
+     zoomLevel = 12;
+    }    
+  document.getElementById("zoom_level").innerHTML = zoomLevel; 
+  map.setZoom(zoomLevel);
+   
+  });
+
+  }
+ function getaddress(lat,lng){
+                    var geocoder = new google.maps.Geocoder();
+                    var latLng = new google.maps.LatLng(lat,lng);
+                    geocoder.geocode({       
+                                     latLng: latLng     
+                                     }, 
+                    function(responses) 
+                                     {     
+                                     if (responses && responses.length > 0) 
+                                     {        
+                                    document.getElementById('address').value=responses[0].formatted_address;  
+                                                 
+                                    } 
+                                     else 
+                                      {       
+                                    // alert('Not getting Any address for given latitude and longitude.');     
+                                      }   
+                                      })   
+                       } 
+                       
+function placeMarker(location) {
+  var clickedLocation = new google.maps.LatLng(location);
+  marker.setPosition(location);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+//window.onload = function(){initialize();};
+
+</script>
+<div id="gmap"> 
                                    </div>
                                </div>  
                             
@@ -353,6 +474,61 @@ include_once('includes/inner-header.php');
                     
                 </div>
                <div class="clearfix"></div>
+               <!--popup code start here-->
+                              <div id="test-popup9<?=$p_info['convention_post_id']?>" class="white-popup mfp-with-anim mfp-hide">
+            <div class="col-md-12 left-part-12">
+                            <div class="col-md-6">  
+                                <div class="agent-name">
+                                    <p><?=$p_info['contact_person_name']?></p>
+                                     <p><? //=$p_info['listed_by']?></p>
+                                     <h2><?=$p_info['contact_person_mobile']?></h2>
+                                </div>
+                             </div>
+                             <div class="col-md-6"> 
+                                <div class="flat-603">
+                                    <h6> Flat id: 602404</h6>
+                                    <div class="address-flat">
+                                        <h4> 2 BHK , Unfurnished </h4>
+                                        <p>Banjara Hills</p>
+                                        <span><i class="fa fa-inr"></i>16,000</span>
+                                    </div>
+                                    <!--div class="report-ready">
+                                      <p>Flat already taken</p>
+                                       <span>Report</span>
+                                        <div class="clearfix"></div>
+                                    </div-->
+                                </div>
+                             </div>
+                        </div>
+            <div class="col-md-12">
+                            <div class="col-md-6">  
+                                <div class="agent-form">
+                                   <form class="agent-fr">
+                                       <label>
+                                          <input type="text" placeholder="Name" />
+                                       </label>
+                                       <label>
+                                          <input type="text" placeholder="Mobile" />
+                                       </label>
+                                       <label>
+                                          <input type="text" placeholder="Email" />
+                                       </label>
+                                       <label>
+                                          <input type="submit" placeholder="Email" />
+                                       </label>
+                                   </form>
+                                 </div>
+                             </div>
+                            <div class="col-md-6">
+                               <div class="popup-ban">
+                                 <img src="images/pop-banner.png"/>
+                               
+                               </div>
+                            </div>  
+                        </div>
+                        <div class="clearfix"></div>
+              </div><!--popup code end here-->
+
             </div>
             <div class="clearfix"></div>
         </div>        
@@ -481,5 +657,6 @@ include_once('includes/inner-header.php');
 <!--thumbnile-slider-->
 </body>
 </html>
-
+<script src='js/jquery.magnific-popup.min.js'></script>
+<script src="js/index2.js"></script>
 

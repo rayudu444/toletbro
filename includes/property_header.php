@@ -19,7 +19,7 @@
  <!-- bin/jquery.slider.min.js -->
  <link rel="stylesheet" href="css1/jslider.css" type="text/css">
 <link rel="stylesheet" href="css1/jslider.blue.css" type="text/css">
-<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+<!-- <script type="text/javascript" src="js/jquery-1.7.1.js"></script> -->
 
 <script type="text/javascript" src="js1/jshashtable-2.1_src.js"></script>
 <script type="text/javascript" src="js1/jquery.numberformatter-1.2.3.js"></script>
@@ -59,8 +59,9 @@ $(document).ready(function(){
         <div class="col-md-5">
           <nav class="nav-list3 paddingTop-6">
             <ul>
-              <li><a href="download-app.html">Download App</a></li>
-              <li><a href="#">Sell/Rent Property</a></li>
+            <li><a href="index.php">Home</a></li>
+              <li><a href="download-app.php">Download App</a></li>
+              
               <div class="clearfix"></div>
             </ul>
           </nav>
@@ -69,13 +70,23 @@ $(document).ready(function(){
         <div class="col-md-5">
           <nav class="nav-list3 paddingTop-6 con-row">
                         	<ul class="singul">
-							<?php if(isset($_SESSION['upid']) && $_SESSION['upid'] != ''){?>
-                               	<li><a href="property-profile-list.php"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>
+                          <?php if(isset($_SESSION['upid']) && $_SESSION['upid'] != ''){?>
+                          <!-- <li><a href="post-add.php">Sell/Rent Property</a></li> -->
+							
+                               	 <li class="main-menu"><a href="#"><?php echo ucfirst($_SESSION['user_name']); ?></a>
+                                    <ul class="sub-menu">
+                                      <li><a href="user-profile.php">My Profile</a></li>
+                                      <li><a href="property-profile-list.php">Listing</a></li>
+                                      <li><a href="#">Shortlisted</a></li>
+                                      <li><a href="user-change-pwd.php">Change Password</a></li>
+                                   </ul>
+                            </li>
 							<li><a href="logout.php">Log out</a></li><?php } ?>
                                 <div class="clearfix"></div>
                             </ul>
                            
-                        </nav>
+          </nav>
+          
         </div>
         <div class="clearfix"></div>
       </div>

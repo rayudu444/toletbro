@@ -9,6 +9,7 @@ echo "<script>window.location.href='index.php'</script>";
 }
 include_once('includes/property_header.php');
 ?>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
 <style type="text/css">
 #gmap {
     height:400px;
@@ -59,7 +60,15 @@ include_once('includes/property_header.php');
         width: 345px;
       }
 </style>
-<?php $lat="17.385044"; $lon="78.486671"; ?>
+<?php
+if(isset($_REQUEST['post'])){ 
+  $query1= mysql_query("select * from post_add where post_id='".$_REQUEST['post']."'");
+  $get_info1 =mysql_fetch_array($query1);
+  $lat=$get_info1['location_lat']; $lon=$get_info1['location_long'];
+  }else{
+    $lat="17.385044"; $lon="78.486671";
+  }
+  ?>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 <script type="text/javascript">
 var map;
@@ -76,7 +85,7 @@ function initialize() {
       new google.maps.LatLng(17.385044, 78.486671));*/
  
   var myOptions = {
-    zoom: 14,
+    zoom: 13,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
@@ -129,7 +138,7 @@ function initialize() {
         url: place.icon,
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
+        anchor: new google.maps.Point(17, 17),
         scaledSize: new google.maps.Size(15, 15)
       };
 
@@ -158,10 +167,31 @@ function initialize() {
     });
 
   google.maps.event.addListener(map, 'bounds_changed', function() {
-    var bounds = map.getBounds();
-    searchBox.setBounds(bounds);
-  });
+     if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(10);
+    }
 
+  });
+ google.maps.event.autocomplete.addListener('place_changed', function() {
+    infowindow.close();
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      return;
+    }
+
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(10);
+    }
+
+    // Set the position of the marker using the place ID and location.
+   
+  });
   google.maps.event.addListener(map, 'zoom_changed', function() {
   	zoomLevel = map.getZoom();
 	document.getElementById("zoom_level").innerHTML = zoomLevel;
@@ -192,7 +222,9 @@ function initialize() {
                                     } 
                                      else 
                                       {       
-                                    // alert('Not getting Any address for given latitude and longitude.');     
+                                    // alert('Not getting Any address for given latitude and longitude.');  
+										
+   
                                       }   
                                       })   
 					    			   } 
@@ -258,7 +290,7 @@ $( ".parking_4" ).click(function() {
     </div>  
      <div class="container">
     <div class="container-sub3">
-    <form method="post" action="addpostanadd1.php">
+    <form method="post" id="page2" action="addpostanadd1.php">
                 <div class="row">
                               <div class="col-md-12 div-pad2">
                                   <p>Tag Property Location</p>
@@ -294,14 +326,14 @@ $( ".parking_4" ).click(function() {
                    <div class="container-post1">
                              
                                <div class="box-filters">
-                                  <input class="Bedrooms " type="button" value="0"/>
-                                    <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==1)?"active1":""?>" type="button" value="1"/>
+                                  <!-- <input class="Bedrooms " type="button" name="Bedrooms " value="0"/> -->
+                                    <input class="Bedrooms  <?php echo @ ($get_info['bedrooms']==1 || $get_info['bedrooms']==0)?"active1":""?>" type="button" value="1"/>
                                      <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==2)?"active1":""?>" type="button" value="2"/>
                                      <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==3)?"active1":""?>" type="button" value="3"/>
                                        <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==4)?"active1":""?>" type="button" value="4"/>
-                                        <input class="Bedrooms <?php echo @ ($get_info['bedrooms']=="5+")?"active1":""?>" type="button" value="5+"/>
+                                        <input class="Bedrooms <?php echo @ ($get_info['bedrooms']==5)?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
-								  <input type="hidden" name="no_bedroos" id="no_bedroos" value="" />
+								  <input type="hidden"  name="no_bedroos" id="no_bedroos" value="<?php echo @ (isset($get_info['bedrooms']))? $get_info['bedrooms']:"1"?>" />
                                </div>
                    </div>
                     <div class="clearfix"></div>
@@ -318,14 +350,14 @@ $( ".parking_4" ).click(function() {
                    <div class="container-post1">
                              
                                <div class="box-filters ">
-                                   <input class="Bathrooms " type="button" value="0"/>
-                                    <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==1)?"active1":""?>" type="button" value="1"/>
+                                   <!-- <input class="Bathrooms " type="button" value="0"/> -->
+                                    <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==1 || $get_info['bathrooms']==0)?"active1":""?>" type="button" value="1"/>
                                      <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==2)?"active1":""?>" type="button" value="2"/>
                                      <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==3)?"active1":""?>" type="button" value="3"/>
                                        <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==4)?"active1":""?>" type="button" value="4"/>
-                                        <input class="Bathrooms <?php echo @ ($get_info['bathrooms']=="5+")?"active1":""?>" type="button" value="5+"/>
+                                        <input class="Bathrooms <?php echo @ ($get_info['bathrooms']==5)?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
-								  <input type="hidden" name="no_bathrooms" id="no_bathrooms" value="" />
+								  <input type="hidden"  name="no_bathrooms" id="no_bathrooms" value="<?php echo @ (isset($get_info['bathrooms']))? $get_info['bathrooms']:"1"?>" />
                                </div>
                    </div>
                     <div class="clearfix"></div>
@@ -340,13 +372,13 @@ $( ".parking_4" ).click(function() {
                    <div class="container-post1">
                              
                                <div class="box-filters ">
-                                   <input class="balconies " type="button" value="0"/>
-                                    <input class="balconies" <?php echo @ ($get_info['balconies']==1)?"active1":""?> type="button" value="1"/>
+                                   <!-- <input class="balconies " type="button" value="0"/> -->
+                                    <input class="balconies <?php echo @ ($get_info['balconies']==1 || $get_info['balconies']==0)?"active1":"" ?>" type="button" value="1"/>
                                      <input class="balconies <?php echo @ ($get_info['balconies']==2)?"active1":""?>" type="button" value="2"/>
                                      <input class="balconies <?php echo @ ($get_info['balconies']==3)?"active1":""?>" type="button" value="3"/>
                                        <input class="balconies <?php echo @ ($get_info['balconies']==4)?"active1":""?>" type="button" value="4"/>
-                                        <input class="balconies <?php echo @ ($get_info['balconies']=="5+")?"active1":""?>"  type="button" value="5+"/>
-								  <input type="hidden" name="no_balconies"  id="no_balconies" value="" />
+                                        <input class="balconies <?php echo @ ($get_info['balconies']==5)?"active1":""?>"  type="button" value="5+"/>
+								  <input type="hidden" name="no_balconies"  id="no_balconies" value="<?php echo @ (isset($get_info['balconies']))? $get_info['balconies']:"1"?>" />
                   <div class="clearfix"></div>
                                </div>
                    </div>
@@ -367,14 +399,14 @@ $( ".parking_4" ).click(function() {
                    <div class="container-post1">
                              
                                <div class="box-filters ">
-                                   <input class="parking_2 " type="button" value="0"/>
-                                    <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==1)?"active1":""?>" type="button" value="1"/>
+                                  <!--  <input class="parking_2 " type="button" value="0"/> -->
+                                    <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==1 || $get_info['parking_2wheeler']==0)?"active1":""?>" type="button" value="1"/>
                                      <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==2)?"active1":""?>" type="button" value="2"/>
                                      <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==3)?"active1":""?>" type="button" value="3"/>
                                        <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==4)?"active1":""?>" type="button" value="4"/>
-                                        <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']=="5+")?"active1":""?>" type="button" value="5+"/>
+                                        <input class="parking_2 <?php echo @ ($get_info['parking_2wheeler']==5)?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
-								  <input type="hidden" name="no_parking2" id="no_parking2" value="" />
+								  <input type="hidden" name="no_parking2" id="no_parking2" value="<?php echo @ (isset($get_info['parking_2wheeler']))? $get_info['parking_2wheeler']:"1"?>" />
                                </div>
                    </div>
                                 <div class="div-pad3">
@@ -382,15 +414,15 @@ $( ".parking_4" ).click(function() {
                                </div>
                    <div class="container-post1">
                             
-                               <div class="box-filters ">
-                                   <input class="parking_4 " type="button" value="0"/>
-                                    <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==1)?"active1":""?>" type="button" value="1"/>
+                               <div class="box-filters " >
+                                   <!-- <input class="parking_4 " type="button" value="0"/> -->
+                                    <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==1 || $get_info['parking_4wheeler']==0)?"active1":""?>" type="button" value="1"/>
                                      <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==2)?"active1":""?>" type="button" value="2"/>
                                      <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==3)?"active1":""?>" type="button" value="3"/>
                                        <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==4)?"active1":""?>" type="button" value="4"/>
-                                        <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']=="5+")?"active1":""?>" type="button" value="5+"/>
+                                        <input class="parking_4 <?php echo @ ($get_info['parking_4wheeler']==5)?"active1":""?>" type="button" value="5+"/>
                                   <div class="clearfix"></div>
-								  <input type="hidden" name="no_parking4" id="no_parking4" value="" />
+								  <input type="hidden" name="no_parking4" id="no_parking4" value="<?php echo @ (isset($get_info['parking_4wheeler']))? $get_info['parking_4wheeler']:"1"?>" />
                                </div>
                    </div>
                     <div class="clearfix"></div>
@@ -407,19 +439,19 @@ $( ".parking_4" ).click(function() {
                             <div class="form-1">
                              
                                <select name="funished_status">
-                                <option value="">Furnished Status</option>
-                                <option value="Semi Furnished" <?php echo @ ($get_info['property_furnished_status']=="Semi Furnished")?"selected":""?>>semifunished</option>
-                                <option value="Fully Funished" <?php echo @ ($get_info['property_furnished_status']=="Fully Furnished")?"selected":""?>>fullyfunished </option>
+                                <option value=""hidden>Select</option>
+                                <option value="Semi Furnished" <?php echo @ ($get_info['property_furnished_status']=="Semi Furnished")?"selected":""?>>Semi Furnished</option>
+                                <option value="Fully Funished" <?php echo @ ($get_info['property_furnished_status']=="Fully Furnished")?"selected":""?>>Fully Furnished </option>
                                 <option value="Not Furnished" <?php echo @ ($get_info['property_furnished_status']=="Not Furnished")?"selected":""?>>Not Furnished </option>
                               </select>
                               
                               </div>
                            
                                
-                              <div class="input-seats" style="margin-top:10px;">
+                              <!-- <div class="input-seats" style="margin-top:10px;">
                               <?php $bathrooms = ($get_info['bathrooms']==0)?"":$get_info['bathrooms'];?>
                              <input type="text" name="floore" placeholder="Floor No" value="<?php echo @$bathrooms?>">
-                             </div>
+                             </div> -->
                               
 
                                
@@ -445,3 +477,64 @@ $( ".parking_4" ).click(function() {
     </div>
     
   <?php include("includes/footer.php");?>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('#targets').submit(function() {
+        var error = 0;
+        if (!($('#checkboxid').is(':button'))) {
+            error = 1
+            alert("Please Tick the Agree to Terms of Use");
+        }
+
+        if (error) {
+            return false;
+        } else {
+            return true;
+        }
+
+    });
+});
+  </script>      
+  
+         <script type="text/javascript">
+
+        $(document).ready(function(){
+
+           /*$.validator.addMethod("userRegex", function(value, element) {
+
+              return this.optional(element) || /^[A-Za-z][A-Za-z0-9.@-]*$/i.test(value);
+
+          }, "Username does not contains any spaces or special characters.");
+*/
+
+
+         $("#page2").validate({
+
+             rules : {
+
+              funished_status : {
+        
+                required: true,
+              },  
+			            
+             },
+
+             messages :{
+
+              
+              funished_status:{
+
+                required : "Select Furnished status",
+
+              },
+			 
+
+
+
+            }
+
+          });
+
+        });
+
+      </script>    

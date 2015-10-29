@@ -25,7 +25,7 @@ echo "<script>window.location.href='convention-centre.php'</script>";exit;
                     <th>Convention Type</th>
                     <th>Contact Person</th>
                     <th>Mobile</th>
-                   
+                    <th>Expires</th>                     
                     <th>Edit</th>
                     <th>Delete</th>
                   </tr>
@@ -41,6 +41,7 @@ echo "<script>window.location.href='convention-centre.php'</script>";exit;
                     <td><?=$result_info['convention_type']?></td>
                      <td><?=$result_info['contact_person_name']?></td>
                     <td><?=$result_info['contact_person_mobile']?></td>
+                    <td><?=date("d/m/Y",strtotime($result_info['exp_date']))?></td>
                      <td><a href="convention-post.php?post=<?=$result_info['convention_post_id']?>"> <i class="fa fa-pencil-square-o"></i></a></td>
                     <td><a href="del-convention.php?post=<?=$result_info['convention_post_id']?>"><i class="fa fa-trash-o"></i></a></td>
                   </tr>

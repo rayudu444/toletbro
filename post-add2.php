@@ -9,7 +9,7 @@ echo "<script>window.location.href='index.php'</script>";
 }include_once('includes/property_header.php');
 ?>
         
-      
+  <script type="text/javascript" src="js/jquery.validate.js"></script>    
    <?php
   if(isset($_REQUEST['post'])){ 
   $query= mysql_query("select * from post_add where post_id='".$_REQUEST['post']."'");
@@ -26,7 +26,7 @@ echo "<script>window.location.href='index.php'</script>";
         	<div class="container">
               <div class="container-sub3">
             	
-<form method="post" action="addpostanadd2.php">
+<form method="post" id="postadd2" action="addpostanadd2.php">
                    <div class="row">
                               <div class="col-md-12 div-pad2">
                                   <p>Amount</p>
@@ -37,13 +37,25 @@ echo "<script>window.location.href='index.php'</script>";
                         
                             <div class="list-input">
                                  <p class="price-p">Price</p>
-                                   <div class="input-seats" style="margin-top:10px;">
-                              <?php $price_monthly = ($get_info['price_monthly']==0)?"":$get_info['price_monthly'];?>
-                                <input type="input" value="<?php echo @$price_monthly?>"   name="monthly" placeholder="Monthly"/>
-                             </div>
+                                 
+                                   <div class="input-seats" style="margin-top:15px; float:left; width:45%;">
+                              <?php @ $price_monthly = ($get_info['price_monthly']==0)?"":$get_info['price_monthly'];?>
+                                <i class="fa fa-inr fa-rup"></i> <input type="number" value="<?php echo @$price_monthly?>" style="padding:0 4%;"  name="monthly" placeholder="Price"/>
+                             </div><div class="form-1 form-34" style="width:45%; float:right; margin-top:0px;" >
+                             
+                               <select name="price_type" >
+                                <option value="Per Month" <?php echo @($get_info['price_type']=="Per Month")?"selected":""?>>Per Month</option>
+                                <option value="Per Day"<?php echo @($get_info['price_type']=="Per Day")?"selected":""?>>Per Day</option>
+                                
+                                <option value="Per Annum" <?php echo @($get_info['price_type']=="Per Annum")?"selected":""?>>Per Annum</option>
+                                           </select>
+                              
+                              </div>
+                             
+                                 <div class="clearfix"></div> 
                                <div class="input-seats" style="margin-top:10px;">
-                              <?php $price_deposite = ($get_info['price_deposite']==0)?"":$get_info['price_deposite'];?>
-                                <input type="input" value="<?php echo @$price_deposite?>"  name="deposite" placeholder="Deposite"/>
+                              <?php @ $price_deposite = ($get_info['price_deposite']==0)?"":$get_info['price_deposite'];?>
+                                <i class="fa fa-inr fa-rup"></i><input type="number" value="<?php echo @$price_deposite?>"  name="deposite" placeholder="Deposit"/>
                              </div>
 
                             <div class="clearfix"></div>   
@@ -72,10 +84,12 @@ echo "<script>window.location.href='index.php'</script>";
                                 <label style="float:right;" for="test117">No</label>
                                   </p><div class="clearfix"></div> 
                               <p></p>
+                              <div class="error"></div>
                             <div class="clearfix"></div>   
                            </div>
                          </div>
                    </div>
+
                     <div class="clearfix"></div>
                 </div>
                 
@@ -84,22 +98,39 @@ echo "<script>window.location.href='index.php'</script>";
                                   <p>Maintenance Charges</p>
                                </div>
                                 <div class="clearfix"></div>
+
+
+
                                <div class="container-post">
                                            
                          
                             <div class="list-input">
+
+                            
                                 
                               <!--<div class="input-title" style="margin-top:10px;"><input type="text" id="test1" placeholder="Maintenance Charges"></div>-->
-                                <div class="input-seats" style="margin-top:10px;">
+                                <div class="input-seats" style="margin-top:15px; width:45%; float:left;">
                               
-                                <input type="input" value="<?php echo @$get_info['maintenance_monthly']?>"  name="maintance_month" placeholder="Monthly"/>
+                                <i class="fa fa-inr fa-rup"></i>
+                                <input type="number" value="<?php echo @$get_info['maintenance_monthly']?>"  name="maintance_month" placeholder="Maintenance Charges" style="padding:0 4%;"/>
                              </div>
+                             <div class="form-1 form-34" style="width:45%; float:right; margin-top:0px;">
+                             
+                               <select name="maintenance_type" >
+                               <option value="Per Month" <?php echo @($get_info['price_type']=="Per Month")?"selected":""?>>Per Month</option>
+                                <option value="Per Day"<?php echo @($get_info['price_type']=="Per Day")?"selected":""?>>Per Day</option>
+                                
+                                <option value="Per Annum" <?php echo @($get_info['price_type']=="Per Annum")?"selected":""?>>Per Annum</option>
+                                </select>
+                              
+                              </div>
+                                <div class="clearfix"></div>
                                <div class="input-seats" style="margin-top:10px;">
                               
-                                <input type="input" value="<?php echo @$get_info['additional_charges']?>"  name="maintance_additional_charge" placeholder="Price & Other additional Charges" class="cont-inp23"/>
+                                <input type="text" value="<?php echo @$get_info['additional_charges']?>"  name="maintance_additional_charge" placeholder="Price & Other additional Charges" class="cont-inp23"/>
                                 
-                                <input type="input" value="<?php echo @$get_info['additional_charges1']?>"  name="maintance_additional_charge1" placeholder="" class="cont-inp23"/>
-                             </div>
+<!--                                 <input type="number" value="<?php echo @$get_info['additional_charges1']?>"  name="maintance_additional_charge1" placeholder="" class="cont-inp23"/>
+ -->                             </div>
 
                             <div class="clearfix"></div>   
                            </div>
@@ -117,12 +148,12 @@ echo "<script>window.location.href='index.php'</script>";
                    <div class="container-post">
                          
                             <div class="list-check">
-                                  <?php  $plot_area = ($get_info['plot_area']==0)? "": $get_info['plot_area'];?>
-                                  <div class="input-title"><input type="text" id="test1"value="<?php echo @$plot_area?>"  placeholder="Plot Area" name="plot_area" class="cont-inp23"></div>
+                                  <?php  @$plot_area = ($get_info['plot_area']==0)? "": $get_info['plot_area'];?>
+                                  <div class="input-seats"><input type="number" id="test1"value="<?php echo @$plot_area?>"  placeholder="Plot Area" name="plot_area"></div>
                                <div class="form-1 form-34">
                              
                                <select name="plot_state" >
-                                <option value="">--select--</option>
+                                <option value="" hidden>--select--</option>
                                 <option value="square Feet"<?php echo @($get_info['plot_state']=="square Feet")?"selected":""?>>square Feet</option>
                                 <option value="Square Yards" <?php echo @($get_info['plot_state']=="Square Yards")?"selected":""?>>Square Yards</option>
                                 <option value="Acres" <?php echo @($get_info['plot_state']=="Acres")?"selected":""?>>Acres</option>
@@ -151,7 +182,7 @@ echo "<script>window.location.href='index.php'</script>";
                                <div class="form-1 form-34">
                              
                                <select name="facing">
-							             <option value="">--select--</option>
+							             <option value="" hidden>--select--</option>
                                 
                                 <option value="North" <?php echo @($get_info['door_facing']=="North")?"selected":""?>>North</option>
                                 <option value="East"<?php echo @($get_info['door_facing']=="East")?"selected":""?>>East</option>
@@ -183,17 +214,18 @@ echo "<script>window.location.href='index.php'</script>";
                          
                             <div class="list-check ">
                               <p>
-                                <input type="checkbox" <?php echo @in_array("Govt", $water)?"checked":""?> id="test131" name="water[]" value="Govt">
+                                <input type="checkbox" class="water" <?php echo @in_array("Govt", $water)?"checked":""?> id="test131" name="water[]" value="Govt">
                                 <label for="test131" >Govt</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test132" name="water[]" value="Bore" <?php echo @in_array("Bore", $water)?"checked":""?>>
+                                <input type="checkbox" class="water" id="test132" name="water[]" value="Bore" <?php echo @in_array("Bore", $water)?"checked":""?>>
                                 <label for="test132">Bore</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test133" name="water[]" value="Water tanker" <?php echo @in_array("Water tanker", $water)?"checked":""?>>
+                                <input type="checkbox" class="water" id="test133" name="water[]" value="Water tanker" <?php echo @in_array("Water tanker", $water)?"checked":""?>>
                                 <label for="test133">Water tanker</label>
                               </p>
+                              <div id="err"></div>
                            
 
                             <div class="clearfix"></div>   
@@ -217,3 +249,87 @@ echo "<script>window.location.href='index.php'</script>";
         </div>
         
          <?php include("includes/footer.php");?>
+
+<script type="text/javascript">
+        $.validator.addMethod('onecheck', function(value, ele) {
+
+
+            return $("input:checked").length >= 1;
+        }, 'Please Select Atleast One CheckBox')
+
+        $(document).ready(function() {
+            $("#postadd2").validate({
+                rules: {
+                    
+
+
+              monthly : {
+        
+                required: true,
+        numericOnly:true
+              },  
+        facing : {
+        
+                required: true,
+              },
+         plot_state : {
+        
+                required: true,
+              }, 
+        maintance_month : {
+        
+                required: true,
+              }, 
+              'water[]': {
+                        required: true,
+                        onecheck: true
+                    }, 
+          },
+
+
+             messages: {
+
+           
+            monthly:{
+
+              required : "Please Provide price",
+
+            },
+        facing:{
+
+              required : "Please select facing",
+
+            },
+        plot_state:{
+
+              required : "Please select area type",
+
+            },
+        maintance_month:{
+
+              required : "Please provide maintance charges",
+
+            },
+            price_type:{
+              required: "Please select type"
+            },
+             deposite:{
+              required: "Please provide deposite Amount"
+            },
+            Negotiable:{
+              required: "Please select Negotiable"
+            },
+            'water[]':{
+              required: "Please select atleast one checkbox",
+            }
+
+
+    
+             
+                },
+                errorPlacement: function(error, element) {
+                    error.appendTo('#err');
+                }
+            });
+        });
+    </script>

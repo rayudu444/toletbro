@@ -4,7 +4,8 @@ include_once('includes/dbutil.php');
 	
 	extract($_POST);
 	$imagescount = count($_FILES);
-	
+	$Date=date('Y-m-d');
+	$exp_date=date('Y-m-d', strtotime($Date. ' + 30 day'));
 	
    $errors= array();
 	$val=array();
@@ -51,11 +52,11 @@ include_once('includes/dbutil.php');
 	$isSuccess = 0;
 	$usrData=array(
 		'cnv_upid'=>$_SESSION['cnv_upid'],
-        'title'=>$title,
+        'title'=>$title,'ctype'=>$ctype,
 		'convention_type'=>$convention_type,
     	'contact_person_name'=>$contact_person_name,
     	'contact_person_mobile'=>$contact_person_mobile,
-    	'contact_person_email'=>$contact_person_email,
+    	'contact_person_email'=>$contact_person_email,'country'=>$country,
 		'state'=>$state,
     	'city'=>$city,
         'locality'=>$locality,
@@ -70,6 +71,7 @@ include_once('includes/dbutil.php');
     	}
 		
 		if(!isset($_POST['post_id'])){
+			$usrData['exp_date'] = $exp_date;
 		 insertdata($usrData,'convention_post_add');
 		 $post_id = mysql_insert_id(); 
 		 ++$isSuccess;
@@ -80,7 +82,7 @@ include_once('includes/dbutil.php');
 			$usrData['convention_post_id'] = $post_id;
 			
 			$usrData['images'] = (isset($images))? ','.$usrData['images'] :'' ;
-			$sql = "UPDATE `convention_post_add` SET `title`=:title,`images`=concat(images,:images),`convention_type`=:convention_type,`contact_person_name`=:contact_person_name,`contact_person_mobile`=:contact_person_mobile,`contact_person_email`=:contact_person_email,`state`=:state,`city`=:city,`locality`=:locality,`address`=:address,`location_lat`=:location_lat,`location_long`=:location_long  WHERE  `convention_post_id` = :convention_post_id";
+			$sql = "UPDATE `convention_post_add` SET `title`=:title,`images`=concat(images,:images),`convention_type`=:convention_type,`contact_person_name`=:contact_person_name,`contact_person_mobile`=:contact_person_mobile,`contact_person_email`=:contact_person_email,`ctype`=:ctype,`country`=:country,`state`=:state,`city`=:city,`locality`=:locality,`address`=:address,`location_lat`=:location_lat,`location_long`=:location_long  WHERE  `convention_post_id` = :convention_post_id";
 			$statement = $dbh->prepare($sql);
 			$statement->execute($usrData);
 			$post_id = $_POST['post_id'];

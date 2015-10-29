@@ -2,6 +2,8 @@
 session_start();
 ob_start();
 include("includes/dbutil.php");
+include("include_pforgotpwd.php");
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,6 +32,10 @@ imum-scale=1.0 user-scalable=yes" />
            if (d.getElementById(id)) {return;}
            js = d.createElement('script'); js.id = id; js.async = true;
            js.src = "//connect.facebook.net/en_US/all.js";
+
+
+
+
            ref.parentNode.insertBefore(js, ref);
          }(document));
 
@@ -257,17 +263,39 @@ imum-scale=1.0 user-scalable=yes" />
 		});
 	});
 </script>
+
 <style>
 	.error{
 		color: red;
 	}
 </style>
+
+<script type='text/javascript'>
+$(function(){
+var overlay = $('<div id="overlay"></div>');
+
+$('.close').click(function(){
+  $('.popup').hide();
+$('.popup').removeClass('width');
+overlay.appendTo(document.body).remove();
+return false;
+});
+
+$('.x').click(function(){
+$('.popup').hide();
+overlay.appendTo(document.body).remove();
+return false;
+});
+});
+</script> 
+
+
 <?php 
    $is_user_login = 0;
 ########## Google Settings.. Client ID, Client Secret from https://cloud.google.com/console #############
 $google_client_id       = '394341835770-td97u9sunc8rgijgll23pa4brhhs9mk1.apps.googleusercontent.com';
 $google_client_secret   = 'ROGTcqICqifViYLujjZJFGi_';
-$google_redirect_url    = 'http://localhost/toletbro/index.php'; //path to your script
+$google_redirect_url    = URI."/index.php"; //path to your script
 $google_developer_key   = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
 //include google api files
@@ -377,9 +405,29 @@ else // user logged in
  
 } 
   ?>
+
    
 </head>
 <body>
+<?php if(isset($_GET['message']))
+
+      {      ?>
+          <div class='popup popup-anim1' id="overlay" style="">
+<div class='cnt223'>
+<img src='images/close.png' alt='quit' class='x' id='x' style="position:absolute; right:-13px; top:-14px;" />
+<p>
+<?php if($_GET['message']==1){?>Post added successfully...<?php }?>
+<?php if($_GET['message']==2){?>Your add has been submitted & will be verified in 24Hrs<?php }?>
+<?php if($_GET['message']==3){?>Your Password updated successfully<?php }?>
+<?php if($_GET['message']==4){?>Thank you Please check email once<?php }?>
+<br/>
+<a  class='close'>Ok</a>
+<div class="clearfix"></div> 
+</p>
+</div>
+</div>
+            <?php } ?>
+            
 	<section>
     <div class="container">
         	<div class="row">
@@ -403,10 +451,14 @@ else // user logged in
                                 <div class="clearfix"></div>
                                 <div class="login-form">
 	                                <form method="post" action="checkuser.php">
-                                	<input type="email" placeholder="Email Id" name="user_email"/>
+                                	<input type="text" required placeholder="Email/Mobile" name="user_email"/>
                                     <input type="password" placeholder="Password" name="password"/>
                                     <button type="submit">Login</button>
+                                    
+
                                 </form>
+                                <span><a href="#test-forgot" class="sing-buts clickforgot inline-popups-a">Forgot Password</a>
+                                </span>
                                 </div>
                                 <span><img src="images/or.png" class="or-img"/></span>
                                 <div class="clearfix"></div>
@@ -482,19 +534,26 @@ else // user logged in
                         <li><a href="#test-popup" data-effect="mfp-zoom-in">Login</a></li> -->
 
 
-                        <?php if(isset($_SESSION['upid']) || isset($_SESSION['cnv_upid'])){?>
+                        <?php if(isset($_SESSION['upid'])){?>
                      <ul class="list1">
-                      <li><a href="my-account.php"><?php echo $_SESSION['user_name']; ?></a></li>
+                      <li class="main-menu"><a href="property-profile-list.php"><?php echo $_SESSION['user_name']; ?></a>
+                        <ul class="sub-menu" style="top: 41px; left:-71px;">
+                                      <li><a href="user-profile.php">My Profile</a></li>
+                                      <li><a href="property-profile-list.php">Listing</a></li>
+                                      <li><a href="#">Shortlisted</a></li>
+                                      <li><a href="user-change-pwd.php">Change Password</a></li>
+                                   </ul>
+                      </li>
                        <li> <a href="logout.php" >Log out</a></li>
                      <div class="clear"></div>
                     </ul>
-                    <?php } else {?>
+                    <?php } else { ?>
                     <ul class="list1" id="inline-popups">
                       <li><a href="#test-popup2" class="sing-buts click">Sign Up</a></li>
                         <li><a href="#test-popup" class="click2">Login</a></li>
                     <div class="clear"></div>
                     </ul>
-                    <?php }?>
+                    <?php } ?>
 
                         
 					<div class="clear"></div>
@@ -518,14 +577,16 @@ else // user logged in
                 <div>
                     <div class="col-md-6 col-sm-12 margin-0">
                         <ul class="list2">
-                            <li class="current"><a href="post-add.php">Post An Ad</a></li>
-                            <li><a href="sell-rent.php">Rent</a></li>
+                            <!-- <li class="current"><a href="post-add.php">Post An Ad</a></li> -->
+                           <li><a <?php echo (isset($_SESSION['upid'])) ? 'href="post-add.php"' : 'href="#test-popup" class="click2 inline-popups-a"' ?>>Post An Ad</a></li>
+
+                            <li><a href="rent.php">Rent</a></li>
                             <div class="clear"></div>
                         </ul>
                     </div>
                     <div class="col-md-6 col-sm-12 margin-0">    
                         <ul class="list2">
-                            <li><a href="sell-rent.php">Sale</a></li>
+                            <li><a href="sale.php">Sale</a></li>
                             <li><a href="convention-centre.php">Convention Centers</a></li>
                             <div class="clear"></div>
                         </ul>
@@ -773,17 +834,17 @@ else // user logged in
                             </p>
                         <div class="clearfix margin-top-5"></div>    
                             <div class="col-md-6 app-div1 animateblock left">
-                            	<a href="#"><img src="images/apple.png"/></a>
+                            	<a href="#test-mobile" class="inline-popups-a"><img src="images/apple.png"/></a>
                             </div>
                             <div class="col-md-6 app-div2 animateblock right">
-                            	<a href="#"><img src="images/android.png"/></a>
+                            	<a href="#test-mobilea"  class="inline-popups-a"><img src="images/android.png"/></a>
                             </div>
-                            <form class="app-form">
+                            <!-- <form class="app-form">
                             	<label>
                                 	<input type="text" placeholder="Enter Your Mobile Number" class="input1"/>
                                     <button type="submit">Send App Link</button>
                                 </label>
-                            </form>
+                            </form> -->
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -797,78 +858,7 @@ else // user logged in
             </div>
         </div>
         <div>
-        <div class="main-wrapper">
-             <div class="banner-footer">
-                 <div class="what-service">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    <a href="#"><span>Contact Us</span></a>
-                    <div class="clear"></div>
-                 </div>
-             </div>
-          </div>
-        <div class="footer-bt">
-             <div class="footer">
-             	<img src="images/img1.png" class="img1"/>
-                 <div class="cont-about">
-                    <ul>
-                          <li><a href="#"> About Us</a></li>
-                          <li><a href="#">Privacy Policy</a></li>
-                          <li><a href="#">News</a></li>
-                          <li><a href="#">Terms</a></li>
-                          <li><a href="#">FAQ</a></li>
-                    </ul>
-                 </div>
-                 <div class="adress-maill">
-                     <form class="address-mails" method="post" action="#">
-                        <label>
-                          <input type="text" name="name" placeholder="User Name">
-                        </label>
-                        <label>
-                          <input type="text" name="email" placeholder="E-mail">
-                        </label>
-                        <div class="clear"></div>
-                        <label>
-                          <textarea name="message" placeholder="Message"></textarea>
-                        </label>
-                         <label>
-                          <input type="submit" name="submit" value="Save" style="border:none !important;">
-                          <input type="button" value="Clear" class="clear-but">
-                          <div class="clear"></div>
-                        </label>
-                        <div class="clear"></div>
-                     </form>
-                 </div>
-                 <div class="social-media">
-                   <div class="cont-btm">
-                       <img src="images/map1.png" style="width:18px;">
-                       <span>12-6-23/6/4. opp kukatpally depot,<br>moosapet,hyderabad-72</span>
-                       <div class="clear"></div>
-                    </div>
-                      <div class="cont-btm">
-                       <img src="images/mail1.png" style="width:24px;">
-                       <span style="margin-top:5px;">sisirreddy@yahoo.com</span>
-                       <div class="clear"></div>
-                    </div>
-                    <div class="cont-btm">
-                       <img src="images/call1.png" style="width:24px;">
-                       <span>+91 8464892222<br>+91 40 23862386</span>
-                       <div class="clear"></div>
-                    </div> 
-                    <ul class="sol-ic">
-                       <li><img src="images/fb.png"></li>
-                       <li><img src="images/tw.png"></li>
-                       <li><img src="images/you.png"></li>
-                       <div class="clear"></div>
-                    </ul>
-                  </div>
-               <div class="clear"></div>
-             </div>
-          </div>
-          <div class="footer-strip">
-              <p>2015 Toletbro.All Right Reserved.Terms and Conditions</p>
-          </div>
-        </div>
-    </section>
+        <?php include("includes/footer.php");?>
 <script type="text/javascript">
 $(function(){
   var $elems = $('.animateblock');
@@ -900,6 +890,50 @@ $(function(){
 </script> 
 <script src='js/jquery.magnific-popup.min.js'></script>
 <script src="js/index.js"></script>
-   
+<script src="js/index2.js"></script>
+
+              
+
+               <div id="test-mobile" class="white-popup mfp-with-anim mfp-hide" style="width:400px;">            
+            <div class="col-md-12">
+                          <div class="login-div">
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+                                  <form method="post" action="sendlink-mobile.php">
+                                  <input type="text" required placeholder="Mobile" name="mobile"/>
+                                    
+                                    <button type="submit" name="ios_submit">Submit</button>
+                                   
+
+                                </form>
+                                
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+              </div>
+               
+<div id="test-mobilea" class="white-popup mfp-with-anim mfp-hide" style="width:400px;">            
+            <div class="col-md-12">
+                          <div class="login-div">
+                                <div class="clearfix"></div>
+                                <div class="login-form">
+                                  <form method="post" action="sendlink-mobile.php">
+                                  <input type="text" required placeholder="Mobile" name="mobile"/>
+                                    
+                                    <button type="submit" name="android_submit">Submit</button>
+                                   
+
+                                </form>
+                                
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+              </div>
 </body>
 </html>

@@ -3,11 +3,11 @@
   include_once('includes/dbutil.php');  
   if (!isset($_SESSION['upid']) || $_SESSION['upid'] == '' )
 {
-  if(isset($_SESSION['cnv_upid']))
+  /*if(isset($_SESSION['cnv_upid']))
   {
     echo "<script>window.alert('Please LogIn as user....')</script>";
     echo "<script>window.location.href='index.php'</script>";exit;
-  }
+  }*/
   echo "<script>window.alert('Please LogIn....')</script>";
   echo "<script>window.location.href='index.php'</script>";exit;
 }
@@ -53,29 +53,15 @@ if(isset($_GET['post']))
 									});
 							});
 						 }); 
-			                    </script>  
+			                    </script> 
+                         
 <div class="container-fluid white-bg1" style="padding:0px">
     <div class="col-md-12 div-pad1">
       <p style="color:#f2635d;">POST AN AD</p>
     </div>
         	<div class="container">
-        	<?php if(isset($_GET['message']))
-
-			{      ?>
-			  		<div class="col-md-12">
-           <div id="test-popup5" class="bg-pop white-popup mfp-with-anim mfp-hide">
-      
-                        <a href="#" class="login-pox" >Post added successfully...</a>
-            <div class="clearfix"></div>
-            <script type="text/javascript">
-            		setTimeout(function(){ window.location = 'index.php'; }, 3000);
-            		</script>
-            		</div>
-          </div>
-          </div>
-            <?php } ?>
-
-           
+        	
+  <body>         
               <div class="container-sub3">
             	<div class="row"  style="padding-top:10px">
                               <div class="col-md-12 div-pad2">
@@ -172,31 +158,35 @@ if(isset($_GET['post']))
                             <div class="form-1">
                              
                                <select name="property_type">
-							   <option value="">Select Property type</option>
+							   <option value="" hidden>Select</option>
 
                                 <option value="Apartments" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Apartments"))? "selected" : ''; ?>>Apartments</option>
 
                                 <option value="Individual houses" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Individual houses"))? "selected" : ''; ?>>Individual houses</option>
 
-                                <option value="PG/Hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "PG/Hostels"))? "selected" : ''; ?>>PG/Hostels</option>
-
+                                <!-- <option value="PG/Hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "PG/Hostels"))? "selected" : ''; ?>>PG/Hostels</option> -->
+								<optgroup label="PG/Hostels">
                                 <option value="Boys hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Boys hostels"))? "selected" : ''; ?>>Boys hostels</option>
 
                                 <option value="Girls hostels" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Girls hostels"))? "selected" : ''; ?>>Girls hostels</option>
+                                </optgroup>
+                                <optgroup label="Commercial space">
+                                <option value="Shops/shutters" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Shops/shutters"))? "selected" : ''; ?>>Shops/shutters</option>
 
-                                <option value="Commercial space" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Commercial space"))? "selected" : ''; ?>>Commercial space</option>
+                                <option value="Offices" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Offices"))? "selected" : ''; ?>>Offices</option>
+                                </optgroup>
+                                <!-- <option value="Commercial space" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Commercial space"))? "selected" : ''; ?>>Commercial space</option> -->
                                 <option value="Land & Plot" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Land & Plot"))? "selected" : ''; ?>>Land & Plot</option>
                                 <option value="Farm house" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Farm house"))? "selected" : ''; ?>>Farm house</option>
-                                <option value="Gated community apartments" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Gated community apartments"))? "selected" : ''; ?>>Gated community apartments</option>
-                                <option value="Gated community individual" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Gated community individual"))? "selected" : ''; ?>>Gated community individual</option>
-                                
-                                
+                                <option value="Service Apartments" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Service Apartments"))? "selected" : ''; ?>>Service Apartments</option>
+                                <option value="Pent house" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Pent house"))? "selected" : ''; ?>>Pent house</option>
+                                <optgroup label="Gated community">
+                                <option value="Apartments" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Apartments"))? "selected" : ''; ?>>Apartments</option>
+                                <option value="Individual" <?php echo (isset($post_details['property_type'])&&($post_details['property_type'] == "Individual"))? "selected" : ''; ?>>Individual</option>
 
+                                </optgroup>service apartments
 
-
-
-
-                                
+                                                                
                               </select>
                               
                               </div>
@@ -261,11 +251,27 @@ if(isset($_GET['post']))
                                </div>
                                 <div class="clearfix"></div>
                    <div class="container-post">
+
+                   <div class="form-1">
+                             
+                               <!-- <div class="input-title"><input type="text"  placeholder="Country" name="country"  value='<?php echo  @$post_details['country'];?>' /></div> -->
+                               <div class="form-1">
+                             
+                               <select name="country">
+                                
+                
+                                <option value="India" selected>India</option>
+                
+                                
+                              </select>
+                              
+                              </div>
+                              </div>
                         
                             <div class="form-1">
                              
                                <select name="state" id="state">
-                                <option value="">Select State</option>
+                                <option value="" hidden>Select State</option>
 								<?php $result = get_all_data('tbl_state');
 								foreach($result as $resu){?>
                                 <option value="<?= $resu['state_name']?>" <?php echo (isset($post_details['addres_state']) && ($resu['state_name'] == $post_details['addres_state']))? "selected" : ''; ?>><?= $resu['state_name'] ?></option>
@@ -278,7 +284,7 @@ if(isset($_GET['post']))
                               <div class="form-1" id="cat_data" >
                              
                                <select name="city" id="city">
-                                <option value="">Select City</option>
+                                <option value="" hidden>Select City</option>
                                 <?php if(isset($cities)){
                                 	
                                 		foreach ($cities as $city)
@@ -297,15 +303,12 @@ if(isset($_GET['post']))
                              
                                <div class="input-title"><input type="text" id="test1" placeholder="Locality" name="locality"  value='<?php echo  @$post_details['addres_locality'];?>' /></div>
                                
-                                
-                             
-                              
                               </div>
                              <div class="list-check">
                               
                                <div class="input-title"><input type="text" id="test2" placeholder="Address" name="address1"  value='<?php echo  @$post_details['address'];?>' /></div>
-                               <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" value='<?php echo  @$post_details['address_next'];?>' /></div>
-                            
+<!--                                <div class="input-title"><input type="text" id="test3" placeholder="" name="address2" value='<?php echo  @$post_details['address_next'];?>' /></div>
+ -->                            
                             <div class="clearfix"></div>   
                            </div>
                                
@@ -338,82 +341,7 @@ if(isset($_GET['post']))
             </div>
         </div>
         
-        <div class="main-wrapper">
-             <div class="banner-footer">
-                 <div class="what-service">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    <a href="#"><span>Contact Us</span></a>
-                    <div class="clear"></div>
-                 </div>
-             </div>
-          </div>
-          
-          
-        <div class="footer-bt">
-             <div class="footer">
-             	<img src="images/img1.png" class="img1"/>
-                 <div class="cont-about">
-                    <ul>
-                          <li><a href="#"> About Us</a></li>
-                          <li><a href="#">Privacy Policy</a></li>
-                          <li><a href="#">News</a></li>
-                          <li><a href="#">Terms</a></li>
-                          <li><a href="#">FAQ</a></li>
-                    </ul>
-                 </div>
-                 <div class="adress-maill">
-                     <form class="address-mails"  method="post" action="#">
-                        <label>
-                          <input type="text" name="name" placeholder="User Name">
-                        </label>
-                        <label>
-                          <input type="text" name="email" placeholder="E-mail">
-                        </label>
-                        <div class="clear"></div>
-                        <label>
-                          <textarea name="message" placeholder="Message"></textarea>
-                        </label>
-                         <label>
-                          <input type="submit" name="submit" value="Save" style="border:none !important;">
-                          <input type="button" value="Clear" class="clear-but">
-                          <div class="clear"></div>
-                        </label>
-                        <div class="clear"></div>
-                     </form>
-                 </div>
-                 <div class="social-media">
-                   <div class="cont-btm">
-                       <img src="images/map1.png" style="width:18px;">
-                       <span>12-6-23/6/4. opp kukatpally depot,<br>moosapet,hyderabad-72</span>
-                       <div class="clear"></div>
-                    </div>
-                      <div class="cont-btm">
-                       <img src="images/mail1.png" style="width:24px;">
-                       <span style="margin-top:5px;">sisirreddy@yahoo.com</span>
-                       <div class="clear"></div>
-                    </div>
-                    <div class="cont-btm">
-                       <img src="images/call1.png" style="width:24px;">
-                       <span>+91 8464892222<br>+91 40 23862386</span>
-                       <div class="clear"></div>
-                    </div> 
-                    <ul class="sol-ic">
-                       <li><img src="images/fb.png"></li>
-                       <li><img src="images/tw.png"></li>
-                       <li><img src="images/you.png"></li>
-                       <div class="clear"></div>
-                    </ul>
-                  </div>
-               <div class="clear"></div>
-             </div>
-          </div>
-          
-          
-        <div class="footer-strip">
-              <p>2015 Toletbro.All Right Reserved.Terms and Conditions</p>
-          </div>
-     
-    </section>
+        <?php include("includes/footer.php");?>
     <!-- custom scrollbar plugin -->
 	<script src="js/jquery.mCustomScrollbar.min.js"></script>
 	
@@ -466,16 +394,20 @@ $(document).on("click",".delete-exiting-images",function(){
 
 		    $('#upload').click(function(e) {
 		    	
+
 		    	var other_data = $('form#image-upload').serializeArray();
+
+
 		    	
 		        if (document.myForm2.name.value != "")
 
 		        {
+              
 
 		          if (posting_images.length == 0 && post_id == '' && post_id != null)
 
 		          {
-
+                
 		              alert("Please upload property image.");
 
 		              e.preventDefault();
@@ -498,6 +430,7 @@ $(document).on("click",".delete-exiting-images",function(){
 					 if((post_id != '') && post_id != null)
 					 {
 						 data.append('post_id',post_id);
+             
 					 }
 		            
 
@@ -514,6 +447,7 @@ $(document).on("click",".delete-exiting-images",function(){
 		                $(".dialog").show();
 
 		               $.ajax({
+
 
 		                   type: 'POST',
 

@@ -8,9 +8,10 @@ echo "<script>window.alert('Please LogIn....')</script>";
 echo "<script>window.location.href='index.php'</script>";
 }include_once('includes/property_header.php');
 ?>
+   <script type="text/javascript" src="js/jquery.validate.js"></script>
     <?php
-  if(isset($_REQUEST['last_id'])){ 
-  $query= mysql_query("select * from post_add where post_id='".$_REQUEST['last_id']."'");
+  if(isset($_REQUEST['post'])){ 
+  $query= mysql_query("select p.pets_allowed, p.property_for,paa.* from post_add p INNER JOIN post_add_amenties paa on paa.post_id=p.post_id where p.post_id='".$_REQUEST['post']."'");
   $get_info =mysql_fetch_array($query);
   }
   ?>    
@@ -30,7 +31,7 @@ echo "<script>window.location.href='index.php'</script>";
                                </div>
                                 <div class="clearfix"></div>
                    <div class="container-post">
-                             <form action="addpostanadd3.php" method="post" class="cont2-form">     
+                             <form action="addpostanadd3.php" id="postadd3" method="post" class="cont2-form">     
                          <div class="cont2-form">
                             <div class="list-check singlecheck">
                               <p style="width:50%;">
@@ -46,7 +47,6 @@ echo "<script>window.location.href='index.php'</script>";
                            </div>
                          </div>
                  
-                               
                                </div>
                     <div class="clearfix"></div>
                 </div>
@@ -64,11 +64,11 @@ echo "<script>window.location.href='index.php'</script>";
                                 <label for="test47" >Family Only</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test48" name="rent_for" value="Bachelors"<?php echo @($get_info['property_for']=="Bachelor")?"checked":"";?> />
+                                <input type="checkbox" id="test48" name="rent_for" value="Bachelors" <?php echo @($get_info['property_for']=="Bachelor")?"checked":"";?> />
                                 <label for="test48" >Bachelors</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test49" name="rent_for" value="Any"<?php echo @($get_info['property_for']=="Any")?"checked":"";?> />
+                                <input type="checkbox" id="test49" name="rent_for" value="Any" <?php echo @($get_info['property_for']=="Any")?"checked":"";?> />
                                 <label for="test49" >Any</label>
                               </p>
                              
@@ -88,56 +88,64 @@ echo "<script>window.location.href='index.php'</script>";
                         
                             <div class="list-check">
                               <p>
-                                <input type="checkbox" id="test50" name="Amenities[]" value="AC" <?php echo @in_array("AC", $amen)?"checked":""?>/>
+                                <input type="checkbox" id="test50" name="ac" class="amen" value="AC" <?php echo @($get_info['ac']=="AC")?"checked":"";?>/>
                                 <label for="test50">AC</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test51" name="Amenities[]" value="TV"<?php echo @in_array("TV", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test51" name="tv" class="amen" value="TV"<?php echo @($get_info['tv']=="TV")?"checked":"";?> />
                                 <label for="test51">TV</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test52" name="Amenities[]" value="Cupboard"<?php echo @in_array("Cupboard", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test52" name="cupboard" class="amen" value="Cupboard"<?php echo @($get_info['cupboard']=="Cupboard")?"checked":"";?> />
                                 <label for="test52">Cupboard</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test53" name="Amenities[]" value="Bed" <?php echo @in_array("Bed", $amen)?"checked":""?>/>
+                                <input type="checkbox" id="test53" name="bed" class="amen" value="Bed" <?php echo @($get_info['bed']=="Bed")?"checked":"";?>/>
                                 <label for="test53">Bed</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test661" name="Amenities[]" value="Sofa"<?php echo @in_array("Sofa", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test661" name="sofa" class="amen" value="Sofa"<?php echo @($get_info['sofa']=="Sofa")?"checked":"";?> />
                                 <label for="test661">Sofa</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test55" name="Amenities[]" value="Dining table"<?php echo @in_array("Dining table", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test55" name="dining_table" class="amen" value="Dining table"<?php echo @($get_info['dining_table']=="Dining table")?"checked":"";?> />
                                 <label for="test55">Dining table</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test56" name="Amenities[]" value="Micro wave"<?php echo @in_array("Micro wave", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test56" name="microwave" class="amen" value="Micro wave"<?php echo @($get_info['microwave']=="Micro wave")?"checked":"";?> />
                                 <label for="test56">Micro wave</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test57" name="Amenities[]" value="Fridge"<?php echo @in_array("Fridge", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test57" name="fridge" class="amen" value="Fridge"<?php echo @($get_info['fridge']=="Fridge")?"checked":"";?> />
                                 <label for="test57">Fridge</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test58" name="Amenities[]" value="Stove" <?php echo @in_array("Stove", $amen)?"checked":""?>/>
+                                <input type="checkbox" id="test58" name="stove" class="amen" value="Stove" <?php echo @($get_info['stove']=="Stove")?"checked":"";?>/>
                                 <label for="test58">Stove</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test59" name="Amenities[]" value="Washing machine"<?php echo @in_array("Washing machine", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test59" name="waching_machine" class="amen" value="Washing machine"<?php echo @($get_info['waching_machine']=="Washing machine")?"checked":"";?> />
                                 <label for="test59">Washing machine</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test60" name="Amenities[]" value="Servent room"<?php echo @in_array("Servent room", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test60" name="servent_room" class="amen" value="Servent room"<?php echo @($get_info['servent_room']=="Servent room")?"checked":"";?> />
                                 <label for="test60">Servent room</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test61" name="Amenities[]" value="Securities"<?php echo @in_array("Securities", $amen)?"checked":""?> />
+                                <input type="checkbox" id="test61" name="security" class="amen" value="Securities"<?php echo @($get_info['security']=="Securities")?"checked":"";?> />
                                 <label for="test61">Securities</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test62" name="Amenities[]" value="Electricity backup" <?php echo @in_array("Electricity backup", $amen)?"checked":""?>/>
+                                <input type="checkbox" id="test62" name="electricity_backup" class="amen" value="Electricity backup" <?php echo @($get_info['electricity_backup']=="Electricity backup")?"checked":"";?>/>
                                 <label for="test62">Electricity backup</label>
+                              </p>
+                              <p>
+                                <input type="checkbox" id="test70" name="pooja_room" class="amen" value="Prayer room/Pooja room" <?php echo @($get_info['pooja_room']=="Prayer room/Pooja room")?"checked":"";?>/>
+                                <label for="test70">Prayer room/Pooja room</label>
+                              </p>
+                              <p>
+                                <input type="checkbox" id="test71" name="store_room" class="amen" value="Store room" <?php echo @($get_info['store_room']=="Store room")?"checked":"";?>/>
+                                <label for="test71">Store room</label>
                               </p>
                              
                             <div class="clearfix"></div>   
@@ -158,19 +166,19 @@ echo "<script>window.location.href='index.php'</script>";
                          
                             <div class="list-check">
                               <p>
-                                <input type="checkbox" id="test63" name="SocietyAmenities[]" value="Gym"<?php echo @in_array("Gym", $amenty)?"checked":""?> />
+                                <input type="checkbox" id="test63" name="gym" value="Gym"<?php echo @($get_info['gym']=="Gym")?"checked":"";?> />
                                 <label for="test63">Gym</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test64" name="SocietyAmenities[]" value="Swimming pool"<?php echo @in_array("Swimming pool", $amenty)?"checked":""?> />
+                                <input type="checkbox" id="test64" name="swimming_pool" value="Swimming pool"<?php echo @($get_info['swimming_pool']=="Swimming pool")?"checked":"";?> />
                                 <label for="test64">Swimming pool</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test65" name="SocietyAmenities[]" value="Lift"<?php echo @in_array("Lift", $amenty)?"checked":""?> />
+                                <input type="checkbox" id="test65" name="lift" value="Lift"<?php echo @($get_info['lift']=="Lift")?"checked":"";?> />
                                 <label for="test65">Lift</label>
                               </p>
                               <p>
-                                <input type="checkbox" id="test66" name="SocietyAmenities[]" value="Gas pipeline"<?php echo @in_array("Gas pipeline", $amenty)?"checked":""?> />
+                                <input type="checkbox" id="test66" name="gas_pipeline" value="Gas pipeline"<?php echo @($get_info['gas_pipeline']=="Gas pipeline")?"checked":"";?> />
                                 <label for="test66">Gas pipeline </label>
                               </p>
     
@@ -212,3 +220,49 @@ echo "<script>window.location.href='index.php'</script>";
         </div>
         
   <?php include("includes/footer.php");?>
+
+
+  <script type="text/javascript">
+        $.validator.addMethod('onecheck', function(value, ele) {
+
+
+            return $("input:checked").length >= 1;
+        }, 'Please Select Atleast One CheckBox')
+
+        $(document).ready(function() {
+            $("#postadd3").validate({
+                rules: {
+
+              pets : "required", 
+              rent_for :"required", 
+              'Amenities[]':{
+                required: true,
+                onecheck: true,
+              }, 
+              'SocietyAmenities[]':{
+               required: true,
+                onecheck: true,
+              },        
+               
+          },
+
+
+             messages: {
+
+           
+            pets : "Please select pets allowed",
+
+
+            rent_for : "Please select facing",
+            'Amenities[]' : "Please select one amenity",
+            'SocietyAmenities[]':"Please select one amenity",
+
+ 
+                },
+
+                /*errorPlacement: function(error, element) {
+                    error.appendTo('#err');
+                }*/
+            });
+        });
+    </script>

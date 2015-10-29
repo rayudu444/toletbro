@@ -23,8 +23,9 @@
                 	<div class="col-md-5">
                     	 <nav class="nav-list3 paddingTop-6">
                         	<ul>
-                               	<li><a href="download-app.html">Download App</a></li>
-                                <li><a href="#">Sell/Rent Property</a></li>
+                                <li><a href="index.php">Home</a></li>
+                               	<li><a href="download-app.php">Download App</a></li>
+                                
                                 <div class="clearfix"></div>
                             </ul>
                         </nav>
@@ -34,6 +35,7 @@
                     	
                         <nav class="nav-list3 paddingTop-6 con-row">
                         	<ul class="singul">
+                            <!-- <li><a href="sale.php">Sell</a><a href="rent.php">/Rent Property</a></li> -->
                             <?php if(isset($_SESSION['cnv_upid']) && $_SESSION['cnv_upid'] != ''){?>
                                 <li><a href="convention-profile-list.php"><?php echo ucfirst($_SESSION['user_name']); ?></a></li>
                             <li><a href="logout.php">Log out</a></li><?php } ?>

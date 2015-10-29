@@ -5,7 +5,7 @@
 	
 	if(isset($_POST['mobile']) && $_POST['mobile'] != '')
 	{
-		$code = generateRandomString(5);
+		$code = rand(1000,9999);
 		$mobile = $_POST['mobile'];
 		$msg = "Hi, One time password for tolet bro login is $code";
 		$url = "http://sms1.brandebuzz.in/API/sms.php?username=marutiindia9&password=marutiindia9&from=ToletBro&to=".$mobile."&msg=".urlencode($msg)."&type=1&dnd_check=0";

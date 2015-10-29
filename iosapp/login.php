@@ -19,6 +19,8 @@ $parameters = array("user_email","password","device_id");
 
 			if($userprofile_count > 0)
 			{
+				$userdata=array('device_id'=>$device_id);
+				update($userdata,"users","where user_email='".$user_email."'");
 				$result = selected_columns_by_condition("users","upid,user_email","where user_email='".$user_email."'");
 				$result['status'] = 'success';
 				echo json_encode($result);
